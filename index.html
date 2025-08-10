@@ -1,0 +1,1333 @@
+                            {!loading && activeTab === 'config' && (
+                                <div className="tab-content">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">WSJF Configuration Engine</h2>
+                                    
+                                    <div className="bg-gray-100 rounded-lg p-4 mb-6 font-mono text-sm">
+                                        <strong>WSJF = Cost of Delay ÷ Job Size × 10</strong><br/>
+                                        Cost of Delay = ROUND(Weighted Business Value + Weighted Time Criticality + Weighted RR/OE)
+                                    </div>
+                                    
+                                    <div className="space-y-6">
+                                        <div className="bg-white border-l-4 border-purple-600 rounded-lg p-6 shadow-sm">
+                                            <h4 className="text-lg font-semibold text-gray-800 mb-4">Severity Scores</h4>
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                {Object.entries(config.severityScores).map(([level, score]) => (
+                                                    <div key={level} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                        <span className="text-sm font-medium">{level}:</span>
+                                                        <input
+                                                            type="number"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
+                                                            className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white border-l-4 border-blue-600 rounded-lg p-6 shadow-sm">
+                                            <h4 className="text-lg font-semibold text-gray-800 mb-4">Due Date Urgency Scores</h4>
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                {Object.entries(config.dueDateUrgency).map(([period, score]) => (
+                                                    <div key={period} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                        <span className="text-sm font-medium">{period}:</span>
+                                                        <input
+                                                            type="number"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
+                                                            className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white border-l-4 border-green-600 rounded-lg p-6 shadow-sm">
+                                            <h4 className="text-lg font-semibold text-gray-800 mb-4">Market Timing Multipliers</h4>
+                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
+                                                    <div key={timing} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                        <span className="text-sm font-medium">{timing}:</span>
+                                                        <input
+                                                            type="number"
+                                                            step="0.1"
+                                                            value={multiplier}
+                                                            onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
+                                                            className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="bg-white border-l-4 border-orange-600 rounded-lg p-6 shadow-sm">
+                                            <h4 className="text-lg font-semibold text-gray-800 mb-4">Factor Weights</h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                                <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                    <span className="text-sm font-medium">Business Value:</span>
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.businessValue}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
+                                                        className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                    />
+                                                </div>
+                                                <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                    <span className="text-sm font-medium">Time Criticality:</span>
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.timeCriticality}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
+                                                        className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                    />
+                                                </div>
+                                                <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                                    <span className="text-sm font-medium">RR/OE:</span>
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.rrOe}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
+                                                        className="w-20 px-2 py-1 rounded border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {!loading && activeTab === 'prioritization' && (
+                                <div className="tab-content">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Prioritized Tickets</h2>
+                                    
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                        <div className="bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg p-4 text-center">
+                                            <div className="text-3xl font-bold text-purple-600">{prioritizedTickets.length}</div>
+                                            <div className="text-sm text-gray-600 mt-1">Total Tickets</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg p-4 text-center">
+                                            <div className="text-3xl font-bold text-blue-600">{avgWSJF.toFixed(1)}</div>
+                                            <div className="text-sm text-gray-600 mt-1">Avg WSJF Score</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-green-100 to-green-50 rounded-lg p-4 text-center">
+                                            <div className="text-3xl font-bold text-green-600">{totalStoryPoints}</div>
+                                            <div className="text-sm text-gray-600 mt-1">Total Story Points</div>
+                                        </div>
+                                        <div className="bg-gradient-to-br from-red-100 to-red-50 rounded-lg p-4 text-center">
+                                            <div className="text-3xl font-bold text-red-600">{criticalCount}</div>
+                                            <div className="text-sm text-gray-600 mt-1">Critical/Fire Issues</div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Filters and Controls */}
+                                    <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">🔍 Filter</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search by key, summary, or status..."
+                                                    value={filterText}
+                                                    onChange={(e) => setFilterText(e.target.value)}
+                                                    className="w-full px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">📊 Sort By</label>
+                                                <select
+                                                    value={sortField}
+                                                    onChange={(e) => setSortField(e.target.value)}
+                                                    className="w-full px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                >
+                                                    <option value="wsjfScore">WSJF Score</option>
+                                                    <option value="costOfDelay">Cost of Delay</option>
+                                                    <option value="storyPoints">Story Points</option>
+                                                    <option value="dueDate">Due Date</option>
+                                                    <option value="severity">Severity</option>
+                                                    <option value="issueValue">Issue Value</option>
+                                                    <option value="customFields.priority">Priority</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">🏷️ Labels</label>
+                                                <select
+                                                    multiple
+                                                    value={selectedLabels}
+                                                    onChange={(e) => setSelectedLabels(Array.from(e.target.selectedOptions, option => option.value))}
+                                                    className="w-full px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                    size="3"
+                                                >
+                                                    {allLabels.map(label => (
+                                                        <option key={label} value={label}>{label}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between items-center mt-4">
+                                            <button
+                                                onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
+                                                className="text-purple-600 hover:text-purple-700 text-sm"
+                                            >
+                                                Sort: {sortDirection === 'asc' ? '↑ Ascending' : '↓ Descending'}
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setFilterText('');
+                                                    setSelectedLabels([]);
+                                                    setSortField('wsjfScore');
+                                                    setSortDirection('desc');
+                                                }}
+                                                className="text-gray-600 hover:text-gray-700 text-sm"
+                                            >
+                                                Clear Filters
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead>
+                                                <tr className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                                                    <th className="px-4 py-3 text-left">Rank</th>
+                                                    <th className="px-4 py-3 text-left">Key</th>
+                                                    <th className="px-4 py-3 text-left">Summary</th>
+                                                    <th className="px-4 py-3 text-left">WSJF Score</th>
+                                                    <th className="px-4 py-3 text-left">Cost of Delay</th>
+                                                    <th className="px-4 py-3 text-left">Story Points</th>
+                                                    <th className="px-4 py-3 text-left">Severity</th>
+                                                    {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
+                                                        <th key={field.displayName} className="px-4 py-3 text-left">
+                                                            {field.displayName}
+                                                        </th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {prioritizedTickets.map((ticket, index) => (
+                                                    <tr key={ticket.key} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                                        <td className="px-4 py-3 border-b">
+                                                            <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                                                                index === 0 ? 'bg-red-500' :
+                                                                index === 1 ? 'bg-orange-500' :
+                                                                index === 2 ? 'bg-yellow-500' :
+                                                                index < 5 ? 'bg-blue-500' : 'bg-gray-500'
+                                                            }`}>
+                                                                #{index + 1}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-4 py-3 border-b font-medium">{ticket.key}</td>
+                                                        <td className="px-4 py-3 border-b">{ticket.summary}</td>
+                                                        <td className="px-4 py-3 border-b">
+                                                            <span className="font-bold text-purple-600">{ticket.wsjfScore}</span>
+                                                        </td>
+                                                        <td className="px-4 py-3 border-b">{ticket.costOfDelay}</td>
+                                                        <td className="px-4 py-3 border-b">{ticket.storyPoints}</td>
+                                                        <td className="px-4 py-3 border-b">
+                                                            <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                                                                ticket.severity.includes('FIRE') ? 'bg-red-100 text-red-800' :
+                                                                ticket.severity.includes('Critical') ? 'bg-orange-100 text-orange-800' :
+                                                                ticket.severity.includes('High') ? 'bg-yellow-100 text-yellow-800' :
+                                                                ticket.severity.includes('Medium') ? 'bg-blue-100 text-blue-800' :
+                                                                'bg-gray-100 text-gray-800'
+                                                            }`}>
+                                                                {ticket.severity}
+                                                            </span>
+                                                        </td>
+                                                        {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
+                                                            <td key={field.displayName} className="px-4 py-3 border-b">
+                                                                {(() => {
+                                                                    const value = ticket.customFields?.[field.jiraField] || 
+                                                                                 ticket.customFields?.[field.displayName];
+                                                                    if (Array.isArray(value)) {
+                                                                        return value.map((v, i) => (
+                                                                            <span key={i} className="custom-field-tag">{v}</span>
+                                                                        ));
+                                                                    }
+                                                                    return value || '-';
+                                                                })()}
+                                                            </td>
+                                                        ))}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div className="flex gap-4 mt-6">
+                                        <button
+                                            onClick={() => {
+                                                const headers = ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Issue Value', 'Status', 'Due Date'];
+                                                fieldMappings.additional.filter(f => f.enabled).forEach(field => {
+                                                    headers.push(field.displayName);
+                                                });
+                                                
+                                                const csv = [
+                                                    headers,
+                                                    ...prioritizedTickets.map((t, i) => {
+                                                        const row = [
+                                                            i + 1, 
+                                                            t.key, 
+                                                            t.summary, 
+                                                            t.wsjfScore, 
+                                                            t.costOfDelay, 
+                                                            t.storyPoints, 
+                                                            t.severity,
+                                                            t.issueValue,
+                                                            t.status || '',
+                                                            t.dueDate
+                                                        ];
+                                                        fieldMappings.additional.filter(f => f.enabled).forEach(field => {
+                                                            const value = t.customFields?.[field.jiraField] || t.customFields?.[field.displayName] || '';
+                                                            row.push(Array.isArray(value) ? value.join(';') : value);
+                                                        });
+                                                        return row;
+                                                    })
+                                                ].map(row => row.join(',')).join('\n');
+                                                
+                                                const blob = new Blob([csv], { type: 'text/csv' });
+                                                const url = URL.createObjectURL(blob);
+                                                const a = document.createElement('a');
+                                                a.href = url;
+                                                a.download = 'wsjf_prioritization.csv';
+                                                a.click();
+                                            }}
+                                            className="bg-gradient-to-r from-green-600 to-green-500 text-white px-8 py-3 rounded-lg hover:from-green-700 hover:to-green-600 transition-all shadow-lg"
+                                        >
+                                            📥 Export to CSV
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => {
+                                                if (confirm('This will clear all tickets. Are you sure?')) {
+                                                    backend.saveTickets([]);
+                                                    setTickets([]);
+                                                }
+                                            }}
+                                            className="bg-gradient-to-r from-red-600 to-red-500 text-white px-8 py-3 rounded-lg hover:from-red-700 hover:to-red-600 transition-all shadow-lg"
+                                        >
+                                            🗑️ Clear All Tickets
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSJF Prioritization System</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .jql-helper {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .jql-example {
+            font-family: 'Courier New', monospace;
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 4px 0;
+            font-size: 0.875rem;
+        }
+        
+        .field-mapping {
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .custom-field-tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useCallback } = React;
+        
+        // Backend Service Module
+        class BackendService {
+            constructor() {
+                this.tickets = this.loadTickets();
+                this.config = this.loadConfig();
+                this.fieldMappings = this.loadFieldMappings();
+            }
+            
+            loadTickets() {
+                const stored = localStorage.getItem('wsjf_tickets');
+                return stored ? JSON.parse(stored) : this.generateSampleTickets();
+            }
+            
+            saveTickets(tickets) {
+                localStorage.setItem('wsjf_tickets', JSON.stringify(tickets));
+                this.tickets = tickets;
+            }
+            
+            loadConfig() {
+                const stored = localStorage.getItem('wsjf_config');
+                return stored ? JSON.parse(stored) : this.getDefaultConfig();
+            }
+            
+            saveConfig(config) {
+                localStorage.setItem('wsjf_config', JSON.stringify(config));
+                this.config = config;
+            }
+            
+            loadFieldMappings() {
+                const stored = localStorage.getItem('wsjf_field_mappings');
+                return stored ? JSON.parse(stored) : this.getDefaultFieldMappings();
+            }
+            
+            saveFieldMappings(mappings) {
+                localStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
+                this.fieldMappings = mappings;
+            }
+            
+            getDefaultFieldMappings() {
+                return {
+                    required: {
+                        issueValue: 'customfield_10001',
+                        enterpriseAccounts: 'customfield_10002',
+                        flaggedAccounts: 'customfield_10003',
+                        marketTiming: 'customfield_10004',
+                        rrOeValue: 'customfield_10005',
+                        storyPoints: 'customfield_10006'
+                    },
+                    additional: [
+                        { jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: true },
+                        { jiraField: 'components', displayName: 'Components', enabled: true, showInTable: true },
+                        { jiraField: 'fixVersions', displayName: 'Fix Version', enabled: true, showInTable: false },
+                        { jiraField: 'priority', displayName: 'Priority', enabled: true, showInTable: true },
+                        { jiraField: 'customfield_10007', displayName: 'Customer', enabled: false, showInTable: false },
+                        { jiraField: 'customfield_10008', displayName: 'Sprint', enabled: false, showInTable: false },
+                        { jiraField: 'customfield_10009', displayName: 'Epic Link', enabled: false, showInTable: false },
+                        { jiraField: 'customfield_10010', displayName: 'Team', enabled: false, showInTable: false }
+                    ]
+                };
+            }
+            
+            getDefaultConfig() {
+                return {
+                    severityScores: {
+                        'Level 5 - FIRE': 21,
+                        'Level 4 - Critical': 13,
+                        'Level 3 - High': 8,
+                        'Level 2 - Medium': 5,
+                        'Level 1 - Low': 3
+                    },
+                    dueDateUrgency: {
+                        'Overdue': 21,
+                        '< 1 week': 13,
+                        '1 to 2 weeks': 8,
+                        '2 to 4 weeks': 5,
+                        '1 to 2 months': 3,
+                        '2 to 6 months': 2,
+                        'No deadline': 1
+                    },
+                    marketTimingMultipliers: {
+                        'Pointless afterwards': 2.0,
+                        'Drops steeply': 1.6,
+                        'Slowly degrading': 1.4,
+                        'Nice to meet deadline': 1.2,
+                        'No timing impact': 1.0
+                    },
+                    weights: {
+                        businessValue: 0.4,
+                        timeCriticality: 0.3,
+                        rrOe: 0.3
+                    }
+                };
+            }
+            
+            generateSampleTickets() {
+                return [
+                    {
+                        key: 'PROD-1234',
+                        summary: 'Payment processing failure for enterprise clients',
+                        severity: 'Level 4 - Critical',
+                        issueValue: 25000,
+                        enterpriseAccounts: 5,
+                        flaggedAccounts: 2,
+                        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Drops steeply',
+                        rrOeValue: 8,
+                        storyPoints: 5,
+                        createdDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Bug',
+                        project: 'PROD',
+                        assignee: 'john.doe@company.com',
+                        reporter: 'client@enterprise.com',
+                        status: 'In Progress',
+                        customFields: {
+                            labels: ['payment', 'critical', 'enterprise'],
+                            components: ['Payment Module'],
+                            priority: 'High',
+                            fixVersions: '2024.1'
+                        }
+                    },
+                    {
+                        key: 'PROD-1235',
+                        summary: 'UI enhancement for dashboard widgets',
+                        severity: 'Level 2 - Medium',
+                        issueValue: 5000,
+                        enterpriseAccounts: 0,
+                        flaggedAccounts: 0,
+                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'No timing impact',
+                        rrOeValue: 3,
+                        storyPoints: 3,
+                        createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Improvement',
+                        project: 'PROD',
+                        assignee: 'jane.smith@company.com',
+                        reporter: 'pm@company.com',
+                        status: 'To Do',
+                        customFields: {
+                            labels: ['ui', 'enhancement'],
+                            components: ['Dashboard'],
+                            priority: 'Medium',
+                            fixVersions: '2024.2'
+                        }
+                    },
+                    {
+                        key: 'PROD-1236',
+                        summary: 'Security vulnerability in authentication system',
+                        severity: 'Level 5 - FIRE',
+                        issueValue: 50000,
+                        enterpriseAccounts: 10,
+                        flaggedAccounts: 5,
+                        dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Pointless afterwards',
+                        rrOeValue: 13,
+                        storyPoints: 8,
+                        createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Bug',
+                        project: 'PROD',
+                        assignee: 'security@company.com',
+                        reporter: 'security-scan@automated.com',
+                        status: 'In Review',
+                        customFields: {
+                            labels: ['security', 'critical', 'vulnerability'],
+                            components: ['Authentication', 'Security'],
+                            priority: 'Highest',
+                            fixVersions: '2024.0-hotfix'
+                        }
+                    }
+                ];
+            }
+            
+            async fetchTicketsByKeys(keys) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const keyArray = keys.split(',').map(k => k.trim());
+                        const mockTickets = keyArray.map(key => ({
+                            key: key,
+                            summary: `Fetched ticket: ${key}`,
+                            severity: ['Level 1 - Low', 'Level 2 - Medium', 'Level 3 - High'][Math.floor(Math.random() * 3)],
+                            issueValue: Math.floor(Math.random() * 20000),
+                            enterpriseAccounts: Math.floor(Math.random() * 5),
+                            flaggedAccounts: Math.floor(Math.random() * 3),
+                            dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                            marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][Math.floor(Math.random() * 3)],
+                            rrOeValue: Math.floor(Math.random() * 10) + 1,
+                            storyPoints: Math.floor(Math.random() * 8) + 1,
+                            createdDate: new Date().toISOString().split('T')[0],
+                            issueType: ['Bug', 'Improvement', 'New Feature'][Math.floor(Math.random() * 3)],
+                            project: key.split('-')[0],
+                            assignee: 'team@company.com',
+                            reporter: 'user@company.com',
+                            status: ['To Do', 'In Progress', 'In Review'][Math.floor(Math.random() * 3)],
+                            customFields: {
+                                labels: ['imported', Math.random() > 0.5 ? 'customer' : 'internal'],
+                                components: ['Component ' + Math.floor(Math.random() * 3 + 1)],
+                                priority: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
+                                fixVersions: '2024.' + Math.floor(Math.random() * 4)
+                            }
+                        }));
+                        resolve(mockTickets);
+                    }, 1000);
+                });
+            }
+            
+            async fetchTicketsByJQL(jql, fieldMappings) {
+                // Simulate JQL query processing
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        // Parse JQL to determine what kind of tickets to generate
+                        const mockCount = Math.floor(Math.random() * 8) + 3; // 3-10 tickets
+                        const projectMatch = jql.match(/project\s*=\s*["']?(\w+)/i);
+                        const statusMatch = jql.match(/status\s*=\s*["']?([\w\s]+)/i);
+                        const typeMatch = jql.match(/issuetype\s*=\s*["']?([\w\s]+)/i);
+                        const assigneeMatch = jql.match(/assignee\s*=\s*["']?([\w@.]+)/i);
+                        
+                        const project = projectMatch ? projectMatch[1] : 'PROJ';
+                        const status = statusMatch ? statusMatch[1] : 'To Do';
+                        const issueType = typeMatch ? typeMatch[1] : 'Task';
+                        const assignee = assigneeMatch ? assigneeMatch[1] : 'unassigned';
+                        
+                        const mockTickets = Array(mockCount).fill(null).map((_, i) => {
+                            const customFields = {};
+                            
+                            // Generate custom field values based on enabled additional fields
+                            fieldMappings.additional.forEach(field => {
+                                if (field.enabled) {
+                                    switch(field.jiraField) {
+                                        case 'labels':
+                                            customFields.labels = ['jql-import', 'automated', Math.random() > 0.5 ? 'reviewed' : 'pending'];
+                                            break;
+                                        case 'components':
+                                            customFields.components = ['Module ' + Math.floor(Math.random() * 5 + 1)];
+                                            break;
+                                        case 'priority':
+                                            customFields.priority = ['Lowest', 'Low', 'Medium', 'High', 'Highest'][Math.floor(Math.random() * 5)];
+                                            break;
+                                        case 'fixVersions':
+                                            customFields.fixVersions = '2024.' + Math.floor(Math.random() * 12 + 1);
+                                            break;
+                                        default:
+                                            customFields[field.displayName] = `Value for ${field.displayName}`;
+                                    }
+                                }
+                            });
+                            
+                            return {
+                                key: `${project}-${2000 + i}`,
+                                summary: `JQL: ${jql.substring(0, 30)}... - Item ${i + 1}`,
+                                severity: ['Level 1 - Low', 'Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][Math.floor(Math.random() * 4)],
+                                issueValue: Math.floor(Math.random() * 30000),
+                                enterpriseAccounts: Math.floor(Math.random() * 8),
+                                flaggedAccounts: Math.floor(Math.random() * 4),
+                                dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                                marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply', 'Nice to meet deadline'][Math.floor(Math.random() * 4)],
+                                rrOeValue: Math.floor(Math.random() * 12) + 1,
+                                storyPoints: Math.floor(Math.random() * 10) + 1,
+                                createdDate: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                                issueType: issueType,
+                                project: project,
+                                assignee: assignee,
+                                reporter: 'jql-import@company.com',
+                                status: status,
+                                customFields: customFields
+                            };
+                        });
+                        resolve(mockTickets);
+                    }, 1500);
+                });
+            }
+            
+            calculateWSJF(ticket, config) {
+                const severityScore = config.severityScores[ticket.severity] || 0;
+                const clientCountBonus = ticket.issueValue / 1000;
+                
+                let strategicTierBonus = 0;
+                if (ticket.enterpriseAccounts > 0 && ticket.flaggedAccounts > 0) {
+                    strategicTierBonus = 5;
+                } else if (ticket.flaggedAccounts > 0) {
+                    strategicTierBonus = 3;
+                } else if (ticket.enterpriseAccounts > 0) {
+                    strategicTierBonus = 2;
+                }
+                
+                const weightedBusinessValue = (severityScore + clientCountBonus + strategicTierBonus) * config.weights.businessValue;
+                
+                let dueDateUrgency = 1;
+                const today = new Date();
+                const dueDate = new Date(ticket.dueDate);
+                const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+                
+                if (daysUntilDue < 0) {
+                    dueDateUrgency = config.dueDateUrgency['Overdue'];
+                } else if (daysUntilDue < 7) {
+                    dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                } else if (daysUntilDue < 14) {
+                    dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
+                } else if (daysUntilDue < 28) {
+                    dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
+                } else if (daysUntilDue < 60) {
+                    dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
+                } else if (daysUntilDue < 180) {
+                    dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
+                } else {
+                    dueDateUrgency = config.dueDateUrgency['No deadline'];
+                }
+                
+                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
+                const weightedTimeCriticality = (dueDateUrgency * marketTimingMultiplier) * config.weights.timeCriticality;
+                const weightedRROE = ticket.rrOeValue * config.weights.rrOe;
+                const costOfDelay = Math.round(weightedBusinessValue + weightedTimeCriticality + weightedRROE);
+                const wsjfScore = (costOfDelay / ticket.storyPoints) * 10;
+                
+                return {
+                    wsjfScore: wsjfScore.toFixed(2),
+                    costOfDelay,
+                    weightedBusinessValue: weightedBusinessValue.toFixed(2),
+                    weightedTimeCriticality: weightedTimeCriticality.toFixed(2),
+                    weightedRROE: weightedRROE.toFixed(2),
+                    severityScore,
+                    clientCountBonus: clientCountBonus.toFixed(2),
+                    strategicTierBonus,
+                    dueDateUrgency,
+                    marketTimingMultiplier
+                };
+            }
+        }
+        
+        const backend = new BackendService();
+        
+        function App() {
+            const [activeTab, setActiveTab] = useState('import');
+            const [tickets, setTickets] = useState(backend.tickets);
+            const [config, setConfig] = useState(backend.config);
+            const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
+            const [loading, setLoading] = useState(false);
+            const [importKeys, setImportKeys] = useState('');
+            const [jqlQuery, setJqlQuery] = useState('');
+            const [showJQLHelp, setShowJQLHelp] = useState(false);
+            const [filterText, setFilterText] = useState('');
+            const [sortField, setSortField] = useState('wsjfScore');
+            const [sortDirection, setSortDirection] = useState('desc');
+            const [selectedLabels, setSelectedLabels] = useState([]);
+            const [manualTicket, setManualTicket] = useState({
+                key: '',
+                summary: '',
+                severity: 'Level 2 - Medium',
+                issueValue: 0,
+                enterpriseAccounts: 0,
+                flaggedAccounts: 0,
+                dueDate: '',
+                marketTiming: 'No timing impact',
+                rrOeValue: 5,
+                storyPoints: 3,
+                createdDate: new Date().toISOString().split('T')[0],
+                issueType: 'Bug',
+                customFields: {}
+            });
+            
+            const handleImportByKeys = async () => {
+                if (!importKeys) return;
+                setLoading(true);
+                const newTickets = await backend.fetchTicketsByKeys(importKeys);
+                const updatedTickets = [...tickets, ...newTickets];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setImportKeys('');
+                setLoading(false);
+            };
+            
+            const handleImportByJQL = async () => {
+                if (!jqlQuery) return;
+                setLoading(true);
+                const newTickets = await backend.fetchTicketsByJQL(jqlQuery, fieldMappings);
+                const updatedTickets = [...tickets, ...newTickets];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setJqlQuery('');
+                setLoading(false);
+            };
+            
+            const handleConfigUpdate = (section, key, value) => {
+                const newConfig = { ...config };
+                if (section === 'weights') {
+                    newConfig.weights[key] = parseFloat(value);
+                } else {
+                    newConfig[section][key] = parseFloat(value);
+                }
+                backend.saveConfig(newConfig);
+                setConfig(newConfig);
+            };
+            
+            const handleFieldMappingUpdate = (index, field, value) => {
+                const newMappings = { ...fieldMappings };
+                if (index === 'required') {
+                    newMappings.required[field] = value;
+                } else {
+                    newMappings.additional[index][field] = value;
+                }
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
+            const handleAddCustomField = () => {
+                const newMappings = { ...fieldMappings };
+                newMappings.additional.push({
+                    jiraField: '',
+                    displayName: '',
+                    enabled: false,
+                    showInTable: false
+                });
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
+            const handleRemoveCustomField = (index) => {
+                const newMappings = { ...fieldMappings };
+                newMappings.additional.splice(index, 1);
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
+            const handleManualSubmit = () => {
+                if (!manualTicket.key || !manualTicket.summary) {
+                    alert('Please provide at least Key and Summary');
+                    return;
+                }
+                const updatedTickets = [...tickets, manualTicket];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setManualTicket({
+                    key: '',
+                    summary: '',
+                    severity: 'Level 2 - Medium',
+                    issueValue: 0,
+                    enterpriseAccounts: 0,
+                    flaggedAccounts: 0,
+                    dueDate: '',
+                    marketTiming: 'No timing impact',
+                    rrOeValue: 5,
+                    storyPoints: 3,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    issueType: 'Bug',
+                    customFields: {}
+                });
+                alert('Ticket added successfully!');
+            };
+            
+            const calculatePrioritizedTickets = () => {
+                let filteredTickets = tickets.map(ticket => {
+                    const calculations = backend.calculateWSJF(ticket, config);
+                    return { ...ticket, ...calculations };
+                });
+                
+                // Apply filters
+                if (filterText) {
+                    filteredTickets = filteredTickets.filter(ticket => 
+                        ticket.key.toLowerCase().includes(filterText.toLowerCase()) ||
+                        ticket.summary.toLowerCase().includes(filterText.toLowerCase()) ||
+                        ticket.status?.toLowerCase().includes(filterText.toLowerCase())
+                    );
+                }
+                
+                if (selectedLabels.length > 0) {
+                    filteredTickets = filteredTickets.filter(ticket => {
+                        const ticketLabels = ticket.customFields?.labels || [];
+                        return selectedLabels.some(label => ticketLabels.includes(label));
+                    });
+                }
+                
+                // Apply sorting
+                filteredTickets.sort((a, b) => {
+                    let aVal = a[sortField];
+                    let bVal = b[sortField];
+                    
+                    // Handle nested custom fields
+                    if (sortField.startsWith('customFields.')) {
+                        const fieldName = sortField.split('.')[1];
+                        aVal = a.customFields?.[fieldName];
+                        bVal = b.customFields?.[fieldName];
+                    }
+                    
+                    // Convert to numbers if possible
+                    if (!isNaN(parseFloat(aVal))) aVal = parseFloat(aVal);
+                    if (!isNaN(parseFloat(bVal))) bVal = parseFloat(bVal);
+                    
+                    if (sortDirection === 'asc') {
+                        return aVal > bVal ? 1 : -1;
+                    } else {
+                        return aVal < bVal ? 1 : -1;
+                    }
+                });
+                
+                return filteredTickets;
+            };
+            
+            const prioritizedTickets = calculatePrioritizedTickets();
+            const avgWSJF = prioritizedTickets.reduce((sum, t) => sum + parseFloat(t.wsjfScore), 0) / prioritizedTickets.length || 0;
+            const totalStoryPoints = prioritizedTickets.reduce((sum, t) => sum + t.storyPoints, 0);
+            const criticalCount = prioritizedTickets.filter(t => t.severity.includes('Critical') || t.severity.includes('FIRE')).length;
+            
+            // Get all unique labels from tickets
+            const allLabels = [...new Set(tickets.flatMap(t => t.customFields?.labels || []))];
+            
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 p-6">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
+                            <h1 className="text-4xl font-bold text-gray-800 mb-2">WSJF Prioritization System</h1>
+                            <p className="text-gray-600">Weighted Shortest Job First Framework with JQL Support</p>
+                        </div>
+                        
+                        <div className="flex gap-4 mb-6 bg-white/10 backdrop-blur-md rounded-xl p-3 flex-wrap">
+                            <button
+                                onClick={() => setActiveTab('import')}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                                    activeTab === 'import' 
+                                        ? 'bg-white text-purple-600 shadow-lg' 
+                                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                                }`}
+                            >
+                                📥 Import from JIRA
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('fields')}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                                    activeTab === 'fields' 
+                                        ? 'bg-white text-purple-600 shadow-lg' 
+                                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                                }`}
+                            >
+                                🔧 Field Mappings
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('manual')}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                                    activeTab === 'manual' 
+                                        ? 'bg-white text-purple-600 shadow-lg' 
+                                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                                }`}
+                            >
+                                ➕ Manual Entry
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('config')}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                                    activeTab === 'config' 
+                                        ? 'bg-white text-purple-600 shadow-lg' 
+                                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                                }`}
+                            >
+                                ⚙️ Configuration
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('prioritization')}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                                    activeTab === 'prioritization' 
+                                        ? 'bg-white text-purple-600 shadow-lg' 
+                                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                                }`}
+                            >
+                                📊 Prioritized View
+                            </button>
+                        </div>
+                        
+                        <div className="bg-white rounded-2xl shadow-xl p-8">
+                            {loading && (
+                                <div className="text-center py-12">
+                                    <div className="loading-spinner"></div>
+                                    <p className="text-gray-600">Loading tickets from JIRA...</p>
+                                </div>
+                            )}
+                            
+                            {!loading && activeTab === 'import' && (
+                                <div className="tab-content">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Import Tickets from JIRA</h2>
+                                    
+                                    <div className="space-y-6">
+                                        {/* Import by Issue Keys */}
+                                        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6">
+                                            <h3 className="text-lg font-semibold text-gray-800 mb-4">📋 Import by Issue Keys</h3>
+                                            <input
+                                                type="text"
+                                                placeholder="e.g., PROD-1234, PROD-1235, PROD-1236"
+                                                value={importKeys}
+                                                onChange={(e) => setImportKeys(e.target.value)}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none mb-4"
+                                            />
+                                            <button
+                                                onClick={handleImportByKeys}
+                                                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                                            >
+                                                Import by Keys
+                                            </button>
+                                        </div>
+                                        
+                                        {/* Import by JQL */}
+                                        <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6">
+                                            <h3 className="text-lg font-semibold text-gray-800 mb-4">🔍 Import by JQL Query</h3>
+                                            <textarea
+                                                placeholder="Enter JQL query (e.g., project = PROD AND status = 'In Progress')"
+                                                value={jqlQuery}
+                                                onChange={(e) => setJqlQuery(e.target.value)}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none mb-2 h-24 font-mono text-sm"
+                                            />
+                                            <div className="flex justify-between items-center mb-4">
+                                                <button
+                                                    onClick={() => setShowJQLHelp(!showJQLHelp)}
+                                                    className="text-blue-600 text-sm hover:text-blue-700"
+                                                >
+                                                    {showJQLHelp ? '📖 Hide' : '📖 Show'} JQL Examples
+                                                </button>
+                                                <button
+                                                    onClick={handleImportByJQL}
+                                                    className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                                                >
+                                                    Import by JQL
+                                                </button>
+                                            </div>
+                                            
+                                            {showJQLHelp && (
+                                                <div className="jql-helper">
+                                                    <h4 className="font-semibold mb-2">📚 Common JQL Examples:</h4>
+                                                    <div className="space-y-2">
+                                                        <div className="jql-example">project = PROD AND status = "In Progress"</div>
+                                                        <div className="jql-example">assignee = currentUser() AND priority = High</div>
+                                                        <div className="jql-example">issuetype = Bug AND created >= -7d</div>
+                                                        <div className="jql-example">labels in (customer-reported, critical) AND resolution is EMPTY</div>
+                                                        <div className="jql-example">fixVersion = "2024.1" AND component = "Payment Module"</div>
+                                                        <div className="jql-example">"Epic Link" = PROD-100 AND status != Done</div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-4 mt-8">Current Tickets ({tickets.length})</h3>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead>
+                                                <tr className="bg-purple-600 text-white">
+                                                    <th className="px-4 py-3 text-left">Key</th>
+                                                    <th className="px-4 py-3 text-left">Summary</th>
+                                                    <th className="px-4 py-3 text-left">Type</th>
+                                                    <th className="px-4 py-3 text-left">Status</th>
+                                                    <th className="px-4 py-3 text-left">Labels</th>
+                                                    <th className="px-4 py-3 text-left">Due Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {tickets.slice(0, 10).map((ticket, i) => (
+                                                    <tr key={ticket.key} className={i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                                        <td className="px-4 py-3 border-b font-medium">{ticket.key}</td>
+                                                        <td className="px-4 py-3 border-b">{ticket.summary}</td>
+                                                        <td className="px-4 py-3 border-b">{ticket.issueType}</td>
+                                                        <td className="px-4 py-3 border-b">
+                                                            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                                                {ticket.status}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-4 py-3 border-b">
+                                                            {ticket.customFields?.labels?.map((label, idx) => (
+                                                                <span key={idx} className="custom-field-tag">
+                                                                    {label}
+                                                                </span>
+                                                            ))}
+                                                        </td>
+                                                        <td className="px-4 py-3 border-b">{ticket.dueDate}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                        {tickets.length > 10 && (
+                                            <p className="text-center text-gray-500 mt-4">
+                                                Showing first 10 of {tickets.length} tickets. View all in Prioritized View.
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {!loading && activeTab === 'fields' && (
+                                <div className="tab-content">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">JIRA Field Mappings</h2>
+                                    
+                                    <div className="mb-8">
+                                        <h3 className="text-lg font-semibold text-gray-700 mb-4">📌 Required WSJF Fields</h3>
+                                        <div className="space-y-3">
+                                            {Object.entries(fieldMappings.required).map(([field, jiraField]) => (
+                                                <div key={field} className="field-mapping">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-gray-600 mb-1">
+                                                                WSJF Field
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={field}
+                                                                disabled
+                                                                className="w-full px-3 py-2 bg-gray-100 rounded border border-gray-300"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-gray-600 mb-1">
+                                                                JIRA Custom Field ID
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                value={jiraField}
+                                                                onChange={(e) => handleFieldMappingUpdate('required', field, e.target.value)}
+                                                                placeholder="e.g., customfield_10001"
+                                                                className="w-full px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div className="flex justify-between items-center mb-4">
+                                            <h3 className="text-lg font-semibold text-gray-700">📊 Additional Custom Fields</h3>
+                                            <button
+                                                onClick={handleAddCustomField}
+                                                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm"
+                                            >
+                                                + Add Field
+                                            </button>
+                                        </div>
+                                        
+                                        <div className="space-y-3">
+                                            {fieldMappings.additional.map((field, index) => (
+                                                <div key={index} className="field-mapping">
+                                                    <div className="grid grid-cols-5 gap-3 items-center">
+                                                        <input
+                                                            type="text"
+                                                            value={field.jiraField}
+                                                            onChange={(e) => handleFieldMappingUpdate(index, 'jiraField', e.target.value)}
+                                                            placeholder="JIRA field ID"
+                                                            className="px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={field.displayName}
+                                                            onChange={(e) => handleFieldMappingUpdate(index, 'displayName', e.target.value)}
+                                                            placeholder="Display name"
+                                                            className="px-3 py-2 rounded border border-gray-300 focus:border-purple-500 focus:outline-none"
+                                                        />
+                                                        <label className="flex items-center">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={field.enabled}
+                                                                onChange={(e) => handleFieldMappingUpdate(index, 'enabled', e.target.checked)}
+                                                                className="mr-2"
+                                                            />
+                                                            <span className="text-sm">Import</span>
+                                                        </label>
+                                                        <label className="flex items-center">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={field.showInTable}
+                                                                onChange={(e) => handleFieldMappingUpdate(index, 'showInTable', e.target.checked)}
+                                                                className="mr-2"
+                                                            />
+                                                            <span className="text-sm">Show</span>
+                                                        </label>
+                                                        <button
+                                                            onClick={() => handleRemoveCustomField(index)}
+                                                            className="text-red-600 hover:text-red-700 text-sm"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        
+                                        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                                            <p className="text-sm text-blue-800">
+                                                💡 <strong>Tip:</strong> Enable "Import" to fetch the field from JIRA. 
+                                                Enable "Show" to display it in the prioritization table. 
+                                                Common JIRA fields: labels, components, fixVersions, priority, customfield_xxxxx
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {!loading && activeTab === 'manual' && (
+                                <div className="tab-content">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Manual Ticket Entry</h2>
+                                    <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Ticket Key *</label>
+                                            <input
+                                                type="text"
+                                                value={manualTicket.key}
+                                                onChange={(e) => setManualTicket({...manualTicket, key: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Issue Type</label>
+                                            <select
+                                                value={manualTicket.issueType}
+                                                onChange={(e) => setManualTicket({...manualTicket, issueType: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            >
+                                                <option>Bug</option>
+                                                <option>Improvement</option>
+                                                <option>New Feature</option>
+                                                <option>CleanUp</option>
+                                                <option>Task</option>
+                                                <option>Story</option>
+                                            </select>
+                                        </div>
+                                        <div className="md:col-span-2">
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Summary *</label>
+                                            <input
+                                                type="text"
+                                                value={manualTicket.summary}
+                                                onChange={(e) => setManualTicket({...manualTicket, summary: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Severity</label>
+                                            <select
+                                                value={manualTicket.severity}
+                                                onChange={(e) => setManualTicket({...manualTicket, severity: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            >
+                                                <option>Level 1 - Low</option>
+                                                <option>Level 2 - Medium</option>
+                                                <option>Level 3 - High</option>
+                                                <option>Level 4 - Critical</option>
+                                                <option>Level 5 - FIRE</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Issue Value ($)</label>
+                                            <input
+                                                type="number"
+                                                value={manualTicket.issueValue}
+                                                onChange={(e) => setManualTicket({...manualTicket, issueValue: parseInt(e.target.value) || 0})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Enterprise Accounts</label>
+                                            <input
+                                                type="number"
+                                                value={manualTicket.enterpriseAccounts}
+                                                onChange={(e) => setManualTicket({...manualTicket, enterpriseAccounts: parseInt(e.target.value) || 0})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Flagged Accounts</label>
+                                            <input
+                                                type="number"
+                                                value={manualTicket.flaggedAccounts}
+                                                onChange={(e) => setManualTicket({...manualTicket, flaggedAccounts: parseInt(e.target.value) || 0})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+                                            <input
+                                                type="date"
+                                                value={manualTicket.dueDate}
+                                                onChange={(e) => setManualTicket({...manualTicket, dueDate: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Market Timing</label>
+                                            <select
+                                                value={manualTicket.marketTiming}
+                                                onChange={(e) => setManualTicket({...manualTicket, marketTiming: e.target.value})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            >
+                                                <option>No timing impact</option>
+                                                <option>Nice to meet deadline</option>
+                                                <option>Slowly degrading</option>
+                                                <option>Drops steeply</option>
+                                                <option>Pointless afterwards</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">RR/OE Value</label>
+                                            <input
+                                                type="number"
+                                                value={manualTicket.rrOeValue}
+                                                onChange={(e) => setManualTicket({...manualTicket, rrOeValue: parseInt(e.target.value) || 0})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Story Points</label>
+                                            <input
+                                                type="number"
+                                                value={manualTicket.storyPoints}
+                                                onChange={(e) => setManualTicket({...manualTicket, storyPoints: parseInt(e.target.value) || 1})}
+                                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none"
+                                            />
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={handleManualSubmit}
+                                        className="mt-6 bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors"
+                                    >
+                                        Add Ticket
+                                    </button>
+                                </div>
+                            )}
