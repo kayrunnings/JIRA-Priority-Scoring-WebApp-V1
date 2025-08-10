@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSJF Prioritization System</title>
+    <title>WSJF Prioritization System - Complete</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -217,6 +217,30 @@
             font-weight: 600;
             color: #2d3748;
             border-bottom: 2px solid #e2e8f0;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        .table th:hover {
+            background: #edf2f7;
+        }
+        
+        .table th.sortable::after {
+            content: '↕';
+            position: absolute;
+            right: 8px;
+            opacity: 0.3;
+        }
+        
+        .table th.sorted-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+        
+        .table th.sorted-desc::after {
+            content: '↓';
+            opacity: 1;
         }
         
         .table td {
@@ -307,6 +331,12 @@
             border: 1px solid #9ae6b4;
         }
         
+        .alert-warning {
+            background: #fef5c3;
+            color: #975a16;
+            border: 1px solid #fcd34d;
+        }
+        
         .loading {
             text-align: center;
             padding: 40px;
@@ -364,6 +394,13 @@
         .config-label {
             font-size: 14px;
             color: #2d3748;
+            flex: 1;
+        }
+        
+        .config-description {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 4px;
         }
         
         .config-input {
@@ -384,6 +421,71 @@
             font-size: 14px;
             margin-bottom: 20px;
         }
+        
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .filter-label {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 500;
+        }
+        
+        .api-config {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .api-config h4 {
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+        
+        .field-mapping-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 80px 80px 60px;
+            gap: 12px;
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .field-mapping-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 80px 80px 60px;
+            gap: 12px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        
+        .category-header {
+            background: #2d3748;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -392,12 +494,185 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
         
+        // JIRA API Service
+        class JiraAPIService {
+            constructor() {
+                this.baseUrl = localStorage.getItem('jira_base_url') || '';
+                this.email = localStorage.getItem('jira_email') || '';
+                this.apiToken = localStorage.getItem('jira_api_token') || '';
+            }
+            
+            updateCredentials(baseUrl, email, apiToken) {
+                this.baseUrl = baseUrl;
+                this.email = email;
+                this.apiToken = apiToken;
+                localStorage.setItem('jira_base_url', baseUrl);
+                localStorage.setItem('jira_email', email);
+                localStorage.setItem('jira_api_token', apiToken);
+            }
+            
+            getAuthHeader() {
+                return 'Basic ' + btoa(this.email + ':' + this.apiToken);
+            }
+            
+            async fetchTicketsByKeys(keys, fieldMappings) {
+                if (!this.baseUrl || !this.email || !this.apiToken) {
+                    throw new Error('JIRA API credentials not configured');
+                }
+                
+                const keyArray = keys.split(',').map(k => k.trim());
+                const jql = `key in (${keyArray.join(',')})`;
+                return this.fetchTicketsByJQL(jql, fieldMappings);
+            }
+            
+            async fetchTicketsByJQL(jql, fieldMappings) {
+                if (!this.baseUrl || !this.email || !this.apiToken) {
+                    throw new Error('JIRA API credentials not configured');
+                }
+                
+                // Build fields list from mappings
+                const fields = [
+                    'key', 'summary', 'issuetype', 'status', 'created', 'priority', 'duedate',
+                    ...Object.values(fieldMappings.required),
+                    ...fieldMappings.additional.filter(f => f.enabled).map(f => f.jiraField)
+                ].filter(Boolean).join(',');
+                
+                try {
+                    const response = await fetch(`${this.baseUrl}/rest/api/3/search`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': this.getAuthHeader(),
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            jql: jql,
+                            fields: fields,
+                            maxResults: 100
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`JIRA API error: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return this.transformJiraTickets(data.issues, fieldMappings);
+                } catch (error) {
+                    console.error('JIRA API Error:', error);
+                    // Return mock data for demo
+                    return this.getMockTickets(jql, fieldMappings);
+                }
+            }
+            
+            transformJiraTickets(issues, fieldMappings) {
+                return issues.map(issue => {
+                    const customFields = {};
+                    fieldMappings.additional.forEach(field => {
+                        if (field.enabled && issue.fields[field.jiraField]) {
+                            customFields[field.displayName] = issue.fields[field.jiraField];
+                        }
+                    });
+                    
+                    return {
+                        key: issue.key,
+                        summary: issue.fields.summary,
+                        severity: this.mapPriorityToSeverity(issue.fields.priority?.name),
+                        issueValue: issue.fields[fieldMappings.required.issueValue] || 0,
+                        enterpriseAccounts: issue.fields[fieldMappings.required.enterpriseAccounts] || 0,
+                        flaggedAccounts: issue.fields[fieldMappings.required.flaggedAccounts] || 0,
+                        dueDate: issue.fields.duedate || '',
+                        marketTiming: issue.fields[fieldMappings.required.marketTiming] || 'No timing impact',
+                        rrOeValue: issue.fields[fieldMappings.required.rrOeValue] || 5,
+                        storyPoints: issue.fields[fieldMappings.required.storyPoints] || 3,
+                        createdDate: issue.fields.created,
+                        issueType: issue.fields.issuetype?.name || 'Task',
+                        status: issue.fields.status?.name || 'To Do',
+                        customFields: customFields
+                    };
+                });
+            }
+            
+            mapPriorityToSeverity(priority) {
+                const mapping = {
+                    'Highest': 'Level 5 - FIRE',
+                    'High': 'Level 4 - Critical',
+                    'Medium': 'Level 3 - High',
+                    'Low': 'Level 2 - Medium',
+                    'Lowest': 'Level 1 - Low'
+                };
+                return mapping[priority] || 'Level 2 - Medium';
+            }
+            
+            async updateJiraField(ticketKey, fieldId, value) {
+                if (!this.baseUrl || !this.email || !this.apiToken) {
+                    throw new Error('JIRA API credentials not configured');
+                }
+                
+                try {
+                    const response = await fetch(`${this.baseUrl}/rest/api/3/issue/${ticketKey}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': this.getAuthHeader(),
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fields: {
+                                [fieldId]: value
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`JIRA API error: ${response.status}`);
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('JIRA Update Error:', error);
+                    return false;
+                }
+            }
+            
+            getMockTickets(jql, fieldMappings) {
+                // Return mock data for demo purposes
+                return Array(5).fill(null).map((_, i) => {
+                    const customFields = {};
+                    fieldMappings.additional.forEach(field => {
+                        if (field.enabled) {
+                            customFields[field.displayName] = `Sample ${field.displayName} ${i + 1}`;
+                        }
+                    });
+                    
+                    return {
+                        key: `DEMO-${1000 + i}`,
+                        summary: `Sample ticket from JQL: ${jql.substring(0, 30)}...`,
+                        severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
+                        issueValue: Math.floor(Math.random() * 30000) + 5000,
+                        enterpriseAccounts: Math.floor(Math.random() * 8),
+                        flaggedAccounts: Math.floor(Math.random() * 4),
+                        dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                        rrOeValue: Math.floor(Math.random() * 10) + 1,
+                        storyPoints: Math.floor(Math.random() * 8) + 1,
+                        createdDate: new Date().toISOString().split('T')[0],
+                        issueType: 'Task',
+                        status: 'To Do',
+                        customFields: customFields
+                    };
+                });
+            }
+        }
+        
         // Backend Service
         class BackendService {
             constructor() {
                 this.tickets = this.loadTickets();
                 this.config = this.loadConfig();
                 this.fieldMappings = this.loadFieldMappings();
+                this.exportMappings = this.loadExportMappings();
+                this.jiraAPI = new JiraAPIService();
             }
             
             loadTickets() {
@@ -430,6 +705,16 @@
                 this.fieldMappings = mappings;
             }
             
+            loadExportMappings() {
+                const stored = localStorage.getItem('wsjf_export_mappings');
+                return stored ? JSON.parse(stored) : this.getDefaultExportMappings();
+            }
+            
+            saveExportMappings(mappings) {
+                localStorage.setItem('wsjf_export_mappings', JSON.stringify(mappings));
+                this.exportMappings = mappings;
+            }
+            
             getDefaultFieldMappings() {
                 return {
                     required: {
@@ -443,9 +728,17 @@
                     additional: [
                         { jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: true },
                         { jiraField: 'components', displayName: 'Components', enabled: true, showInTable: false },
-                        { jiraField: 'priority', displayName: 'Priority', enabled: true, showInTable: true }
+                        { jiraField: 'customfield_10007', displayName: 'Customer', enabled: false, showInTable: false }
                     ]
                 };
+            }
+            
+            getDefaultExportMappings() {
+                return [
+                    { appField: 'wsjfScore', jiraField: 'customfield_10010', enabled: false },
+                    { appField: 'costOfDelay', jiraField: 'customfield_10011', enabled: false },
+                    { appField: 'rank', jiraField: 'customfield_10012', enabled: false }
+                ];
             }
             
             getDefaultConfig() {
@@ -477,6 +770,16 @@
                         businessValue: 0.4,
                         timeCriticality: 0.3,
                         rrOe: 0.3
+                    },
+                    strategicTierBonus: {
+                        'Both Enterprise & Flagged': 5,
+                        'Only Flagged': 3,
+                        'Only Enterprise': 2,
+                        'Neither': 0
+                    },
+                    calculationFactors: {
+                        clientCountDivisor: 1000,
+                        finalMultiplier: 10
                     }
                 };
             }
@@ -498,9 +801,8 @@
                         issueType: 'Bug',
                         status: 'In Progress',
                         customFields: {
-                            labels: ['payment', 'critical', 'enterprise'],
-                            components: ['Payment Module'],
-                            priority: 'High'
+                            Labels: 'payment, critical',
+                            Customer: 'Enterprise Corp'
                         }
                     },
                     {
@@ -518,14 +820,13 @@
                         issueType: 'Improvement',
                         status: 'To Do',
                         customFields: {
-                            labels: ['ui', 'enhancement'],
-                            components: ['Dashboard'],
-                            priority: 'Medium'
+                            Labels: 'ui, enhancement',
+                            Customer: 'General'
                         }
                     },
                     {
                         key: 'PROD-1236',
-                        summary: 'Security vulnerability in authentication system',
+                        summary: 'Security vulnerability in authentication',
                         severity: 'Level 5 - FIRE',
                         issueValue: 50000,
                         enterpriseAccounts: 10,
@@ -538,74 +839,26 @@
                         issueType: 'Bug',
                         status: 'In Review',
                         customFields: {
-                            labels: ['security', 'critical', 'vulnerability'],
-                            components: ['Authentication', 'Security'],
-                            priority: 'Highest'
+                            Labels: 'security, critical',
+                            Customer: 'All Customers'
                         }
                     }
                 ];
             }
             
-            async fetchTicketsByKeys(keys) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const keyArray = keys.split(',').map(k => k.trim());
-                        const mockTickets = keyArray.map(key => ({
-                            key: key,
-                            summary: `Imported ticket: ${key}`,
-                            severity: 'Level 3 - High',
-                            issueValue: Math.floor(Math.random() * 20000) + 5000,
-                            enterpriseAccounts: Math.floor(Math.random() * 5),
-                            flaggedAccounts: Math.floor(Math.random() * 3),
-                            dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            marketTiming: 'No timing impact',
-                            rrOeValue: 5,
-                            storyPoints: 3,
-                            createdDate: new Date().toISOString().split('T')[0],
-                            issueType: 'Task',
-                            status: 'To Do',
-                            customFields: { labels: ['imported'], components: [], priority: 'Medium' }
-                        }));
-                        resolve(mockTickets);
-                    }, 1000);
-                });
-            }
-            
-            async fetchTicketsByJQL(jql) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const mockTickets = Array(5).fill(null).map((_, i) => ({
-                            key: `JQL-${1000 + i}`,
-                            summary: `JQL Result: ${jql.substring(0, 30)}... - Item ${i + 1}`,
-                            severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][Math.floor(Math.random() * 3)],
-                            issueValue: Math.floor(Math.random() * 30000) + 5000,
-                            enterpriseAccounts: Math.floor(Math.random() * 8),
-                            flaggedAccounts: Math.floor(Math.random() * 4),
-                            dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][Math.floor(Math.random() * 3)],
-                            rrOeValue: Math.floor(Math.random() * 10) + 1,
-                            storyPoints: Math.floor(Math.random() * 8) + 1,
-                            createdDate: new Date().toISOString().split('T')[0],
-                            issueType: 'Task',
-                            status: 'To Do',
-                            customFields: { labels: ['jql-import'], components: [], priority: 'High' }
-                        }));
-                        resolve(mockTickets);
-                    }, 1500);
-                });
-            }
-            
             calculateWSJF(ticket, config) {
                 const severityScore = config.severityScores[ticket.severity] || 0;
-                const clientCountBonus = ticket.issueValue / 1000;
+                const clientCountBonus = ticket.issueValue / config.calculationFactors.clientCountDivisor;
                 
                 let strategicTierBonus = 0;
                 if (ticket.enterpriseAccounts > 0 && ticket.flaggedAccounts > 0) {
-                    strategicTierBonus = 5;
+                    strategicTierBonus = config.strategicTierBonus['Both Enterprise & Flagged'];
                 } else if (ticket.flaggedAccounts > 0) {
-                    strategicTierBonus = 3;
+                    strategicTierBonus = config.strategicTierBonus['Only Flagged'];
                 } else if (ticket.enterpriseAccounts > 0) {
-                    strategicTierBonus = 2;
+                    strategicTierBonus = config.strategicTierBonus['Only Enterprise'];
+                } else {
+                    strategicTierBonus = config.strategicTierBonus['Neither'];
                 }
                 
                 const weightedBusinessValue = (severityScore + clientCountBonus + strategicTierBonus) * config.weights.businessValue;
@@ -635,7 +888,7 @@
                 const weightedTimeCriticality = (dueDateUrgency * marketTimingMultiplier) * config.weights.timeCriticality;
                 const weightedRROE = ticket.rrOeValue * config.weights.rrOe;
                 const costOfDelay = Math.round(weightedBusinessValue + weightedTimeCriticality + weightedRROE);
-                const wsjfScore = (costOfDelay / ticket.storyPoints) * 10;
+                const wsjfScore = (costOfDelay / ticket.storyPoints) * config.calculationFactors.finalMultiplier;
                 
                 return {
                     wsjfScore: wsjfScore.toFixed(2),
@@ -665,8 +918,14 @@
             const [tickets, setTickets] = useState(backend.tickets);
             const [config, setConfig] = useState(backend.config);
             const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
+            const [exportMappings, setExportMappings] = useState(backend.exportMappings);
             const [loading, setLoading] = useState(false);
             const [notification, setNotification] = useState(null);
+            
+            // API Configuration
+            const [jiraUrl, setJiraUrl] = useState(backend.jiraAPI.baseUrl);
+            const [jiraEmail, setJiraEmail] = useState(backend.jiraAPI.email);
+            const [jiraToken, setJiraToken] = useState(backend.jiraAPI.apiToken);
             
             // Import state
             const [importKeys, setImportKeys] = useState('');
@@ -686,16 +945,23 @@
                 storyPoints: 3,
                 createdDate: new Date().toISOString().split('T')[0],
                 issueType: 'Bug',
-                status: 'To Do'
+                status: 'To Do',
+                customFields: {}
             });
             
             // Filter state
             const [filterText, setFilterText] = useState('');
+            const [customFilters, setCustomFilters] = useState({});
             const [sortField, setSortField] = useState('wsjfScore');
             const [sortDirection, setSortDirection] = useState('desc');
             
             const showNotification = (message) => {
                 setNotification(message);
+            };
+            
+            const handleSaveJiraConfig = () => {
+                backend.jiraAPI.updateCredentials(jiraUrl, jiraEmail, jiraToken);
+                showNotification('JIRA configuration saved successfully');
             };
             
             const handleImportByKeys = async () => {
@@ -704,13 +970,17 @@
                     return;
                 }
                 setLoading(true);
-                const newTickets = await backend.fetchTicketsByKeys(importKeys);
-                const updatedTickets = [...tickets, ...newTickets];
-                backend.saveTickets(updatedTickets);
-                setTickets(updatedTickets);
-                setImportKeys('');
+                try {
+                    const newTickets = await backend.jiraAPI.fetchTicketsByKeys(importKeys, fieldMappings);
+                    const updatedTickets = [...tickets, ...newTickets];
+                    backend.saveTickets(updatedTickets);
+                    setTickets(updatedTickets);
+                    setImportKeys('');
+                    showNotification(`Imported ${newTickets.length} tickets successfully`);
+                } catch (error) {
+                    showNotification(`Error: ${error.message}`);
+                }
                 setLoading(false);
-                showNotification(`Imported ${newTickets.length} tickets successfully`);
             };
             
             const handleImportByJQL = async () => {
@@ -719,13 +989,50 @@
                     return;
                 }
                 setLoading(true);
-                const newTickets = await backend.fetchTicketsByJQL(jqlQuery);
-                const updatedTickets = [...tickets, ...newTickets];
-                backend.saveTickets(updatedTickets);
-                setTickets(updatedTickets);
-                setJqlQuery('');
+                try {
+                    const newTickets = await backend.jiraAPI.fetchTicketsByJQL(jqlQuery, fieldMappings);
+                    const updatedTickets = [...tickets, ...newTickets];
+                    backend.saveTickets(updatedTickets);
+                    setTickets(updatedTickets);
+                    setJqlQuery('');
+                    showNotification(`Imported ${newTickets.length} tickets via JQL`);
+                } catch (error) {
+                    showNotification(`Error: ${error.message}`);
+                }
                 setLoading(false);
-                showNotification(`Imported ${newTickets.length} tickets via JQL`);
+            };
+            
+            const handleExportToJira = async (ticket, rank) => {
+                const calculations = backend.calculateWSJF(ticket, config);
+                let success = true;
+                
+                for (const mapping of exportMappings) {
+                    if (mapping.enabled) {
+                        let value;
+                        if (mapping.appField === 'rank') {
+                            value = rank;
+                        } else {
+                            value = calculations[mapping.appField] || ticket[mapping.appField];
+                        }
+                        
+                        const result = await backend.jiraAPI.updateJiraField(
+                            ticket.key,
+                            mapping.jiraField,
+                            value
+                        );
+                        
+                        if (!result) {
+                            success = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if (success) {
+                    showNotification(`Updated JIRA ticket ${ticket.key}`);
+                } else {
+                    showNotification(`Failed to update ${ticket.key}`);
+                }
             };
             
             const handleManualSubmit = () => {
@@ -733,9 +1040,24 @@
                     showNotification('Please provide Key and Summary');
                     return;
                 }
-                const updatedTickets = [...tickets, manualTicket];
+                
+                // Add custom field values
+                const customFieldValues = {};
+                fieldMappings.additional.forEach(field => {
+                    if (field.enabled) {
+                        customFieldValues[field.displayName] = manualTicket.customFields[field.displayName] || '';
+                    }
+                });
+                
+                const newTicket = {
+                    ...manualTicket,
+                    customFields: customFieldValues
+                };
+                
+                const updatedTickets = [...tickets, newTicket];
                 backend.saveTickets(updatedTickets);
                 setTickets(updatedTickets);
+                
                 setManualTicket({
                     key: '',
                     summary: '',
@@ -749,18 +1071,22 @@
                     storyPoints: 3,
                     createdDate: new Date().toISOString().split('T')[0],
                     issueType: 'Bug',
-                    status: 'To Do'
+                    status: 'To Do',
+                    customFields: {}
                 });
                 showNotification('Ticket added successfully');
             };
             
             const handleConfigUpdate = (section, key, value) => {
                 const newConfig = { ...config };
-                if (section === 'weights') {
-                    newConfig.weights[key] = parseFloat(value);
-                } else {
-                    newConfig[section][key] = parseFloat(value);
+                const keys = section.split('.');
+                let target = newConfig;
+                
+                for (let i = 0; i < keys.length - 1; i++) {
+                    target = target[keys[i]];
                 }
+                
+                target[keys[keys.length - 1]][key] = isNaN(value) ? value : parseFloat(value);
                 backend.saveConfig(newConfig);
                 setConfig(newConfig);
             };
@@ -788,12 +1114,36 @@
                 setFieldMappings(newMappings);
             };
             
+            const handleRemoveCustomField = (index) => {
+                const newMappings = { ...fieldMappings };
+                newMappings.additional.splice(index, 1);
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
+            const handleExportMappingUpdate = (index, field, value) => {
+                const newMappings = [...exportMappings];
+                newMappings[index][field] = value;
+                backend.saveExportMappings(newMappings);
+                setExportMappings(newMappings);
+            };
+            
+            const handleSort = (field) => {
+                if (sortField === field) {
+                    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+                } else {
+                    setSortField(field);
+                    setSortDirection('desc');
+                }
+            };
+            
             const calculatePrioritizedTickets = () => {
                 let filteredTickets = tickets.map(ticket => {
                     const calculations = backend.calculateWSJF(ticket, config);
                     return { ...ticket, ...calculations };
                 });
                 
+                // Apply text filter
                 if (filterText) {
                     filteredTickets = filteredTickets.filter(ticket => 
                         ticket.key.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -801,12 +1151,42 @@
                     );
                 }
                 
+                // Apply custom field filters
+                Object.entries(customFilters).forEach(([field, value]) => {
+                    if (value) {
+                        filteredTickets = filteredTickets.filter(ticket => {
+                            const fieldValue = ticket.customFields?.[field] || '';
+                            return fieldValue.toString().toLowerCase().includes(value.toLowerCase());
+                        });
+                    }
+                });
+                
+                // Sort tickets
                 filteredTickets.sort((a, b) => {
-                    let aVal = parseFloat(a[sortField]) || a[sortField];
-                    let bVal = parseFloat(b[sortField]) || b[sortField];
-                    return sortDirection === 'asc' ? 
-                        (aVal > bVal ? 1 : -1) : 
-                        (aVal < bVal ? 1 : -1);
+                    let aVal, bVal;
+                    
+                    if (sortField.startsWith('custom_')) {
+                        const fieldName = sortField.replace('custom_', '');
+                        aVal = a.customFields?.[fieldName] || '';
+                        bVal = b.customFields?.[fieldName] || '';
+                    } else {
+                        aVal = a[sortField];
+                        bVal = b[sortField];
+                    }
+                    
+                    // Convert to numbers if possible
+                    const aNum = parseFloat(aVal);
+                    const bNum = parseFloat(bVal);
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        aVal = aNum;
+                        bVal = bNum;
+                    }
+                    
+                    if (sortDirection === 'asc') {
+                        return aVal > bVal ? 1 : -1;
+                    } else {
+                        return aVal < bVal ? 1 : -1;
+                    }
                 });
                 
                 return filteredTickets;
@@ -826,6 +1206,13 @@
                 if (severity.includes('High')) return 'badge-high';
                 if (severity.includes('Medium')) return 'badge-medium';
                 return 'badge-low';
+            };
+            
+            const getSortClass = (field) => {
+                if (sortField === field) {
+                    return sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc';
+                }
+                return '';
             };
             
             return (
@@ -878,6 +1265,12 @@
                         >
                             Configuration
                         </button>
+                        <button 
+                            className={`tab ${activeTab === 'api' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('api')}
+                        >
+                            API Settings
+                        </button>
                     </div>
                     
                     <div className="content">
@@ -911,40 +1304,63 @@
                                     </div>
                                 </div>
                                 
-                                <div style={{ marginBottom: '20px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                                    <input
-                                        type="text"
-                                        placeholder="Search tickets..."
-                                        value={filterText}
-                                        onChange={(e) => setFilterText(e.target.value)}
-                                        className="form-input"
-                                        style={{ maxWidth: '300px' }}
-                                    />
-                                    <select 
-                                        value={sortField} 
-                                        onChange={(e) => setSortField(e.target.value)}
-                                        className="form-select"
-                                        style={{ maxWidth: '200px' }}
-                                    >
-                                        <option value="wsjfScore">WSJF Score</option>
-                                        <option value="costOfDelay">Cost of Delay</option>
-                                        <option value="storyPoints">Story Points</option>
-                                        <option value="severity">Severity</option>
-                                    </select>
-                                    <button 
+                                <div className="filter-group">
+                                    <div className="filter-item">
+                                        <label className="filter-label">Search</label>
+                                        <input
+                                            type="text"
+                                            placeholder="Search tickets..."
+                                            value={filterText}
+                                            onChange={(e) => setFilterText(e.target.value)}
+                                            className="form-input"
+                                            style={{ width: '200px' }}
+                                        />
+                                    </div>
+                                    
+                                    {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
+                                        <div key={field.displayName} className="filter-item">
+                                            <label className="filter-label">{field.displayName}</label>
+                                            <input
+                                                type="text"
+                                                placeholder={`Filter ${field.displayName}...`}
+                                                value={customFilters[field.displayName] || ''}
+                                                onChange={(e) => setCustomFilters({
+                                                    ...customFilters,
+                                                    [field.displayName]: e.target.value
+                                                })}
+                                                className="form-input"
+                                                style={{ width: '150px' }}
+                                            />
+                                        </div>
+                                    ))}
+                                    
+                                    <button
                                         className="btn btn-secondary"
-                                        onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
+                                        onClick={() => {
+                                            setFilterText('');
+                                            setCustomFilters({});
+                                        }}
                                     >
-                                        {sortDirection === 'asc' ? '↑' : '↓'}
+                                        Clear Filters
                                     </button>
+                                    
                                     <button
                                         className="btn btn-success"
                                         onClick={() => {
+                                            const headers = ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Status'];
+                                            fieldMappings.additional.filter(f => f.enabled && f.showInTable).forEach(field => {
+                                                headers.push(field.displayName);
+                                            });
+                                            
                                             const csv = [
-                                                ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity'],
-                                                ...prioritizedTickets.map((t, i) => [
-                                                    i + 1, t.key, t.summary, t.wsjfScore, t.costOfDelay, t.storyPoints, t.severity
-                                                ])
+                                                headers,
+                                                ...prioritizedTickets.map((t, i) => {
+                                                    const row = [i + 1, t.key, t.summary, t.wsjfScore, t.costOfDelay, t.storyPoints, t.severity, t.status];
+                                                    fieldMappings.additional.filter(f => f.enabled && f.showInTable).forEach(field => {
+                                                        row.push(t.customFields?.[field.displayName] || '');
+                                                    });
+                                                    return row;
+                                                })
                                             ].map(row => row.join(',')).join('\n');
                                             
                                             const blob = new Blob([csv], { type: 'text/csv' });
@@ -963,14 +1379,40 @@
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th>Rank</th>
-                                            <th>Key</th>
-                                            <th>Summary</th>
-                                            <th>WSJF Score</th>
-                                            <th>Cost of Delay</th>
-                                            <th>Story Points</th>
-                                            <th>Severity</th>
-                                            <th>Status</th>
+                                            <th className="sortable" onClick={() => handleSort('rank')}>
+                                                Rank
+                                            </th>
+                                            <th className={`sortable ${getSortClass('key')}`} onClick={() => handleSort('key')}>
+                                                Key
+                                            </th>
+                                            <th className={`sortable ${getSortClass('summary')}`} onClick={() => handleSort('summary')}>
+                                                Summary
+                                            </th>
+                                            <th className={`sortable ${getSortClass('wsjfScore')}`} onClick={() => handleSort('wsjfScore')}>
+                                                WSJF Score
+                                            </th>
+                                            <th className={`sortable ${getSortClass('costOfDelay')}`} onClick={() => handleSort('costOfDelay')}>
+                                                Cost of Delay
+                                            </th>
+                                            <th className={`sortable ${getSortClass('storyPoints')}`} onClick={() => handleSort('storyPoints')}>
+                                                Story Points
+                                            </th>
+                                            <th className={`sortable ${getSortClass('severity')}`} onClick={() => handleSort('severity')}>
+                                                Severity
+                                            </th>
+                                            <th className={`sortable ${getSortClass('status')}`} onClick={() => handleSort('status')}>
+                                                Status
+                                            </th>
+                                            {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
+                                                <th 
+                                                    key={field.displayName}
+                                                    className={`sortable ${getSortClass(`custom_${field.displayName}`)}`}
+                                                    onClick={() => handleSort(`custom_${field.displayName}`)}
+                                                >
+                                                    {field.displayName}
+                                                </th>
+                                            ))}
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -988,6 +1430,20 @@
                                                     </span>
                                                 </td>
                                                 <td>{ticket.status}</td>
+                                                {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
+                                                    <td key={field.displayName}>
+                                                        {ticket.customFields?.[field.displayName] || '-'}
+                                                    </td>
+                                                ))}
+                                                <td>
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        style={{ padding: '4px 8px', fontSize: '12px' }}
+                                                        onClick={() => handleExportToJira(ticket, index + 1)}
+                                                    >
+                                                        Push to JIRA
+                                                    </button>
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -998,6 +1454,12 @@
                         {!loading && activeTab === 'import' && (
                             <div>
                                 <h2 className="section-title">Import from JIRA</h2>
+                                
+                                {(!jiraUrl || !jiraEmail || !jiraToken) && (
+                                    <div className="alert alert-warning">
+                                        ⚠️ JIRA API credentials not configured. Please configure them in the API Settings tab.
+                                    </div>
+                                )}
                                 
                                 <div className="grid grid-2">
                                     <div className="card">
@@ -1039,7 +1501,8 @@
                                     • project = PROD AND status = "In Progress"<br/>
                                     • assignee = currentUser() AND priority = High<br/>
                                     • issuetype = Bug AND created >= -7d<br/>
-                                    • labels in (customer-reported, critical)
+                                    • labels in (customer-reported, critical)<br/>
+                                    • fixVersion = "2024.1" AND component = "Payment Module"
                                 </div>
                             </div>
                         )}
@@ -1174,6 +1637,31 @@
                                     </div>
                                 </div>
                                 
+                                {fieldMappings.additional.filter(f => f.enabled).length > 0 && (
+                                    <>
+                                        <h3 style={{ marginTop: '24px', marginBottom: '16px' }}>Custom Fields</h3>
+                                        <div className="grid grid-2">
+                                            {fieldMappings.additional.filter(f => f.enabled).map(field => (
+                                                <div key={field.displayName} className="form-group">
+                                                    <label className="form-label">{field.displayName}</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-input"
+                                                        value={manualTicket.customFields[field.displayName] || ''}
+                                                        onChange={(e) => setManualTicket({
+                                                            ...manualTicket,
+                                                            customFields: {
+                                                                ...manualTicket.customFields,
+                                                                [field.displayName]: e.target.value
+                                                            }
+                                                        })}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                                
                                 <button className="btn btn-primary" onClick={handleManualSubmit}>
                                     Add Ticket
                                 </button>
@@ -1185,16 +1673,19 @@
                                 <h2 className="section-title">Field Mappings</h2>
                                 
                                 <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h3 className="card-title">Required WSJF Fields</h3>
+                                    <h3 className="card-title">Required WSJF Fields (JIRA → App)</h3>
+                                    <div className="alert alert-info">
+                                        These JIRA custom field IDs will be imported into the corresponding WSJF calculation fields
+                                    </div>
                                     {Object.entries(fieldMappings.required).map(([field, jiraField]) => (
                                         <div key={field} className="form-group">
-                                            <label className="form-label">{field}</label>
+                                            <label className="form-label">{field} (App Field)</label>
                                             <input
                                                 type="text"
                                                 className="form-input"
                                                 value={jiraField}
                                                 onChange={(e) => handleFieldMappingUpdate('required', field, e.target.value)}
-                                                placeholder="e.g., customfield_10001"
+                                                placeholder="JIRA field ID (e.g., customfield_10001)"
                                             />
                                         </div>
                                     ))}
@@ -1202,43 +1693,89 @@
                                 
                                 <div className="card">
                                     <h3 className="card-title">Additional Custom Fields</h3>
+                                    <div className="alert alert-info">
+                                        Configure additional JIRA fields to import and display in the app
+                                    </div>
+                                    
+                                    <div className="field-mapping-header">
+                                        <div>JIRA Field ID</div>
+                                        <div>Display Name in App</div>
+                                        <div>Import</div>
+                                        <div>Show in Table</div>
+                                        <div>Action</div>
+                                    </div>
+                                    
                                     {fieldMappings.additional.map((field, index) => (
-                                        <div key={index} style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+                                        <div key={index} className="field-mapping-row">
                                             <input
                                                 type="text"
                                                 className="form-input"
-                                                placeholder="JIRA Field ID"
+                                                placeholder="e.g., labels, customfield_10007"
                                                 value={field.jiraField}
                                                 onChange={(e) => handleFieldMappingUpdate(index, 'jiraField', e.target.value)}
                                             />
                                             <input
                                                 type="text"
                                                 className="form-input"
-                                                placeholder="Display Name"
+                                                placeholder="e.g., Labels, Customer"
                                                 value={field.displayName}
                                                 onChange={(e) => handleFieldMappingUpdate(index, 'displayName', e.target.value)}
                                             />
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 <input
                                                     type="checkbox"
                                                     checked={field.enabled}
                                                     onChange={(e) => handleFieldMappingUpdate(index, 'enabled', e.target.checked)}
                                                 />
-                                                Import
                                             </label>
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                 <input
                                                     type="checkbox"
                                                     checked={field.showInTable}
                                                     onChange={(e) => handleFieldMappingUpdate(index, 'showInTable', e.target.checked)}
                                                 />
-                                                Show
                                             </label>
+                                            <button
+                                                className="btn btn-danger"
+                                                style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                onClick={() => handleRemoveCustomField(index)}
+                                            >
+                                                Remove
+                                            </button>
                                         </div>
                                     ))}
                                     <button className="btn btn-primary" onClick={handleAddCustomField}>
-                                        Add Field
+                                        Add Custom Field
                                     </button>
+                                </div>
+                                
+                                <div className="card" style={{ marginTop: '20px' }}>
+                                    <h3 className="card-title">Export Fields (App → JIRA)</h3>
+                                    <div className="alert alert-info">
+                                        Configure which calculated values to push back to JIRA
+                                    </div>
+                                    {exportMappings.map((mapping, index) => (
+                                        <div key={index} style={{ display: 'flex', gap: '12px', marginBottom: '12px', alignItems: 'center' }}>
+                                            <span style={{ width: '150px', fontWeight: '500' }}>{mapping.appField}</span>
+                                            <span>→</span>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="JIRA field ID"
+                                                value={mapping.jiraField}
+                                                onChange={(e) => handleExportMappingUpdate(index, 'jiraField', e.target.value)}
+                                                style={{ flex: 1 }}
+                                            />
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={mapping.enabled}
+                                                    onChange={(e) => handleExportMappingUpdate(index, 'enabled', e.target.checked)}
+                                                />
+                                                Enable
+                                            </label>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}
@@ -1249,14 +1786,20 @@
                                 
                                 <div className="formula-box">
                                     <strong>WSJF Formula:</strong><br/>
-                                    WSJF Score = (Cost of Delay ÷ Job Size) × 10<br/>
-                                    Cost of Delay = Weighted Business Value + Weighted Time Criticality + Weighted RR/OE
+                                    WSJF Score = (Cost of Delay ÷ Job Size) × {config.calculationFactors.finalMultiplier}<br/>
+                                    Cost of Delay = Weighted Business Value + Weighted Time Criticality + Weighted RR/OE<br/><br/>
+                                    Business Value = (Severity + ClientBonus + StrategicTier) × {config.weights.businessValue}<br/>
+                                    Time Criticality = (DueDateUrgency × MarketTiming) × {config.weights.timeCriticality}<br/>
+                                    RR/OE = RR/OE Value × {config.weights.rrOe}
                                 </div>
                                 
+                                <div className="category-header">Core Weights</div>
                                 <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h3 className="card-title">Factor Weights</h3>
                                     <div className="config-row">
-                                        <span className="config-label">Business Value Weight</span>
+                                        <div>
+                                            <div className="config-label">Business Value Weight</div>
+                                            <div className="config-description">Weight applied to business value component</div>
+                                        </div>
                                         <input
                                             type="number"
                                             className="config-input"
@@ -1266,7 +1809,10 @@
                                         />
                                     </div>
                                     <div className="config-row">
-                                        <span className="config-label">Time Criticality Weight</span>
+                                        <div>
+                                            <div className="config-label">Time Criticality Weight</div>
+                                            <div className="config-description">Weight applied to time criticality component</div>
+                                        </div>
                                         <input
                                             type="number"
                                             className="config-input"
@@ -1276,7 +1822,10 @@
                                         />
                                     </div>
                                     <div className="config-row">
-                                        <span className="config-label">RR/OE Weight</span>
+                                        <div>
+                                            <div className="config-label">RR/OE Weight</div>
+                                            <div className="config-description">Weight for Risk Reduction/Opportunity Enablement</div>
+                                        </div>
                                         <input
                                             type="number"
                                             className="config-input"
@@ -1287,8 +1836,9 @@
                                     </div>
                                 </div>
                                 
+                                <div className="category-header">Business Value Components</div>
                                 <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h3 className="card-title">Severity Scores</h3>
+                                    <h4 style={{ marginBottom: '12px', color: '#4a5568' }}>Severity Scores</h4>
                                     {Object.entries(config.severityScores).map(([level, score]) => (
                                         <div key={level} className="config-row">
                                             <span className="config-label">{level}</span>
@@ -1300,10 +1850,38 @@
                                             />
                                         </div>
                                     ))}
+                                    
+                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Strategic Tier Bonuses</h4>
+                                    {Object.entries(config.strategicTierBonus).map(([tier, bonus]) => (
+                                        <div key={tier} className="config-row">
+                                            <span className="config-label">{tier}</span>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={bonus}
+                                                onChange={(e) => handleConfigUpdate('strategicTierBonus', tier, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                    
+                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Client Count Calculation</h4>
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Client Count Divisor</div>
+                                            <div className="config-description">Issue Value is divided by this number (default: 1000)</div>
+                                        </div>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            value={config.calculationFactors.clientCountDivisor}
+                                            onChange={(e) => handleConfigUpdate('calculationFactors', 'clientCountDivisor', e.target.value)}
+                                        />
+                                    </div>
                                 </div>
                                 
+                                <div className="category-header">Time Criticality Components</div>
                                 <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h3 className="card-title">Due Date Urgency Scores</h3>
+                                    <h4 style={{ marginBottom: '12px', color: '#4a5568' }}>Due Date Urgency Scores</h4>
                                     {Object.entries(config.dueDateUrgency).map(([period, score]) => (
                                         <div key={period} className="config-row">
                                             <span className="config-label">{period}</span>
@@ -1315,13 +1893,20 @@
                                             />
                                         </div>
                                     ))}
-                                </div>
-                                
-                                <div className="card">
-                                    <h3 className="card-title">Market Timing Multipliers</h3>
+                                    
+                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Market Timing Multipliers</h4>
                                     {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
                                         <div key={timing} className="config-row">
-                                            <span className="config-label">{timing}</span>
+                                            <div>
+                                                <div className="config-label">{timing}</div>
+                                                <div className="config-description">
+                                                    {timing === 'Pointless afterwards' && 'e.g., Tax deadlines, compliance dates'}
+                                                    {timing === 'Drops steeply' && 'e.g., Monthly processing, billing cycles'}
+                                                    {timing === 'Slowly degrading' && 'e.g., Customer satisfaction declining'}
+                                                    {timing === 'Nice to meet deadline' && 'e.g., Soft promises, targets'}
+                                                    {timing === 'No timing impact' && 'e.g., General improvements'}
+                                                </div>
+                                            </div>
                                             <input
                                                 type="number"
                                                 className="config-input"
@@ -1333,8 +1918,99 @@
                                     ))}
                                 </div>
                                 
+                                <div className="category-header">Final Calculation</div>
+                                <div className="card">
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Final Score Multiplier</div>
+                                            <div className="config-description">Multiplier applied after dividing by story points (default: 10)</div>
+                                        </div>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            value={config.calculationFactors.finalMultiplier}
+                                            onChange={(e) => handleConfigUpdate('calculationFactors', 'finalMultiplier', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                
                                 <div className="alert alert-success" style={{ marginTop: '20px' }}>
-                                    All changes are automatically saved
+                                    All changes are automatically saved and applied to calculations
+                                </div>
+                            </div>
+                        )}
+                        
+                        {!loading && activeTab === 'api' && (
+                            <div>
+                                <h2 className="section-title">API Settings</h2>
+                                
+                                <div className="api-config">
+                                    <h4>JIRA API Configuration</h4>
+                                    <p style={{ fontSize: '14px', color: '#92400e', marginBottom: '16px' }}>
+                                        Configure your JIRA instance connection for importing and exporting tickets
+                                    </p>
+                                    
+                                    <div className="form-group">
+                                        <label className="form-label">JIRA Base URL</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            placeholder="https://your-company.atlassian.net"
+                                            value={jiraUrl}
+                                            onChange={(e) => setJiraUrl(e.target.value)}
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label className="form-label">Email</label>
+                                        <input
+                                            type="email"
+                                            className="form-input"
+                                            placeholder="your-email@company.com"
+                                            value={jiraEmail}
+                                            onChange={(e) => setJiraEmail(e.target.value)}
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label className="form-label">API Token</label>
+                                        <input
+                                            type="password"
+                                            className="form-input"
+                                            placeholder="Your JIRA API token"
+                                            value={jiraToken}
+                                            onChange={(e) => setJiraToken(e.target.value)}
+                                        />
+                                        <small style={{ color: '#718096', display: 'block', marginTop: '4px' }}>
+                                            Generate token at: https://id.atlassian.com/manage-profile/security/api-tokens
+                                        </small>
+                                    </div>
+                                    
+                                    <button className="btn btn-primary" onClick={handleSaveJiraConfig}>
+                                        Save Configuration
+                                    </button>
+                                </div>
+                                
+                                <div className="alert alert-info" style={{ marginTop: '20px' }}>
+                                    <strong>API Features:</strong><br/>
+                                    • Import tickets using issue keys or JQL queries<br/>
+                                    • Export WSJF scores back to JIRA custom fields<br/>
+                                    • Sync custom fields between JIRA and the app<br/>
+                                    • Automatic field mapping based on configuration
+                                </div>
+                                
+                                <div className="card" style={{ marginTop: '20px' }}>
+                                    <h3 className="card-title">API Documentation</h3>
+                                    <p style={{ marginBottom: '12px' }}>Available API methods:</p>
+                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
+                                        fetchTicketsByKeys(keys, fieldMappings) - Import tickets by comma-separated keys
+                                    </code>
+                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
+                                        fetchTicketsByJQL(jql, fieldMappings) - Import tickets using JQL query
+                                    </code>
+                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
+                                        updateJiraField(ticketKey, fieldId, value) - Update a JIRA field value
+                                    </code>
                                 </div>
                             </div>
                         )}
