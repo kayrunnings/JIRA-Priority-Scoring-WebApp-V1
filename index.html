@@ -808,7 +808,7 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo, useCallback } = React;
         
-        // Data Service
+        // Data Service with error handling
         class DataService {
             constructor() {
                 this.tickets = this.loadTickets();
@@ -818,53 +818,74 @@
                 this.syncStatus = this.loadSyncStatus();
             }
             
+            // Safe localStorage access with try-catch
+            safeLocalStorage = {
+                getItem: (key) => {
+                    try {
+                        return localStorage.getItem(key);
+                    } catch (e) {
+                        console.warn('localStorage not available:', e);
+                        return null;
+                    }
+                },
+                setItem: (key, value) => {
+                    try {
+                        localStorage.setItem(key, value);
+                        return true;
+                    } catch (e) {
+                        console.warn('localStorage not available:', e);
+                        return false;
+                    }
+                }
+            };
+            
             loadTickets() {
-                const stored = localStorage.getItem('wsjf_tickets');
+                const stored = this.safeLocalStorage.getItem('wsjf_tickets');
                 return stored ? JSON.parse(stored) : this.getSampleTickets();
             }
             
             saveTickets(tickets) {
-                localStorage.setItem('wsjf_tickets', JSON.stringify(tickets));
+                this.safeLocalStorage.setItem('wsjf_tickets', JSON.stringify(tickets));
                 this.tickets = tickets;
             }
             
             loadConfig() {
-                const stored = localStorage.getItem('wsjf_config');
+                const stored = this.safeLocalStorage.getItem('wsjf_config');
                 return stored ? JSON.parse(stored) : this.getDefaultConfig();
             }
             
             saveConfig(config) {
-                localStorage.setItem('wsjf_config', JSON.stringify(config));
+                this.safeLocalStorage.setItem('wsjf_config', JSON.stringify(config));
                 this.config = config;
             }
             
             loadFieldMappings() {
-                const stored = localStorage.getItem('wsjf_field_mappings');
+                const stored = this.safeLocalStorage.getItem('wsjf_field_mappings');
                 return stored ? JSON.parse(stored) : this.getDefaultFieldMappings();
             }
             
             saveFieldMappings(mappings) {
-                localStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
+                this.safeLocalStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
                 this.fieldMappings = mappings;
             }
             
             loadColumns() {
-                const stored = localStorage.getItem('wsjf_columns');
+                const stored = this.safeLocalStorage.getItem('wsjf_columns');
                 return stored ? JSON.parse(stored) : this.getDefaultColumns();
             }
             
             saveColumns(columns) {
-                localStorage.setItem('wsjf_columns', JSON.stringify(columns));
+                this.safeLocalStorage.setItem('wsjf_columns', JSON.stringify(columns));
                 this.columns = columns;
             }
             
             loadSyncStatus() {
-                const stored = localStorage.getItem('wsjf_sync');
+                const stored = this.safeLocalStorage.getItem('wsjf_sync');
                 return stored ? JSON.parse(stored) : { lastImport: null, lastCalc: null };
             }
             
             saveSyncStatus(status) {
-                localStorage.setItem('wsjf_sync', JSON.stringify(status));
+                this.safeLocalStorage.setItem('wsjf_sync', JSON.stringify(status));
                 this.syncStatus = status;
             }
             
@@ -1016,60 +1037,81 @@
             }
             
             calculateWSJF(ticket, config) {
+                // Validate inputs
+                if (!ticket || !config) {
+                    console.error('Missing ticket or config for WSJF calculation');
+                    return { wsjfScore: '0.00', costOfDelay: 0, calculations: {} };
+                }
+                
                 // Business Value Calculation
-                const severityScore = config.severityScores[ticket.severity] || 0;
-                const clientCountBonus = (ticket.issueValue || 0) / config.clientCountDivisor;
+                const severityScore = config.severityScores?.[ticket.severity] || 0;
+                const issueValue = parseFloat(ticket.issueValue) || 0;
+                const clientCountBonus = issueValue / (config.clientCountDivisor || 1000);
+                
+                const enterpriseAccounts = parseInt(ticket.enterpriseAccounts) || 0;
+                const flaggedAccounts = parseInt(ticket.flaggedAccounts) || 0;
                 
                 let strategicTierBonus = 0;
-                if (ticket.enterpriseAccounts > 0 && ticket.flaggedAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus['Both Enterprise & Flagged'];
-                } else if (ticket.flaggedAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus['Only Flagged'];
-                } else if (ticket.enterpriseAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus['Only Enterprise'];
+                if (enterpriseAccounts > 0 && flaggedAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus?.['Both Enterprise & Flagged'] || 5;
+                } else if (flaggedAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus?.['Only Flagged'] || 3;
+                } else if (enterpriseAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus?.['Only Enterprise'] || 2;
                 } else {
-                    strategicTierBonus = config.strategicTierBonus['Neither'];
+                    strategicTierBonus = config.strategicTierBonus?.['Neither'] || 0;
                 }
                 
                 const businessValue = severityScore + clientCountBonus + strategicTierBonus;
-                const weightedBusinessValue = businessValue * config.weights.businessValue;
+                const weightedBusinessValue = businessValue * (config.weights?.businessValue || 0.4);
                 
                 // Time Criticality Calculation
                 let dueDateUrgency = 1;
                 if (ticket.dueDate) {
-                    const today = new Date();
-                    const dueDate = new Date(ticket.dueDate);
-                    const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
-                    
-                    if (daysUntilDue < 0) {
-                        dueDateUrgency = config.dueDateUrgency['Overdue'];
-                    } else if (daysUntilDue < 7) {
-                        dueDateUrgency = config.dueDateUrgency['< 1 week'];
-                    } else if (daysUntilDue < 14) {
-                        dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
-                    } else if (daysUntilDue < 28) {
-                        dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
-                    } else if (daysUntilDue < 60) {
-                        dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
-                    } else if (daysUntilDue < 180) {
-                        dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
-                    } else {
-                        dueDateUrgency = config.dueDateUrgency['No deadline'];
+                    try {
+                        const today = new Date();
+                        const dueDate = new Date(ticket.dueDate);
+                        
+                        if (!isNaN(dueDate.getTime())) {
+                            const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+                            
+                            if (daysUntilDue < 0) {
+                                dueDateUrgency = config.dueDateUrgency?.['Overdue'] || 21;
+                            } else if (daysUntilDue < 7) {
+                                dueDateUrgency = config.dueDateUrgency?.['< 1 week'] || 13;
+                            } else if (daysUntilDue < 14) {
+                                dueDateUrgency = config.dueDateUrgency?.['1 to 2 weeks'] || 8;
+                            } else if (daysUntilDue < 28) {
+                                dueDateUrgency = config.dueDateUrgency?.['2 to 4 weeks'] || 5;
+                            } else if (daysUntilDue < 60) {
+                                dueDateUrgency = config.dueDateUrgency?.['1 to 2 months'] || 3;
+                            } else if (daysUntilDue < 180) {
+                                dueDateUrgency = config.dueDateUrgency?.['2 to 6 months'] || 2;
+                            } else {
+                                dueDateUrgency = config.dueDateUrgency?.['No deadline'] || 1;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Invalid date format:', ticket.dueDate);
+                        dueDateUrgency = config.dueDateUrgency?.['No deadline'] || 1;
                     }
+                } else {
+                    // Apply defaults based on issue type and severity
+                    dueDateUrgency = this.getDefaultDueDateUrgency(ticket, config);
                 }
                 
-                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
+                const marketTimingMultiplier = config.marketTimingMultipliers?.[ticket.marketTiming] || 1.0;
                 const timeCriticality = dueDateUrgency * marketTimingMultiplier;
-                const weightedTimeCriticality = timeCriticality * config.weights.timeCriticality;
+                const weightedTimeCriticality = timeCriticality * (config.weights?.timeCriticality || 0.3);
                 
                 // RR/OE Calculation
-                const rrOeValue = ticket.rrOeValue || 5;
-                const weightedRROE = rrOeValue * config.weights.rrOe;
+                const rrOeValue = parseFloat(ticket.rrOeValue) || 5;
+                const weightedRROE = rrOeValue * (config.weights?.rrOe || 0.3);
                 
                 // Final Calculations
                 const costOfDelay = Math.round(weightedBusinessValue + weightedTimeCriticality + weightedRROE);
-                const jobSize = ticket.storyPoints || 1;
-                const wsjfScore = (costOfDelay / jobSize) * config.finalMultiplier;
+                const jobSize = parseInt(ticket.storyPoints) || 1;
+                const wsjfScore = (costOfDelay / jobSize) * (config.finalMultiplier || 10);
                 
                 return {
                     wsjfScore: wsjfScore.toFixed(2),
@@ -1089,6 +1131,22 @@
                         jobSize
                     }
                 };
+            }
+            
+            getDefaultDueDateUrgency(ticket, config) {
+                // Default due date urgency based on issue type and severity
+                const severityLevel = ticket.severity?.split(' - ')[0] || 'Level 2';
+                const issueType = ticket.issueType || 'Bug';
+                
+                if (severityLevel.includes('5') || severityLevel.includes('FIRE')) {
+                    return config.dueDateUrgency?.['< 1 week'] || 13;
+                } else if (severityLevel.includes('4') || severityLevel.includes('Critical')) {
+                    return config.dueDateUrgency?.['< 1 week'] || 13;
+                } else if (severityLevel.includes('3') || severityLevel.includes('High')) {
+                    return config.dueDateUrgency?.['1 to 2 weeks'] || 8;
+                } else {
+                    return config.dueDateUrgency?.['2 to 4 weeks'] || 5;
+                }
             }
             
             async pushToJira(ticket, calculations, fieldMappings) {
@@ -1495,21 +1553,31 @@
             
             const formatDate = (dateStr) => {
                 if (!dateStr) return 'N/A';
-                const date = new Date(dateStr);
-                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                try {
+                    const date = new Date(dateStr);
+                    if (isNaN(date.getTime())) return 'Invalid Date';
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                } catch (e) {
+                    return 'Invalid Date';
+                }
             };
             
             const formatSyncTime = (isoString) => {
                 if (!isoString) return 'Never';
-                const date = new Date(isoString);
-                const now = new Date();
-                const diffMs = now - date;
-                const diffMins = Math.floor(diffMs / 60000);
-                
-                if (diffMins < 1) return 'Just now';
-                if (diffMins < 60) return `${diffMins}m ago`;
-                if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
-                return `${Math.floor(diffMins / 1440)}d ago`;
+                try {
+                    const date = new Date(isoString);
+                    if (isNaN(date.getTime())) return 'Never';
+                    const now = new Date();
+                    const diffMs = now - date;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    
+                    if (diffMins < 1) return 'Just now';
+                    if (diffMins < 60) return `${diffMins}m ago`;
+                    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+                    return `${Math.floor(diffMins / 1440)}d ago`;
+                } catch (e) {
+                    return 'Never';
+                }
             };
             
             return (
