@@ -37,6 +37,18 @@
             width: 100%;
             max-width: 420px;
             padding: 40px;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .auth-logo {
@@ -90,6 +102,16 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
+        .auth-input.error {
+            border-color: #f56565;
+        }
+        
+        .auth-error {
+            color: #f56565;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
         .auth-btn {
             width: 100%;
             padding: 14px;
@@ -108,6 +130,35 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
         
+        .auth-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .auth-divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+        
+        .auth-divider span {
+            background: white;
+            padding: 0 15px;
+            position: relative;
+            color: #718096;
+            font-size: 14px;
+        }
+        
         .auth-link {
             text-align: center;
             margin-top: 20px;
@@ -119,6 +170,11 @@
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .auth-link a:hover {
+            text-decoration: underline;
         }
         
         /* Main App Styles */
@@ -137,6 +193,12 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
+        .app-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
         .app-title {
             font-size: 20px;
             font-weight: 700;
@@ -146,10 +208,67 @@
             background-clip: text;
         }
         
+        .status-indicators {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: #718096;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f7fafc;
+            border-radius: 6px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #48bb78;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
         .user-menu {
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .user-info {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: #718096;
         }
         
         .logout-btn {
@@ -160,19 +279,22 @@
             color: #4a5568;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.3s;
         }
         
         .logout-btn:hover {
             background: #f7fafc;
+            border-color: #cbd5e0;
         }
         
-        /* Navigation */
+        /* Navigation Tabs */
         .nav-tabs {
             background: white;
             padding: 0 24px;
             display: flex;
             gap: 8px;
             border-bottom: 1px solid #e2e8f0;
+            overflow-x: auto;
         }
         
         .nav-tab {
@@ -183,6 +305,9 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            position: relative;
             border-bottom: 3px solid transparent;
         }
         
@@ -196,13 +321,382 @@
             border-bottom-color: #667eea;
         }
         
-        /* Content */
+        /* Content Area */
         .content-area {
             padding: 24px;
             max-width: 1400px;
             margin: 0 auto;
         }
         
+        /* Action Bar */
+        .action-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .action-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .btn-secondary:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .filter-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .filter-input, .filter-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* Data Table */
+        .data-table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .table-header {
+            padding: 16px 20px;
+            background: #f7fafc;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .table-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .column-manager-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .column-manager-btn:hover {
+            background: #f7fafc;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background: #f7fafc;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+            cursor: pointer;
+            user-select: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .data-table th:hover {
+            background: #edf2f7;
+        }
+        
+        .data-table th.sortable::after {
+            content: '↕';
+            margin-left: 6px;
+            opacity: 0.3;
+        }
+        
+        .data-table th.sorted-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+        
+        .data-table th.sorted-desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+        
+        .data-table td {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #2d3748;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+        
+        /* Column Manager Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #718096;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: #f7fafc;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .column-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .column-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 6px;
+            cursor: move;
+            transition: all 0.3s;
+        }
+        
+        .column-item:hover {
+            background: #edf2f7;
+        }
+        
+        .column-item.dragging {
+            opacity: 0.5;
+        }
+        
+        .column-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .drag-handle {
+            color: #cbd5e0;
+            cursor: move;
+        }
+        
+        .column-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .column-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        /* Badge Styles */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-fire {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+        
+        .badge-critical {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .badge-high {
+            background: linear-gradient(135deg, #ecc94b, #d69e2e);
+            color: white;
+        }
+        
+        .badge-medium {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+        }
+        
+        .badge-low {
+            background: linear-gradient(135deg, #a0aec0, #718096);
+            color: white;
+        }
+        
+        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -217,169 +711,142 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .stat-value {
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .stat-card-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 20px;
+        }
+        
+        .stat-card-value {
             font-size: 28px;
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 4px;
         }
         
-        .stat-label {
-            font-size: 13px;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Buttons */
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-right: 10px;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #4a5568;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .btn-secondary:hover {
-            background: #f7fafc;
-        }
-        
-        /* Table */
-        .data-table {
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .data-table th {
-            background: #f7fafc;
-            padding: 12px 16px;
-            text-align: left;
+        .stat-card-change {
             font-size: 12px;
-            font-weight: 600;
-            color: #4a5568;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #e2e8f0;
+            color: #48bb78;
         }
         
-        .data-table td {
-            padding: 12px 16px;
-            font-size: 14px;
-            color: #2d3748;
-            border-bottom: 1px solid #f1f5f9;
+        .stat-card-change.negative {
+            color: #f56565;
         }
         
-        .data-table tr:hover {
-            background: #f7fafc;
-        }
-        
-        /* Badge */
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .badge-fire {
-            background: #f56565;
-            color: white;
-        }
-        
-        .badge-critical {
-            background: #ed8936;
-            color: white;
-        }
-        
-        .badge-high {
-            background: #ecc94b;
-            color: white;
-        }
-        
-        .badge-medium {
-            background: #4299e1;
-            color: white;
-        }
-        
-        .badge-low {
-            background: #a0aec0;
-            color: white;
-        }
-        
-        .demo-banner {
-            background: linear-gradient(135deg, #f6e05e, #ecc94b);
-            color: #744210;
-            padding: 12px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .action-bar {
+        /* Form Styles */
+        .form-section {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 24px;
             margin-bottom: 24px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 20px;
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-helper {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        
+        /* Field Mapper Styles */
+        .field-mapper-container {
             background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .field-mapping-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 12px;
+            align-items: center;
+            padding: 16px;
+            background: #f7fafc;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
+            margin-bottom: 12px;
         }
         
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .field-mapping-delete {
+            padding: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            color: #e53e3e;
+            cursor: pointer;
         }
         
-        .notification.success {
-            border-left: 4px solid #48bb78;
-        }
-        
-        .notification.error {
-            border-left: 4px solid #f56565;
-        }
-        
-        .loading {
-            text-align: center;
+        /* Loading */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 60px;
             color: #718096;
         }
@@ -391,25 +858,201 @@
             border-top-color: #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            display: inline-block;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
+            z-index: 2000;
+            max-width: 400px;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification.success {
+            border-left: 4px solid #48bb78;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #f56565;
+        }
+        
+        .notification-icon {
+            font-size: 20px;
+        }
+        
+        .notification.success .notification-icon {
+            color: #48bb78;
+        }
+        
+        .notification.error .notification-icon {
+            color: #f56565;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-message {
+            font-size: 14px;
+            color: #2d3748;
+        }
+        
+        .formula-box {
+            background: linear-gradient(135deg, #edf2f7, #e2e8f0);
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-bottom: 25px;
+            color: #2d3748;
+        }
+        
+        .config-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .config-row:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+        
+        .config-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .config-input {
+            width: 100px;
+            padding: 8px 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            background: white;
+        }
+        
+        .api-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .api-status.connected {
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .api-status.disconnected {
+            background: #fed7d7;
+            color: #9b2c2c;
         }
     </style>
 </head>
 <body>
     <div id="root"></div>
     
-    <script type="text/babel">
-        const { useState, useEffect, useMemo } = React;
+    <script type="text/babel" data-type="module">
+        const { useState, useEffect, useMemo, useCallback } = React;
         
-        // Simple Backend Service
+        // Authentication Service
+        class AuthService {
+            constructor() {
+                this.currentUser = this.loadUser();
+            }
+            
+            loadUser() {
+                const stored = localStorage.getItem('wsjf_current_user');
+                return stored ? JSON.parse(stored) : null;
+            }
+            
+            async login(email, password) {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                if (email === 'demo@company.com' && password === 'demo123') {
+                    const user = {
+                        id: '1',
+                        email: email,
+                        name: 'Demo User',
+                        role: 'Admin',
+                        company: 'Demo Company'
+                    };
+                    localStorage.setItem('wsjf_current_user', JSON.stringify(user));
+                    this.currentUser = user;
+                    return { success: true, user };
+                }
+                
+                return { success: false, error: 'Invalid credentials' };
+            }
+            
+            async signup(data) {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const user = {
+                    id: Date.now().toString(),
+                    email: data.email,
+                    name: data.name,
+                    role: 'User',
+                    company: data.company
+                };
+                
+                localStorage.setItem('wsjf_current_user', JSON.stringify(user));
+                this.currentUser = user;
+                return { success: true, user };
+            }
+            
+            logout() {
+                localStorage.removeItem('wsjf_current_user');
+                this.currentUser = null;
+            }
+        }
+        
+        // Backend Service
         class BackendService {
             constructor() {
                 this.tickets = this.loadTickets();
                 this.config = this.loadConfig();
+                this.fieldMappings = this.loadFieldMappings();
+                this.columnSettings = this.loadColumnSettings();
+                this.lastSync = this.loadLastSync();
             }
             
             loadTickets() {
@@ -432,6 +1075,41 @@
                 this.config = config;
             }
             
+            loadFieldMappings() {
+                const stored = localStorage.getItem('wsjf_field_mappings');
+                return stored ? JSON.parse(stored) : this.getDefaultFieldMappings();
+            }
+            
+            saveFieldMappings(mappings) {
+                localStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
+                this.fieldMappings = mappings;
+            }
+            
+            loadColumnSettings() {
+                const stored = localStorage.getItem('wsjf_column_settings');
+                return stored ? JSON.parse(stored) : this.getDefaultColumnSettings();
+            }
+            
+            saveColumnSettings(settings) {
+                localStorage.setItem('wsjf_column_settings', JSON.stringify(settings));
+                this.columnSettings = settings;
+            }
+            
+            loadLastSync() {
+                const stored = localStorage.getItem('wsjf_last_sync');
+                return stored ? JSON.parse(stored) : {
+                    lastImport: null,
+                    lastCalculation: null,
+                    importedBy: null,
+                    calculatedBy: null
+                };
+            }
+            
+            saveLastSync(sync) {
+                localStorage.setItem('wsjf_last_sync', JSON.stringify(sync));
+                this.lastSync = sync;
+            }
+            
             getDefaultConfig() {
                 return {
                     severityScores: {
@@ -441,11 +1119,96 @@
                         'Level 2 - Medium': 5,
                         'Level 1 - Low': 3
                     },
+                    dueDateUrgency: {
+                        'Overdue': 21,
+                        '< 1 week': 13,
+                        '1 to 2 weeks': 8,
+                        '2 to 4 weeks': 5,
+                        '1 to 2 months': 3,
+                        '2 to 6 months': 2,
+                        'No deadline': 1
+                    },
+                    marketTimingMultipliers: {
+                        'Pointless afterwards': 2.0,
+                        'Drops steeply': 1.6,
+                        'Slowly degrading': 1.4,
+                        'Nice to meet deadline': 1.2,
+                        'No timing impact': 1.0
+                    },
                     weights: {
                         businessValue: 0.4,
                         timeCriticality: 0.3,
                         rrOe: 0.3
+                    },
+                    jiraConfig: {
+                        defaultJQL: 'project = DEMO AND status != Done',
+                        apiUrl: '',
+                        apiEmail: '',
+                        apiToken: ''
                     }
+                };
+            }
+            
+            getDefaultFieldMappings() {
+                return {
+                    standard: [
+                        { 
+                            appField: 'severity', 
+                            jiraField: 'priority', 
+                            type: 'dropdown',
+                            mapping: {
+                                'Highest': 'Level 5 - FIRE',
+                                'High': 'Level 4 - Critical',
+                                'Medium': 'Level 3 - High',
+                                'Low': 'Level 2 - Medium',
+                                'Lowest': 'Level 1 - Low'
+                            }
+                        },
+                        { appField: 'issueValue', jiraField: 'customfield_10001', type: 'number' },
+                        { appField: 'enterpriseAccounts', jiraField: 'customfield_10002', type: 'number' },
+                        { appField: 'flaggedAccounts', jiraField: 'customfield_10003', type: 'number' },
+                        { appField: 'marketTiming', jiraField: 'customfield_10004', type: 'dropdown' },
+                        { appField: 'rrOeValue', jiraField: 'customfield_10005', type: 'number' },
+                        { appField: 'storyPoints', jiraField: 'customfield_10006', type: 'number' }
+                    ],
+                    custom: [
+                        { 
+                            displayName: 'Customer', 
+                            jiraField: 'customfield_10007', 
+                            type: 'text',
+                            enabled: true,
+                            showInTable: true,
+                            filterable: true
+                        },
+                        { 
+                            displayName: 'Team', 
+                            jiraField: 'customfield_10008', 
+                            type: 'dropdown',
+                            enabled: true,
+                            showInTable: true,
+                            filterable: true
+                        }
+                    ]
+                };
+            }
+            
+            getDefaultColumnSettings() {
+                return {
+                    columns: [
+                        { id: 'rank', name: 'Rank', visible: true, order: 0, width: 80 },
+                        { id: 'key', name: 'Key', visible: true, order: 1, width: 120 },
+                        { id: 'summary', name: 'Summary', visible: true, order: 2, width: 300 },
+                        { id: 'wsjfScore', name: 'WSJF Score', visible: true, order: 3, width: 120 },
+                        { id: 'costOfDelay', name: 'Cost of Delay', visible: true, order: 4, width: 130 },
+                        { id: 'storyPoints', name: 'Story Points', visible: true, order: 5, width: 120 },
+                        { id: 'severity', name: 'Severity', visible: true, order: 6, width: 120 },
+                        { id: 'status', name: 'Status', visible: true, order: 7, width: 120 },
+                        { id: 'dueDate', name: 'Due Date', visible: false, order: 8, width: 120 },
+                        { id: 'issueType', name: 'Type', visible: false, order: 9, width: 100 },
+                        { id: 'custom_Customer', name: 'Customer', visible: true, order: 10, width: 150 },
+                        { id: 'custom_Team', name: 'Team', visible: true, order: 11, width: 100 },
+                        { id: 'actions', name: 'Actions', visible: true, order: 12, width: 100 }
+                    ]
                 };
             }
             
@@ -462,11 +1225,17 @@
                         marketTiming: 'Pointless afterwards',
                         rrOeValue: 13,
                         storyPoints: 8,
-                        status: 'In Progress'
+                        createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Bug',
+                        status: 'In Progress',
+                        customFields: {
+                            Customer: 'Enterprise Corp',
+                            Team: 'Backend'
+                        }
                     },
                     {
                         key: 'DEMO-1002',
-                        summary: 'Dashboard performance optimization',
+                        summary: 'Dashboard performance optimization for real-time analytics',
                         severity: 'Level 3 - High',
                         issueValue: 25000,
                         enterpriseAccounts: 3,
@@ -475,11 +1244,17 @@
                         marketTiming: 'Slowly degrading',
                         rrOeValue: 5,
                         storyPoints: 5,
-                        status: 'To Do'
+                        createdDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Improvement',
+                        status: 'To Do',
+                        customFields: {
+                            Customer: 'Multiple',
+                            Team: 'Frontend'
+                        }
                     },
                     {
                         key: 'DEMO-1003',
-                        summary: 'Implement GDPR compliance module',
+                        summary: 'Implement GDPR compliance reporting module',
                         severity: 'Level 4 - Critical',
                         issueValue: 50000,
                         enterpriseAccounts: 8,
@@ -488,7 +1263,13 @@
                         marketTiming: 'Drops steeply',
                         rrOeValue: 8,
                         storyPoints: 13,
-                        status: 'In Review'
+                        createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'New Feature',
+                        status: 'In Review',
+                        customFields: {
+                            Customer: 'All EU Clients',
+                            Team: 'Compliance'
+                        }
                     }
                 ];
             }
@@ -506,31 +1287,104 @@
                     strategicTierBonus = 2;
                 }
                 
-                const businessValue = (severityScore + clientCountBonus + strategicTierBonus) * config.weights.businessValue;
-                const timeCriticality = 10 * config.weights.timeCriticality;
-                const rrOe = ticket.rrOeValue * config.weights.rrOe;
+                const weightedBusinessValue = (severityScore + clientCountBonus + strategicTierBonus) * config.weights.businessValue;
                 
-                const costOfDelay = Math.round(businessValue + timeCriticality + rrOe);
+                let dueDateUrgency = 1;
+                if (ticket.dueDate) {
+                    const today = new Date();
+                    const dueDate = new Date(ticket.dueDate);
+                    const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysUntilDue < 0) {
+                        dueDateUrgency = config.dueDateUrgency['Overdue'];
+                    } else if (daysUntilDue < 7) {
+                        dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                    } else if (daysUntilDue < 14) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
+                    } else if (daysUntilDue < 28) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
+                    } else if (daysUntilDue < 60) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
+                    } else if (daysUntilDue < 180) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
+                    } else {
+                        dueDateUrgency = config.dueDateUrgency['No deadline'];
+                    }
+                }
+                
+                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
+                const weightedTimeCriticality = (dueDateUrgency * marketTimingMultiplier) * config.weights.timeCriticality;
+                const weightedRROE = ticket.rrOeValue * config.weights.rrOe;
+                const costOfDelay = Math.round(weightedBusinessValue + weightedTimeCriticality + weightedRROE);
                 const wsjfScore = (costOfDelay / ticket.storyPoints) * 10;
                 
                 return {
                     wsjfScore: wsjfScore.toFixed(2),
-                    costOfDelay
+                    costOfDelay,
+                    weightedBusinessValue: weightedBusinessValue.toFixed(2),
+                    weightedTimeCriticality: weightedTimeCriticality.toFixed(2),
+                    weightedRROE: weightedRROE.toFixed(2)
                 };
+            }
+            
+            async importFromJira(jql, user) {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Generate mock tickets
+                const newTickets = Array(3).fill(null).map((_, i) => ({
+                    key: `JIRA-${Date.now() + i}`,
+                    summary: `Imported ticket from JQL: ${jql.substring(0, 30)}...`,
+                    severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
+                    issueValue: Math.floor(Math.random() * 50000) + 10000,
+                    enterpriseAccounts: Math.floor(Math.random() * 10),
+                    flaggedAccounts: Math.floor(Math.random() * 5),
+                    dueDate: new Date(Date.now() + Math.random() * 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                    rrOeValue: Math.floor(Math.random() * 10) + 1,
+                    storyPoints: Math.floor(Math.random() * 8) + 1,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    issueType: ['Bug', 'Task', 'Story'][i % 3],
+                    status: 'To Do',
+                    customFields: {
+                        Customer: `Customer ${i + 1}`,
+                        Team: ['Backend', 'Frontend', 'DevOps'][i % 3]
+                    }
+                }));
+                
+                // Update last sync
+                this.saveLastSync({
+                    ...this.lastSync,
+                    lastImport: new Date().toISOString(),
+                    importedBy: user.name
+                });
+                
+                return newTickets;
             }
         }
         
+        const authService = new AuthService();
         const backend = new BackendService();
         
-        // Authentication Component
-        function LoginForm({ onLogin }) {
+        // Login Component
+        function LoginForm({ onLogin, onSwitchToSignup }) {
             const [email, setEmail] = useState('demo@company.com');
             const [password, setPassword] = useState('demo123');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
             
-            const handleSubmit = (e) => {
+            const handleSubmit = async (e) => {
                 e.preventDefault();
-                if (email && password) {
-                    onLogin({ email, name: 'Demo User' });
+                setLoading(true);
+                setError('');
+                
+                const result = await authService.login(email, password);
+                
+                if (result.success) {
+                    onLogin(result.user);
+                } else {
+                    setError(result.error);
+                    setLoading(false);
                 }
             };
             
@@ -547,7 +1401,8 @@
                                 <label className="auth-label">Email Address</label>
                                 <input
                                     type="email"
-                                    className="auth-input"
+                                    className={`auth-input ${error ? 'error' : ''}`}
+                                    placeholder="Enter your email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -558,15 +1413,28 @@
                                 <label className="auth-label">Password</label>
                                 <input
                                     type="password"
-                                    className="auth-input"
+                                    className={`auth-input ${error ? 'error' : ''}`}
+                                    placeholder="Enter your password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                             </div>
                             
-                            <button type="submit" className="auth-btn">Sign In</button>
+                            {error && <div className="auth-error">{error}</div>}
+                            
+                            <button type="submit" className="auth-btn" disabled={loading}>
+                                {loading ? 'Signing in...' : 'Sign In'}
+                            </button>
                         </form>
+                        
+                        <div className="auth-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <div className="auth-link">
+                            Don't have an account? <a onClick={onSwitchToSignup}>Sign Up</a>
+                        </div>
                         
                         <div style={{ marginTop: 20, padding: 15, background: '#f7fafc', borderRadius: 8 }}>
                             <p style={{ fontSize: 12, color: '#718096', textAlign: 'center' }}>
@@ -580,16 +1448,175 @@
             );
         }
         
+        // Signup Component
+        function SignupForm({ onSignup, onSwitchToLogin }) {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                password: '',
+                company: ''
+            });
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                setError('');
+                
+                const result = await authService.signup(formData);
+                
+                if (result.success) {
+                    onSignup(result.user);
+                } else {
+                    setError(result.error);
+                    setLoading(false);
+                }
+            };
+            
+            return (
+                <div className="auth-container">
+                    <div className="auth-card">
+                        <div className="auth-logo">
+                            <h1>WSJF Enterprise</h1>
+                            <p>Create Your Account</p>
+                        </div>
+                        
+                        <form className="auth-form" onSubmit={handleSubmit}>
+                            <div className="auth-input-group">
+                                <label className="auth-label">Full Name</label>
+                                <input
+                                    type="text"
+                                    className="auth-input"
+                                    placeholder="Enter your name"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="auth-input-group">
+                                <label className="auth-label">Company</label>
+                                <input
+                                    type="text"
+                                    className="auth-input"
+                                    placeholder="Enter your company"
+                                    value={formData.company}
+                                    onChange={(e) => setFormData({...formData, company: e.target.value})}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="auth-input-group">
+                                <label className="auth-label">Email Address</label>
+                                <input
+                                    type="email"
+                                    className="auth-input"
+                                    placeholder="Enter your email"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="auth-input-group">
+                                <label className="auth-label">Password</label>
+                                <input
+                                    type="password"
+                                    className="auth-input"
+                                    placeholder="Create a password"
+                                    value={formData.password}
+                                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                    required
+                                />
+                            </div>
+                            
+                            {error && <div className="auth-error">{error}</div>}
+                            
+                            <button type="submit" className="auth-btn" disabled={loading}>
+                                {loading ? 'Creating Account...' : 'Create Account'}
+                            </button>
+                        </form>
+                        
+                        <div className="auth-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <div className="auth-link">
+                            Already have an account? <a onClick={onSwitchToLogin}>Sign In</a>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        // Column Manager Component
+        function ColumnManager({ columns, onClose, onSave }) {
+            const [localColumns, setLocalColumns] = useState([...columns]);
+            
+            const handleToggle = (id) => {
+                setLocalColumns(cols => cols.map(col => 
+                    col.id === id ? { ...col, visible: !col.visible } : col
+                ));
+            };
+            
+            const handleSave = () => {
+                onSave(localColumns);
+                onClose();
+            };
+            
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3 className="modal-title">Manage Columns</h3>
+                            <button className="modal-close" onClick={onClose}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="column-list">
+                                {localColumns.sort((a, b) => a.order - b.order).map((column) => (
+                                    <div key={column.id} className="column-item">
+                                        <div className="column-item-left">
+                                            <span className="drag-handle">⋮⋮</span>
+                                            <input
+                                                type="checkbox"
+                                                className="column-checkbox"
+                                                checked={column.visible}
+                                                onChange={() => handleToggle(column.id)}
+                                            />
+                                            <span className="column-name">{column.name}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div style={{ marginTop: 24, display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+                                <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+                                <button className="btn btn-primary" onClick={handleSave}>Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
         // Notification Component
         function Notification({ message, type, onClose }) {
             useEffect(() => {
-                const timer = setTimeout(onClose, 3000);
+                const timer = setTimeout(onClose, 4000);
                 return () => clearTimeout(timer);
             }, [onClose]);
             
+            const icons = {
+                success: '✓',
+                error: '✕'
+            };
+            
             return (
                 <div className={`notification ${type}`}>
-                    {message}
+                    <span className="notification-icon">{icons[type]}</span>
+                    <div className="notification-content">
+                        <div className="notification-message">{message}</div>
+                    </div>
                 </div>
             );
         }
@@ -598,258 +1625,169 @@
         function MainApp({ user, onLogout }) {
             const [activeTab, setActiveTab] = useState('dashboard');
             const [tickets, setTickets] = useState(backend.tickets);
-            const [config] = useState(backend.config);
+            const [config, setConfig] = useState(backend.config);
+            const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
+            const [columnSettings, setColumnSettings] = useState(backend.columnSettings);
+            const [lastSync, setLastSync] = useState(backend.lastSync);
             const [loading, setLoading] = useState(false);
             const [notification, setNotification] = useState(null);
-            const [lastImport, setLastImport] = useState(null);
-            const [lastCalc, setLastCalc] = useState(null);
+            const [showColumnManager, setShowColumnManager] = useState(false);
+            const [apiConnected, setApiConnected] = useState(false);
+            
+            // Filter states
+            const [filters, setFilters] = useState({
+                search: '',
+                severity: '',
+                status: '',
+                team: '',
+                customer: '',
+                operator: 'contains'
+            });
+            
+            const [sortConfig, setSortConfig] = useState({
+                field: 'wsjfScore',
+                direction: 'desc'
+            });
+            
+            useEffect(() => {
+                // Check API connection
+                checkAPIConnection();
+            }, []);
+            
+            const checkAPIConnection = async () => {
+                try {
+                    const response = await fetch('/api/jira/health');
+                    setApiConnected(response.ok);
+                } catch {
+                    setApiConnected(false);
+                }
+            };
             
             const showNotification = (message, type = 'success') => {
                 setNotification({ message, type });
             };
             
-            const handleImport = async () => {
+            const handleImportFromJira = async () => {
                 setLoading(true);
-                // Simulate API call
-                setTimeout(() => {
-                    const newTickets = [
-                        {
-                            key: `JIRA-${Date.now()}`,
-                            summary: 'Imported ticket from JIRA',
-                            severity: 'Level 3 - High',
-                            issueValue: 30000,
-                            enterpriseAccounts: 4,
-                            flaggedAccounts: 2,
-                            dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            marketTiming: 'Slowly degrading',
-                            rrOeValue: 6,
-                            storyPoints: 5,
-                            status: 'To Do'
-                        }
-                    ];
-                    setTickets([...tickets, ...newTickets]);
-                    backend.saveTickets([...tickets, ...newTickets]);
-                    setLastImport(new Date());
-                    setLoading(false);
-                    showNotification('Successfully imported 1 ticket from JIRA');
-                }, 1500);
+                try {
+                    const jql = config.jiraConfig.defaultJQL || 'project = DEMO';
+                    const newTickets = await backend.importFromJira(jql, user);
+                    const updatedTickets = [...tickets, ...newTickets];
+                    backend.saveTickets(updatedTickets);
+                    setTickets(updatedTickets);
+                    
+                    const updatedSync = backend.lastSync;
+                    setLastSync(updatedSync);
+                    
+                    showNotification(`Successfully imported ${newTickets.length} tickets from JIRA`);
+                } catch (error) {
+                    showNotification('Failed to import tickets', 'error');
+                }
+                setLoading(false);
             };
             
             const handleRecalculate = () => {
-                setLastCalc(new Date());
-                setTickets([...tickets]); // Force re-render
-                showNotification('WSJF scores recalculated');
+                const updatedSync = {
+                    ...lastSync,
+                    lastCalculation: new Date().toISOString(),
+                    calculatedBy: user.name
+                };
+                backend.saveLastSync(updatedSync);
+                setLastSync(updatedSync);
+                
+                setTickets([...tickets]);
+                showNotification('WSJF scores recalculated successfully');
             };
             
-            const handleDelete = (key) => {
-                const updated = tickets.filter(t => t.key !== key);
-                setTickets(updated);
-                backend.saveTickets(updated);
+            const handleColumnSettingsChange = (newColumns) => {
+                const newSettings = { columns: newColumns };
+                backend.saveColumnSettings(newSettings);
+                setColumnSettings(newSettings);
+                showNotification('Column settings updated');
+            };
+            
+            const handleFieldMappingUpdate = (newMappings) => {
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+                showNotification('Field mappings updated');
+            };
+            
+            const handleConfigUpdate = (newConfig) => {
+                backend.saveConfig(newConfig);
+                setConfig(newConfig);
+                showNotification('Configuration updated');
+            };
+            
+            const handleDeleteTicket = (key) => {
+                const updatedTickets = tickets.filter(t => t.key !== key);
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
                 showNotification('Ticket deleted');
             };
             
+            const handleSort = (field) => {
+                setSortConfig(prev => ({
+                    field,
+                    direction: prev.field === field && prev.direction === 'asc' ? 'desc' : 'asc'
+                }));
+            };
+            
             const processedTickets = useMemo(() => {
-                return tickets.map(ticket => {
+                let processed = tickets.map(ticket => {
                     const calculations = backend.calculateWSJF(ticket, config);
                     return { ...ticket, ...calculations };
-                }).sort((a, b) => parseFloat(b.wsjfScore) - parseFloat(a.wsjfScore));
-            }, [tickets, config]);
-            
-            const stats = {
-                total: processedTickets.length,
-                avgWSJF: processedTickets.reduce((sum, t) => sum + parseFloat(t.wsjfScore), 0) / processedTickets.length || 0,
-                totalPoints: processedTickets.reduce((sum, t) => sum + t.storyPoints, 0),
-                critical: processedTickets.filter(t => t.severity.includes('Critical') || t.severity.includes('FIRE')).length
-            };
-            
-            const getSeverityBadge = (severity) => {
-                if (severity.includes('FIRE')) return 'badge-fire';
-                if (severity.includes('Critical')) return 'badge-critical';
-                if (severity.includes('High')) return 'badge-high';
-                if (severity.includes('Medium')) return 'badge-medium';
-                return 'badge-low';
-            };
-            
-            const formatTime = (date) => {
-                if (!date) return 'Never';
-                const diff = new Date() - date;
-                const mins = Math.floor(diff / 60000);
-                if (mins < 1) return 'Just now';
-                if (mins < 60) return `${mins}m ago`;
-                return `${Math.floor(mins / 60)}h ago`;
-            };
-            
-            return (
-                <div className="app-container">
-                    {notification && (
-                        <Notification
-                            message={notification.message}
-                            type={notification.type}
-                            onClose={() => setNotification(null)}
-                        />
-                    )}
+                });
+                
+                // Apply filters
+                if (filters.search) {
+                    const searchLower = filters.search.toLowerCase();
+                    if (filters.operator === 'contains') {
+                        processed = processed.filter(t => 
+                            t.key.toLowerCase().includes(searchLower) ||
+                            t.summary.toLowerCase().includes(searchLower)
+                        );
+                    } else if (filters.operator === 'equals') {
+                        processed = processed.filter(t => 
+                            t.key.toLowerCase() === searchLower ||
+                            t.summary.toLowerCase() === searchLower
+                        );
+                    } else if (filters.operator === 'starts') {
+                        processed = processed.filter(t => 
+                            t.key.toLowerCase().startsWith(searchLower) ||
+                            t.summary.toLowerCase().startsWith(searchLower)
+                        );
+                    } else if (filters.operator === 'ends') {
+                        processed = processed.filter(t => 
+                            t.key.toLowerCase().endsWith(searchLower) ||
+                            t.summary.toLowerCase().endsWith(searchLower)
+                        );
+                    }
+                }
+                
+                if (filters.severity) {
+                    processed = processed.filter(t => t.severity === filters.severity);
+                }
+                
+                if (filters.status) {
+                    processed = processed.filter(t => t.status === filters.status);
+                }
+                
+                if (filters.team) {
+                    processed = processed.filter(t => t.customFields?.Team === filters.team);
+                }
+                
+                if (filters.customer) {
+                    processed = processed.filter(t => 
+                        t.customFields?.Customer?.toLowerCase().includes(filters.customer.toLowerCase())
+                    );
+                }
+                
+                // Apply sorting
+                processed.sort((a, b) => {
+                    let aVal = a[sortConfig.field];
+                    let bVal = b[sortConfig.field];
                     
-                    <div className="demo-banner">
-                        🎮 DEMO MODE - Using sample data | Last Import: {formatTime(lastImport)} | Last Calculation: {formatTime(lastCalc)}
-                    </div>
-                    
-                    <div className="app-header">
-                        <h1 className="app-title">WSJF Enterprise System</h1>
-                        <div className="user-menu">
-                            <span>Welcome, {user.name}</span>
-                            <button className="logout-btn" onClick={onLogout}>Logout</button>
-                        </div>
-                    </div>
-                    
-                    <div className="nav-tabs">
-                        <button className={`nav-tab ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
-                            Dashboard
-                        </button>
-                        <button className={`nav-tab ${activeTab === 'config' ? 'active' : ''}`} onClick={() => setActiveTab('config')}>
-                            Configuration
-                        </button>
-                    </div>
-                    
-                    <div className="content-area">
-                        {loading && (
-                            <div className="loading">
-                                <div className="spinner"></div>
-                                <p>Loading...</p>
-                            </div>
-                        )}
-                        
-                        {!loading && activeTab === 'dashboard' && (
-                            <>
-                                <div className="stats-grid">
-                                    <div className="stat-card">
-                                        <div className="stat-value">{stats.total}</div>
-                                        <div className="stat-label">Total Tickets</div>
-                                    </div>
-                                    <div className="stat-card">
-                                        <div className="stat-value">{stats.avgWSJF.toFixed(1)}</div>
-                                        <div className="stat-label">Average WSJF</div>
-                                    </div>
-                                    <div className="stat-card">
-                                        <div className="stat-value">{stats.totalPoints}</div>
-                                        <div className="stat-label">Story Points</div>
-                                    </div>
-                                    <div className="stat-card">
-                                        <div className="stat-value">{stats.critical}</div>
-                                        <div className="stat-label">Critical/Fire</div>
-                                    </div>
-                                </div>
-                                
-                                <div className="action-bar">
-                                    <button className="btn btn-primary" onClick={handleImport}>
-                                        📥 Import from JIRA
-                                    </button>
-                                    <button className="btn btn-success" onClick={handleRecalculate}>
-                                        🔄 Recalculate WSJF
-                                    </button>
-                                    <button className="btn btn-secondary" onClick={() => {
-                                        const csv = [
-                                            ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Points', 'Severity'],
-                                            ...processedTickets.map((t, i) => [
-                                                i + 1, t.key, t.summary, t.wsjfScore, t.costOfDelay, t.storyPoints, t.severity
-                                            ])
-                                        ].map(row => row.join(',')).join('\n');
-                                        
-                                        const blob = new Blob([csv], { type: 'text/csv' });
-                                        const url = URL.createObjectURL(blob);
-                                        const a = document.createElement('a');
-                                        a.href = url;
-                                        a.download = 'wsjf_export.csv';
-                                        a.click();
-                                        showNotification('Export completed');
-                                    }}>
-                                        📤 Export CSV
-                                    </button>
-                                </div>
-                                
-                                <table className="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Rank</th>
-                                            <th>Key</th>
-                                            <th>Summary</th>
-                                            <th>WSJF Score</th>
-                                            <th>Cost of Delay</th>
-                                            <th>Points</th>
-                                            <th>Severity</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {processedTickets.map((ticket, index) => (
-                                            <tr key={ticket.key}>
-                                                <td><strong>#{index + 1}</strong></td>
-                                                <td><strong>{ticket.key}</strong></td>
-                                                <td>{ticket.summary}</td>
-                                                <td><strong style={{ color: '#667eea' }}>{ticket.wsjfScore}</strong></td>
-                                                <td>{ticket.costOfDelay}</td>
-                                                <td>{ticket.storyPoints}</td>
-                                                <td>
-                                                    <span className={`badge ${getSeverityBadge(ticket.severity)}`}>
-                                                        {ticket.severity.split(' - ')[1]}
-                                                    </span>
-                                                </td>
-                                                <td>{ticket.status}</td>
-                                                <td>
-                                                    <button 
-                                                        className="btn btn-secondary"
-                                                        style={{ padding: '6px 12px', fontSize: '12px' }}
-                                                        onClick={() => handleDelete(ticket.key)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </>
-                        )}
-                        
-                        {!loading && activeTab === 'config' && (
-                            <div style={{ background: 'white', padding: 24, borderRadius: 12 }}>
-                                <h2 style={{ marginBottom: 20 }}>Configuration</h2>
-                                <p>WSJF Scoring Configuration</p>
-                                <div style={{ marginTop: 20 }}>
-                                    <h3>Severity Scores</h3>
-                                    {Object.entries(config.severityScores).map(([level, score]) => (
-                                        <div key={level} style={{ marginBottom: 10 }}>
-                                            <label>{level}: {score}</label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div style={{ marginTop: 20 }}>
-                                    <h3>Weights</h3>
-                                    <div>Business Value: {config.weights.businessValue}</div>
-                                    <div>Time Criticality: {config.weights.timeCriticality}</div>
-                                    <div>RR/OE: {config.weights.rrOe}</div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-        
-        // Root App Component
-        function App() {
-            const [user, setUser] = useState(null);
-            
-            if (!user) {
-                return <LoginForm onLogin={setUser} />;
-            }
-            
-            return <MainApp user={user} onLogout={() => setUser(null)} />;
-        }
-        
-        // Render the app
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-</body>
-</html>
+                    if (sortConfig.field.startsWith('custom_')) {
+                        const fieldName = sortConfig.field.replace('custom_', '');
+                        aVal = a.customFields?.[fieldName] || '';
+                        bVal = b.customFields?.[fieldName] || '';
