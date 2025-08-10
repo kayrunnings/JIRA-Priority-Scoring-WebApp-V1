@@ -3,72 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSJF Prioritization System - Complete</title>
+    <title>WSJF Prioritization System</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.6;
         }
         
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+        .header {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+        
+        .header-info {
+            display: flex;
+            gap: 24px;
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            background: white;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .tab:hover {
+            background: #f7fafc;
+        }
+        
+        .tab.active {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            min-height: 600px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            background: #ffffff;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #4299e1;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3182ce;
+        }
+        
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #38a169;
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+        
+        .btn-secondary {
+            background: #718096;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #4a5568;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .table td {
+            padding: 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table tr:hover {
+            background: #f7fafc;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
             border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
         }
         
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.5);
-            border-radius: 4px;
+        .badge-fire {
+            background: #fed7d7;
+            color: #9b2c2c;
         }
         
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .badge-critical {
+            background: #feebc8;
+            color: #975a16;
         }
         
-        .glass-dark {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .badge-high {
+            background: #fef5c3;
+            color: #976816;
         }
         
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .badge-medium {
+            background: #bee3f8;
+            color: #2c5282;
         }
         
-        .slide-in {
-            animation: slideIn 0.5s ease-out;
+        .badge-low {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .alert-info {
+            background: #bee3f8;
+            color: #2c5282;
+            border: 1px solid #90cdf4;
+        }
+        
+        .alert-success {
+            background: #c6f6d5;
+            color: #276749;
+            border: 1px solid #9ae6b4;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
         }
         
         .spinner {
+            display: inline-block;
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(99, 102, 241, 0.2);
-            border-top-color: #6366f1;
+            border: 3px solid #e2e8f0;
+            border-top-color: #4299e1;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -77,142 +327,62 @@
             to { transform: rotate(360deg); }
         }
         
-        .btn-glow {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-glow::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn-glow:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .priority-fire {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-        
-        .priority-critical {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-        }
-        
-        .priority-high {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
-        
-        .priority-medium {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-        }
-        
-        .priority-low {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-        }
-        
-        .input-modern {
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .input-modern:focus {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        
-        .gradient-border {
-            position: relative;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: 16px;
-            padding: 1px;
-        }
-        
-        .gradient-border-inner {
-            background: rgba(15, 15, 35, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-        }
-        
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            padding: 12px 20px;
+            background: #48bb78;
+            color: white;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             animation: slideIn 0.3s ease;
             z-index: 1000;
         }
         
-        .notification-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
         
-        .notification-error {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
+        .config-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
         }
         
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background: transparent;
-            cursor: pointer;
+        .config-label {
+            font-size: 14px;
+            color: #2d3748;
         }
         
-        input[type="range"]::-webkit-slider-track {
-            background: rgba(99, 102, 241, 0.2);
-            height: 6px;
-            border-radius: 3px;
+        .config-input {
+            width: 80px;
+            padding: 6px 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
         }
         
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            background: #6366f1;
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            margin-top: -6px;
-        }
-        
-        input[type="range"]::-moz-range-track {
-            background: rgba(99, 102, 241, 0.2);
-            height: 6px;
-            border-radius: 3px;
-        }
-        
-        input[type="range"]::-moz-range-thumb {
-            background: #6366f1;
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            border: none;
+        .formula-box {
+            background: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -220,42 +390,7 @@
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useEffect, useCallback, useRef } = React;
-        
-        // Icons
-        const Icons = {
-            Import: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
-                </svg>
-            ),
-            Settings: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-            ),
-            Plus: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-            ),
-            Chart: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-            ),
-            Fields: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            ),
-            Check: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-            )
-        };
+        const { useState, useEffect } = React;
         
         // Backend Service
         class BackendService {
@@ -305,7 +440,11 @@
                         rrOeValue: 'customfield_10005',
                         storyPoints: 'customfield_10006'
                     },
-                    additional: []
+                    additional: [
+                        { jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: true },
+                        { jiraField: 'components', displayName: 'Components', enabled: true, showInTable: false },
+                        { jiraField: 'priority', displayName: 'Priority', enabled: true, showInTable: true }
+                    ]
                 };
             }
             
@@ -357,7 +496,12 @@
                         storyPoints: 5,
                         createdDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Progress'
+                        status: 'In Progress',
+                        customFields: {
+                            labels: ['payment', 'critical', 'enterprise'],
+                            components: ['Payment Module'],
+                            priority: 'High'
+                        }
                     },
                     {
                         key: 'PROD-1235',
@@ -372,11 +516,16 @@
                         storyPoints: 3,
                         createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Improvement',
-                        status: 'To Do'
+                        status: 'To Do',
+                        customFields: {
+                            labels: ['ui', 'enhancement'],
+                            components: ['Dashboard'],
+                            priority: 'Medium'
+                        }
                     },
                     {
                         key: 'PROD-1236',
-                        summary: 'Security vulnerability in authentication',
+                        summary: 'Security vulnerability in authentication system',
                         severity: 'Level 5 - FIRE',
                         issueValue: 50000,
                         enterpriseAccounts: 10,
@@ -387,7 +536,12 @@
                         storyPoints: 8,
                         createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Review'
+                        status: 'In Review',
+                        customFields: {
+                            labels: ['security', 'critical', 'vulnerability'],
+                            components: ['Authentication', 'Security'],
+                            priority: 'Highest'
+                        }
                     }
                 ];
             }
@@ -398,21 +552,46 @@
                         const keyArray = keys.split(',').map(k => k.trim());
                         const mockTickets = keyArray.map(key => ({
                             key: key,
-                            summary: `Fetched: ${key}`,
-                            severity: 'Level 2 - Medium',
-                            issueValue: 10000,
-                            enterpriseAccounts: 2,
-                            flaggedAccounts: 1,
-                            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                            summary: `Imported ticket: ${key}`,
+                            severity: 'Level 3 - High',
+                            issueValue: Math.floor(Math.random() * 20000) + 5000,
+                            enterpriseAccounts: Math.floor(Math.random() * 5),
+                            flaggedAccounts: Math.floor(Math.random() * 3),
+                            dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                             marketTiming: 'No timing impact',
                             rrOeValue: 5,
                             storyPoints: 3,
                             createdDate: new Date().toISOString().split('T')[0],
                             issueType: 'Task',
-                            status: 'To Do'
+                            status: 'To Do',
+                            customFields: { labels: ['imported'], components: [], priority: 'Medium' }
                         }));
                         resolve(mockTickets);
                     }, 1000);
+                });
+            }
+            
+            async fetchTicketsByJQL(jql) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const mockTickets = Array(5).fill(null).map((_, i) => ({
+                            key: `JQL-${1000 + i}`,
+                            summary: `JQL Result: ${jql.substring(0, 30)}... - Item ${i + 1}`,
+                            severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][Math.floor(Math.random() * 3)],
+                            issueValue: Math.floor(Math.random() * 30000) + 5000,
+                            enterpriseAccounts: Math.floor(Math.random() * 8),
+                            flaggedAccounts: Math.floor(Math.random() * 4),
+                            dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                            marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][Math.floor(Math.random() * 3)],
+                            rrOeValue: Math.floor(Math.random() * 10) + 1,
+                            storyPoints: Math.floor(Math.random() * 8) + 1,
+                            createdDate: new Date().toISOString().split('T')[0],
+                            issueType: 'Task',
+                            status: 'To Do',
+                            customFields: { labels: ['jql-import'], components: [], priority: 'High' }
+                        }));
+                        resolve(mockTickets);
+                    }, 1500);
                 });
             }
             
@@ -471,30 +650,108 @@
         const backend = new BackendService();
         
         // Notification Component
-        function Notification({ message, type, onClose }) {
+        function Notification({ message, onClose }) {
             useEffect(() => {
                 const timer = setTimeout(onClose, 3000);
                 return () => clearTimeout(timer);
             }, []);
             
-            return (
-                <div className={`notification notification-${type}`}>
-                    <Icons.Check />
-                    <span>{message}</span>
-                </div>
-            );
+            return <div className="notification">{message}</div>;
         }
         
-        // Main App
+        // Main App Component
         function App() {
-            const [activeTab, setActiveTab] = useState('config');
+            const [activeTab, setActiveTab] = useState('dashboard');
             const [tickets, setTickets] = useState(backend.tickets);
             const [config, setConfig] = useState(backend.config);
+            const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
             const [loading, setLoading] = useState(false);
             const [notification, setNotification] = useState(null);
             
-            const showNotification = (message, type = 'success') => {
-                setNotification({ message, type });
+            // Import state
+            const [importKeys, setImportKeys] = useState('');
+            const [jqlQuery, setJqlQuery] = useState('');
+            
+            // Manual entry state
+            const [manualTicket, setManualTicket] = useState({
+                key: '',
+                summary: '',
+                severity: 'Level 2 - Medium',
+                issueValue: 0,
+                enterpriseAccounts: 0,
+                flaggedAccounts: 0,
+                dueDate: '',
+                marketTiming: 'No timing impact',
+                rrOeValue: 5,
+                storyPoints: 3,
+                createdDate: new Date().toISOString().split('T')[0],
+                issueType: 'Bug',
+                status: 'To Do'
+            });
+            
+            // Filter state
+            const [filterText, setFilterText] = useState('');
+            const [sortField, setSortField] = useState('wsjfScore');
+            const [sortDirection, setSortDirection] = useState('desc');
+            
+            const showNotification = (message) => {
+                setNotification(message);
+            };
+            
+            const handleImportByKeys = async () => {
+                if (!importKeys) {
+                    showNotification('Please enter issue keys');
+                    return;
+                }
+                setLoading(true);
+                const newTickets = await backend.fetchTicketsByKeys(importKeys);
+                const updatedTickets = [...tickets, ...newTickets];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setImportKeys('');
+                setLoading(false);
+                showNotification(`Imported ${newTickets.length} tickets successfully`);
+            };
+            
+            const handleImportByJQL = async () => {
+                if (!jqlQuery) {
+                    showNotification('Please enter a JQL query');
+                    return;
+                }
+                setLoading(true);
+                const newTickets = await backend.fetchTicketsByJQL(jqlQuery);
+                const updatedTickets = [...tickets, ...newTickets];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setJqlQuery('');
+                setLoading(false);
+                showNotification(`Imported ${newTickets.length} tickets via JQL`);
+            };
+            
+            const handleManualSubmit = () => {
+                if (!manualTicket.key || !manualTicket.summary) {
+                    showNotification('Please provide Key and Summary');
+                    return;
+                }
+                const updatedTickets = [...tickets, manualTicket];
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                setManualTicket({
+                    key: '',
+                    summary: '',
+                    severity: 'Level 2 - Medium',
+                    issueValue: 0,
+                    enterpriseAccounts: 0,
+                    flaggedAccounts: 0,
+                    dueDate: '',
+                    marketTiming: 'No timing impact',
+                    rrOeValue: 5,
+                    storyPoints: 3,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    issueType: 'Bug',
+                    status: 'To Do'
+                });
+                showNotification('Ticket added successfully');
             };
             
             const handleConfigUpdate = (section, key, value) => {
@@ -508,286 +765,579 @@
                 setConfig(newConfig);
             };
             
+            const handleFieldMappingUpdate = (index, field, value) => {
+                const newMappings = { ...fieldMappings };
+                if (index === 'required') {
+                    newMappings.required[field] = value;
+                } else {
+                    newMappings.additional[index][field] = value;
+                }
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
+            const handleAddCustomField = () => {
+                const newMappings = { ...fieldMappings };
+                newMappings.additional.push({
+                    jiraField: '',
+                    displayName: '',
+                    enabled: false,
+                    showInTable: false
+                });
+                backend.saveFieldMappings(newMappings);
+                setFieldMappings(newMappings);
+            };
+            
             const calculatePrioritizedTickets = () => {
-                return tickets.map(ticket => {
+                let filteredTickets = tickets.map(ticket => {
                     const calculations = backend.calculateWSJF(ticket, config);
                     return { ...ticket, ...calculations };
-                }).sort((a, b) => parseFloat(b.wsjfScore) - parseFloat(a.wsjfScore));
+                });
+                
+                if (filterText) {
+                    filteredTickets = filteredTickets.filter(ticket => 
+                        ticket.key.toLowerCase().includes(filterText.toLowerCase()) ||
+                        ticket.summary.toLowerCase().includes(filterText.toLowerCase())
+                    );
+                }
+                
+                filteredTickets.sort((a, b) => {
+                    let aVal = parseFloat(a[sortField]) || a[sortField];
+                    let bVal = parseFloat(b[sortField]) || b[sortField];
+                    return sortDirection === 'asc' ? 
+                        (aVal > bVal ? 1 : -1) : 
+                        (aVal < bVal ? 1 : -1);
+                });
+                
+                return filteredTickets;
             };
             
             const prioritizedTickets = calculatePrioritizedTickets();
             const stats = {
+                total: prioritizedTickets.length,
                 avgWSJF: prioritizedTickets.reduce((sum, t) => sum + parseFloat(t.wsjfScore), 0) / prioritizedTickets.length || 0,
+                totalPoints: prioritizedTickets.reduce((sum, t) => sum + t.storyPoints, 0),
                 critical: prioritizedTickets.filter(t => t.severity.includes('Critical') || t.severity.includes('FIRE')).length
             };
             
-            const tabs = [
-                { id: 'import', label: 'Import', icon: <Icons.Import /> },
-                { id: 'fields', label: 'Fields', icon: <Icons.Fields /> },
-                { id: 'manual', label: 'Manual', icon: <Icons.Plus /> },
-                { id: 'config', label: 'Config', icon: <Icons.Settings /> },
-                { id: 'dashboard', label: 'Dashboard', icon: <Icons.Chart /> }
-            ];
+            const getSeverityBadgeClass = (severity) => {
+                if (severity.includes('FIRE')) return 'badge-fire';
+                if (severity.includes('Critical')) return 'badge-critical';
+                if (severity.includes('High')) return 'badge-high';
+                if (severity.includes('Medium')) return 'badge-medium';
+                return 'badge-low';
+            };
             
             return (
-                <div className="min-h-screen p-4 md:p-6">
+                <div className="container">
                     {notification && (
                         <Notification
-                            message={notification.message}
-                            type={notification.type}
+                            message={notification}
                             onClose={() => setNotification(null)}
                         />
                     )}
                     
-                    {/* Header */}
-                    <div className="max-w-7xl mx-auto mb-8 slide-in">
-                        <div className="glass-dark rounded-2xl p-6 md:p-8">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                                        WSJF Prioritization
-                                    </h1>
-                                    <p className="text-gray-400">
-                                        Weighted Shortest Job First • {tickets.length} tickets loaded
-                                    </p>
-                                </div>
-                                <div className="hidden md:block">
-                                    <div className="flex items-center gap-4">
-                                        <div className="text-right">
-                                            <p className="text-sm text-gray-400">Average Score</p>
-                                            <p className="text-2xl font-bold text-white">{stats.avgWSJF.toFixed(1)}</p>
-                                        </div>
-                                        <div className="w-px h-12 bg-gray-700"></div>
-                                        <div className="text-right">
-                                            <p className="text-sm text-gray-400">Critical Issues</p>
-                                            <p className="text-2xl font-bold text-red-400">{stats.critical}</p>
-                                        </div>
+                    <div className="header">
+                        <h1>WSJF Prioritization System</h1>
+                        <div className="header-info">
+                            <span>Total Tickets: {tickets.length}</span>
+                            <span>Average WSJF: {stats.avgWSJF.toFixed(1)}</span>
+                            <span>Critical Issues: {stats.critical}</span>
+                            <span>Total Story Points: {stats.totalPoints}</span>
+                        </div>
+                    </div>
+                    
+                    <div className="tabs">
+                        <button 
+                            className={`tab ${activeTab === 'dashboard' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('dashboard')}
+                        >
+                            Dashboard
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'import' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('import')}
+                        >
+                            Import from JIRA
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'manual' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('manual')}
+                        >
+                            Manual Entry
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'fields' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('fields')}
+                        >
+                            Field Mappings
+                        </button>
+                        <button 
+                            className={`tab ${activeTab === 'config' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('config')}
+                        >
+                            Configuration
+                        </button>
+                    </div>
+                    
+                    <div className="content">
+                        {loading && (
+                            <div className="loading">
+                                <div className="spinner"></div>
+                                <p>Loading...</p>
+                            </div>
+                        )}
+                        
+                        {!loading && activeTab === 'dashboard' && (
+                            <div>
+                                <h2 className="section-title">Priority Dashboard</h2>
+                                
+                                <div className="stats-grid">
+                                    <div className="stat-card">
+                                        <div className="stat-value">{stats.total}</div>
+                                        <div className="stat-label">Total Tickets</div>
+                                    </div>
+                                    <div className="stat-card">
+                                        <div className="stat-value">{stats.avgWSJF.toFixed(1)}</div>
+                                        <div className="stat-label">Average WSJF</div>
+                                    </div>
+                                    <div className="stat-card">
+                                        <div className="stat-value">{stats.totalPoints}</div>
+                                        <div className="stat-label">Story Points</div>
+                                    </div>
+                                    <div className="stat-card">
+                                        <div className="stat-value">{stats.critical}</div>
+                                        <div className="stat-label">Critical/Fire</div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* Navigation */}
-                    <div className="max-w-7xl mx-auto mb-6">
-                        <div className="glass rounded-xl p-2">
-                            <div className="flex gap-2 overflow-x-auto">
-                                {tabs.map(tab => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
-                                            activeTab === tab.id
-                                                ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg'
-                                                : 'text-gray-300 hover:text-white hover:bg-white/10'
-                                        }`}
+                                
+                                <div style={{ marginBottom: '20px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                                    <input
+                                        type="text"
+                                        placeholder="Search tickets..."
+                                        value={filterText}
+                                        onChange={(e) => setFilterText(e.target.value)}
+                                        className="form-input"
+                                        style={{ maxWidth: '300px' }}
+                                    />
+                                    <select 
+                                        value={sortField} 
+                                        onChange={(e) => setSortField(e.target.value)}
+                                        className="form-select"
+                                        style={{ maxWidth: '200px' }}
                                     >
-                                        {tab.icon}
-                                        <span>{tab.label}</span>
+                                        <option value="wsjfScore">WSJF Score</option>
+                                        <option value="costOfDelay">Cost of Delay</option>
+                                        <option value="storyPoints">Story Points</option>
+                                        <option value="severity">Severity</option>
+                                    </select>
+                                    <button 
+                                        className="btn btn-secondary"
+                                        onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
+                                    >
+                                        {sortDirection === 'asc' ? '↑' : '↓'}
                                     </button>
-                                ))}
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={() => {
+                                            const csv = [
+                                                ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity'],
+                                                ...prioritizedTickets.map((t, i) => [
+                                                    i + 1, t.key, t.summary, t.wsjfScore, t.costOfDelay, t.storyPoints, t.severity
+                                                ])
+                                            ].map(row => row.join(',')).join('\n');
+                                            
+                                            const blob = new Blob([csv], { type: 'text/csv' });
+                                            const url = URL.createObjectURL(blob);
+                                            const a = document.createElement('a');
+                                            a.href = url;
+                                            a.download = 'wsjf_export.csv';
+                                            a.click();
+                                            showNotification('Export completed');
+                                        }}
+                                    >
+                                        Export CSV
+                                    </button>
+                                </div>
+                                
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Key</th>
+                                            <th>Summary</th>
+                                            <th>WSJF Score</th>
+                                            <th>Cost of Delay</th>
+                                            <th>Story Points</th>
+                                            <th>Severity</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {prioritizedTickets.map((ticket, index) => (
+                                            <tr key={ticket.key}>
+                                                <td>#{index + 1}</td>
+                                                <td><strong>{ticket.key}</strong></td>
+                                                <td>{ticket.summary}</td>
+                                                <td><strong>{ticket.wsjfScore}</strong></td>
+                                                <td>{ticket.costOfDelay}</td>
+                                                <td>{ticket.storyPoints}</td>
+                                                <td>
+                                                    <span className={`badge ${getSeverityBadgeClass(ticket.severity)}`}>
+                                                        {ticket.severity.split(' - ')[1]}
+                                                    </span>
+                                                </td>
+                                                <td>{ticket.status}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="max-w-7xl mx-auto">
-                        <div className="glass-dark rounded-2xl p-6 md:p-8 min-h-[600px]">
-                            {activeTab === 'config' && (
-                                <div className="slide-in space-y-6">
-                                    <div className="flex justify-between items-center mb-6">
-                                        <h2 className="text-2xl font-bold text-white">Configuration Center</h2>
-                                        <button
-                                            onClick={() => {
-                                                if (confirm('Reset all settings to default values?')) {
-                                                    const defaultConfig = backend.getDefaultConfig();
-                                                    backend.saveConfig(defaultConfig);
-                                                    setConfig(defaultConfig);
-                                                    showNotification('Configuration reset to defaults');
-                                                }
-                                            }}
-                                            className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
-                                        >
-                                            Reset to Defaults
+                        )}
+                        
+                        {!loading && activeTab === 'import' && (
+                            <div>
+                                <h2 className="section-title">Import from JIRA</h2>
+                                
+                                <div className="grid grid-2">
+                                    <div className="card">
+                                        <h3 className="card-title">Import by Issue Keys</h3>
+                                        <div className="form-group">
+                                            <label className="form-label">Enter JIRA Issue Keys (comma-separated)</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="e.g., PROD-1234, PROD-1235"
+                                                value={importKeys}
+                                                onChange={(e) => setImportKeys(e.target.value)}
+                                            />
+                                        </div>
+                                        <button className="btn btn-primary" onClick={handleImportByKeys}>
+                                            Import Tickets
                                         </button>
                                     </div>
                                     
-                                    {/* WSJF Formula */}
-                                    <div className="glass rounded-xl p-6">
-                                        <h3 className="text-lg font-semibold text-white mb-4">📐 WSJF Formula</h3>
-                                        <div className="bg-black/30 rounded-lg p-4 font-mono text-sm">
-                                            <div className="text-indigo-400">WSJF = (Cost of Delay ÷ Job Size) × 10</div>
-                                            <div className="text-gray-400 mt-2">Cost of Delay = Business Value + Time Criticality + RR/OE</div>
+                                    <div className="card">
+                                        <h3 className="card-title">Import by JQL Query</h3>
+                                        <div className="form-group">
+                                            <label className="form-label">Enter JQL Query</label>
+                                            <textarea
+                                                className="form-textarea"
+                                                placeholder="project = PROD AND status = 'In Progress'"
+                                                value={jqlQuery}
+                                                onChange={(e) => setJqlQuery(e.target.value)}
+                                            />
                                         </div>
-                                    </div>
-                                    
-                                    {/* Factor Weights */}
-                                    <div className="glass rounded-xl p-6">
-                                        <h3 className="text-lg font-semibold text-white mb-4">⚖️ Factor Weights</h3>
-                                        <div className="grid md:grid-cols-3 gap-6">
-                                            <div>
-                                                <label className="block text-sm text-gray-400 mb-2">Business Value Weight</label>
-                                                <div className="flex items-center gap-3">
-                                                    <input
-                                                        type="range"
-                                                        min="0"
-                                                        max="1"
-                                                        step="0.1"
-                                                        value={config.weights.businessValue}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
-                                                        className="flex-1"
-                                                    />
-                                                    <input
-                                                        type="number"
-                                                        step="0.1"
-                                                        value={config.weights.businessValue}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
-                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm text-gray-400 mb-2">Time Criticality Weight</label>
-                                                <div className="flex items-center gap-3">
-                                                    <input
-                                                        type="range"
-                                                        min="0"
-                                                        max="1"
-                                                        step="0.1"
-                                                        value={config.weights.timeCriticality}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
-                                                        className="flex-1"
-                                                    />
-                                                    <input
-                                                        type="number"
-                                                        step="0.1"
-                                                        value={config.weights.timeCriticality}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
-                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm text-gray-400 mb-2">RR/OE Weight</label>
-                                                <div className="flex items-center gap-3">
-                                                    <input
-                                                        type="range"
-                                                        min="0"
-                                                        max="1"
-                                                        step="0.1"
-                                                        value={config.weights.rrOe}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
-                                                        className="flex-1"
-                                                    />
-                                                    <input
-                                                        type="number"
-                                                        step="0.1"
-                                                        value={config.weights.rrOe}
-                                                        onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
-                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    {/* Severity Scores */}
-                                    <div className="glass rounded-xl p-6">
-                                        <h3 className="text-lg font-semibold text-white mb-4">🔥 Severity Scores</h3>
-                                        <div className="space-y-3">
-                                            {Object.entries(config.severityScores).map(([level, score]) => (
-                                                <div key={level} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
-                                                    <span className="text-gray-300">{level}</span>
-                                                    <div className="flex items-center gap-3">
-                                                        <input
-                                                            type="range"
-                                                            min="1"
-                                                            max="30"
-                                                            value={score}
-                                                            onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
-                                                            className="w-32"
-                                                        />
-                                                        <input
-                                                            type="number"
-                                                            value={score}
-                                                            onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
-                                                            className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    {/* Due Date Urgency */}
-                                    <div className="glass rounded-xl p-6">
-                                        <h3 className="text-lg font-semibold text-white mb-4">📅 Due Date Urgency Scores</h3>
-                                        <div className="grid md:grid-cols-2 gap-3">
-                                            {Object.entries(config.dueDateUrgency).map(([period, score]) => (
-                                                <div key={period} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
-                                                    <span className="text-gray-300">{period}</span>
-                                                    <div className="flex items-center gap-3">
-                                                        <input
-                                                            type="range"
-                                                            min="1"
-                                                            max="30"
-                                                            value={score}
-                                                            onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
-                                                            className="w-24"
-                                                        />
-                                                        <input
-                                                            type="number"
-                                                            value={score}
-                                                            onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
-                                                            className="w-16 px-2 py-1 rounded-lg input-modern text-white text-center"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    
-                                    {/* Market Timing Multipliers */}
-                                    <div className="glass rounded-xl p-6">
-                                        <h3 className="text-lg font-semibold text-white mb-4">⏰ Market Timing Multipliers</h3>
-                                        <div className="space-y-3">
-                                            {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
-                                                <div key={timing} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
-                                                    <div>
-                                                        <span className="text-gray-300 block">{timing}</span>
-                                                        <span className="text-gray-500 text-xs">
-                                                            {timing === 'Pointless afterwards' && 'e.g., Tax deadlines'}
-                                                            {timing === 'Drops steeply' && 'e.g., Monthly processing'}
-                                                            {timing === 'Slowly degrading' && 'e.g., Client satisfaction'}
-                                                            {timing === 'Nice to meet deadline' && 'e.g., Soft promises'}
-                                                            {timing === 'No timing impact' && 'e.g., General improvements'}
-                                                        </span>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <input
-                                                            type="range"
-                                                            min="0.5"
-                                                            max="3"
-                                                            step="0.1"
-                                                            value={multiplier}
-                                                            onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
-                                                            className="w-32"
-                                                        />
-                                                        <input
-                                                            type="number"
-                                                            step="0.1"
-                                                            value={multiplier}
-                                                            onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
-                                                            className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <button className="btn btn-primary" onClick={handleImportByJQL}>
+                                            Import via JQL
+                                        </button>
                                     </div>
                                 </div>
-                            )}
-                        </div>
+                                
+                                <div className="alert alert-info" style={{ marginTop: '20px' }}>
+                                    <strong>JQL Examples:</strong><br/>
+                                    • project = PROD AND status = "In Progress"<br/>
+                                    • assignee = currentUser() AND priority = High<br/>
+                                    • issuetype = Bug AND created >= -7d<br/>
+                                    • labels in (customer-reported, critical)
+                                </div>
+                            </div>
+                        )}
+                        
+                        {!loading && activeTab === 'manual' && (
+                            <div>
+                                <h2 className="section-title">Manual Ticket Entry</h2>
+                                
+                                <div className="grid grid-2">
+                                    <div className="form-group">
+                                        <label className="form-label">Ticket Key *</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={manualTicket.key}
+                                            onChange={(e) => setManualTicket({...manualTicket, key: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Issue Type</label>
+                                        <select
+                                            className="form-select"
+                                            value={manualTicket.issueType}
+                                            onChange={(e) => setManualTicket({...manualTicket, issueType: e.target.value})}
+                                        >
+                                            <option>Bug</option>
+                                            <option>Improvement</option>
+                                            <option>New Feature</option>
+                                            <option>Task</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Summary *</label>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        value={manualTicket.summary}
+                                        onChange={(e) => setManualTicket({...manualTicket, summary: e.target.value})}
+                                    />
+                                </div>
+                                
+                                <div className="grid grid-3">
+                                    <div className="form-group">
+                                        <label className="form-label">Severity</label>
+                                        <select
+                                            className="form-select"
+                                            value={manualTicket.severity}
+                                            onChange={(e) => setManualTicket({...manualTicket, severity: e.target.value})}
+                                        >
+                                            <option>Level 1 - Low</option>
+                                            <option>Level 2 - Medium</option>
+                                            <option>Level 3 - High</option>
+                                            <option>Level 4 - Critical</option>
+                                            <option>Level 5 - FIRE</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Issue Value ($)</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={manualTicket.issueValue}
+                                            onChange={(e) => setManualTicket({...manualTicket, issueValue: parseInt(e.target.value) || 0})}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Story Points</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={manualTicket.storyPoints}
+                                            onChange={(e) => setManualTicket({...manualTicket, storyPoints: parseInt(e.target.value) || 1})}
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="grid grid-3">
+                                    <div className="form-group">
+                                        <label className="form-label">Enterprise Accounts</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={manualTicket.enterpriseAccounts}
+                                            onChange={(e) => setManualTicket({...manualTicket, enterpriseAccounts: parseInt(e.target.value) || 0})}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Flagged Accounts</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={manualTicket.flaggedAccounts}
+                                            onChange={(e) => setManualTicket({...manualTicket, flaggedAccounts: parseInt(e.target.value) || 0})}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">RR/OE Value</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={manualTicket.rrOeValue}
+                                            onChange={(e) => setManualTicket({...manualTicket, rrOeValue: parseInt(e.target.value) || 0})}
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="grid grid-2">
+                                    <div className="form-group">
+                                        <label className="form-label">Due Date</label>
+                                        <input
+                                            type="date"
+                                            className="form-input"
+                                            value={manualTicket.dueDate}
+                                            onChange={(e) => setManualTicket({...manualTicket, dueDate: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Market Timing</label>
+                                        <select
+                                            className="form-select"
+                                            value={manualTicket.marketTiming}
+                                            onChange={(e) => setManualTicket({...manualTicket, marketTiming: e.target.value})}
+                                        >
+                                            <option>No timing impact</option>
+                                            <option>Nice to meet deadline</option>
+                                            <option>Slowly degrading</option>
+                                            <option>Drops steeply</option>
+                                            <option>Pointless afterwards</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <button className="btn btn-primary" onClick={handleManualSubmit}>
+                                    Add Ticket
+                                </button>
+                            </div>
+                        )}
+                        
+                        {!loading && activeTab === 'fields' && (
+                            <div>
+                                <h2 className="section-title">Field Mappings</h2>
+                                
+                                <div className="card" style={{ marginBottom: '20px' }}>
+                                    <h3 className="card-title">Required WSJF Fields</h3>
+                                    {Object.entries(fieldMappings.required).map(([field, jiraField]) => (
+                                        <div key={field} className="form-group">
+                                            <label className="form-label">{field}</label>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                value={jiraField}
+                                                onChange={(e) => handleFieldMappingUpdate('required', field, e.target.value)}
+                                                placeholder="e.g., customfield_10001"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="card">
+                                    <h3 className="card-title">Additional Custom Fields</h3>
+                                    {fieldMappings.additional.map((field, index) => (
+                                        <div key={index} style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="JIRA Field ID"
+                                                value={field.jiraField}
+                                                onChange={(e) => handleFieldMappingUpdate(index, 'jiraField', e.target.value)}
+                                            />
+                                            <input
+                                                type="text"
+                                                className="form-input"
+                                                placeholder="Display Name"
+                                                value={field.displayName}
+                                                onChange={(e) => handleFieldMappingUpdate(index, 'displayName', e.target.value)}
+                                            />
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={field.enabled}
+                                                    onChange={(e) => handleFieldMappingUpdate(index, 'enabled', e.target.checked)}
+                                                />
+                                                Import
+                                            </label>
+                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={field.showInTable}
+                                                    onChange={(e) => handleFieldMappingUpdate(index, 'showInTable', e.target.checked)}
+                                                />
+                                                Show
+                                            </label>
+                                        </div>
+                                    ))}
+                                    <button className="btn btn-primary" onClick={handleAddCustomField}>
+                                        Add Field
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {!loading && activeTab === 'config' && (
+                            <div>
+                                <h2 className="section-title">Configuration</h2>
+                                
+                                <div className="formula-box">
+                                    <strong>WSJF Formula:</strong><br/>
+                                    WSJF Score = (Cost of Delay ÷ Job Size) × 10<br/>
+                                    Cost of Delay = Weighted Business Value + Weighted Time Criticality + Weighted RR/OE
+                                </div>
+                                
+                                <div className="card" style={{ marginBottom: '20px' }}>
+                                    <h3 className="card-title">Factor Weights</h3>
+                                    <div className="config-row">
+                                        <span className="config-label">Business Value Weight</span>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.businessValue}
+                                            onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="config-row">
+                                        <span className="config-label">Time Criticality Weight</span>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.timeCriticality}
+                                            onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="config-row">
+                                        <span className="config-label">RR/OE Weight</span>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.rrOe}
+                                            onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="card" style={{ marginBottom: '20px' }}>
+                                    <h3 className="card-title">Severity Scores</h3>
+                                    {Object.entries(config.severityScores).map(([level, score]) => (
+                                        <div key={level} className="config-row">
+                                            <span className="config-label">{level}</span>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={score}
+                                                onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="card" style={{ marginBottom: '20px' }}>
+                                    <h3 className="card-title">Due Date Urgency Scores</h3>
+                                    {Object.entries(config.dueDateUrgency).map(([period, score]) => (
+                                        <div key={period} className="config-row">
+                                            <span className="config-label">{period}</span>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={score}
+                                                onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="card">
+                                    <h3 className="card-title">Market Timing Multipliers</h3>
+                                    {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
+                                        <div key={timing} className="config-row">
+                                            <span className="config-label">{timing}</span>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                step="0.1"
+                                                value={multiplier}
+                                                onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="alert alert-success" style={{ marginTop: '20px' }}>
+                                    All changes are automatically saved
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
