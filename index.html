@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSJF Prioritization System - Complete</title>
+    <title>WSJF Prioritization System</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -16,87 +16,312 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f7fa;
-            color: #2d3748;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
         }
         
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
         .header {
-            background: white;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
         }
         
         .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #1a202c;
-            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
-        .header-info {
+        .header-stats {
             display: flex;
-            gap: 24px;
-            color: #718096;
-            font-size: 14px;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .header-stat {
+            text-align: center;
+        }
+        
+        .header-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header-stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .tabs {
             background: white;
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 0;
             display: flex;
-            gap: 4px;
+            border-bottom: 2px solid #e2e8f0;
             overflow-x: auto;
         }
         
         .tab {
-            padding: 10px 20px;
+            padding: 20px 30px;
             border: none;
             background: transparent;
             color: #4a5568;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
+            transition: all 0.3s;
             white-space: nowrap;
+            position: relative;
         }
         
         .tab:hover {
-            background: #f7fafc;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
         }
         
         .tab.active {
-            background: #4299e1;
-            color: white;
+            color: #667eea;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .content {
-            background: white;
-            border-radius: 8px;
-            padding: 24px;
-            min-height: 600px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 30px;
+            min-height: 500px;
         }
         
         .section-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             color: #1a202c;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 5px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             margin-bottom: 20px;
-            padding-bottom: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            color: white;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background: #f7fafc;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .table td {
+            padding: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .table tr:hover {
+            background: rgba(102, 126, 234, 0.02);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-fire {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+        
+        .badge-critical {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .badge-high {
+            background: linear-gradient(135deg, #ecc94b, #d69e2e);
+            color: white;
+        }
+        
+        .badge-medium {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+        }
+        
+        .badge-low {
+            background: linear-gradient(135deg, #a0aec0, #718096);
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .grid {
@@ -112,245 +337,47 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
         
-        .card {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            background: #ffffff;
-        }
-        
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 16px;
-        }
-        
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #4a5568;
-            margin-bottom: 6px;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-        }
-        
-        .form-textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background: #4299e1;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #3182ce;
-        }
-        
-        .btn-success {
-            background: #48bb78;
-            color: white;
-        }
-        
-        .btn-success:hover {
-            background: #38a169;
-        }
-        
-        .btn-danger {
-            background: #f56565;
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background: #e53e3e;
-        }
-        
-        .btn-secondary {
-            background: #718096;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #4a5568;
-        }
-        
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .table th {
-            background: #f7fafc;
-            padding: 12px;
-            text-align: left;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2d3748;
-            border-bottom: 2px solid #e2e8f0;
-            cursor: pointer;
-            user-select: none;
-            position: relative;
-        }
-        
-        .table th:hover {
-            background: #edf2f7;
-        }
-        
-        .table th.sortable::after {
-            content: '↕';
-            position: absolute;
-            right: 8px;
-            opacity: 0.3;
-        }
-        
-        .table th.sorted-asc::after {
-            content: '↑';
-            opacity: 1;
-        }
-        
-        .table th.sorted-desc::after {
-            content: '↓';
-            opacity: 1;
-        }
-        
-        .table td {
-            padding: 12px;
-            font-size: 14px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .table tr:hover {
-            background: #f7fafc;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .badge-fire {
-            background: #fed7d7;
-            color: #9b2c2c;
-        }
-        
-        .badge-critical {
-            background: #feebc8;
-            color: #975a16;
-        }
-        
-        .badge-high {
-            background: #fef5c3;
-            color: #976816;
-        }
-        
-        .badge-medium {
-            background: #bee3f8;
-            color: #2c5282;
-        }
-        
-        .badge-low {
-            background: #e2e8f0;
-            color: #4a5568;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        
-        .stat-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2d3748;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #718096;
-            margin-top: 4px;
-        }
-        
         .alert {
-            padding: 12px 16px;
-            border-radius: 6px;
-            margin-bottom: 16px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .alert-info {
-            background: #bee3f8;
+            background: linear-gradient(135deg, #63b3ed20, #4299e120);
             color: #2c5282;
-            border: 1px solid #90cdf4;
-        }
-        
-        .alert-success {
-            background: #c6f6d5;
-            color: #276749;
-            border: 1px solid #9ae6b4;
+            border: 1px solid #4299e140;
         }
         
         .alert-warning {
-            background: #fef5c3;
-            color: #975a16;
-            border: 1px solid #fcd34d;
+            background: linear-gradient(135deg, #f6e05e20, #ecc94b20);
+            color: #744210;
+            border: 1px solid #ecc94b40;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #68d39120, #48bb7820);
+            color: #22543d;
+            border: 1px solid #48bb7840;
         }
         
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #718096;
+            padding: 60px;
         }
         
         .spinner {
             display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #4299e1;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #667eea;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 1s linear infinite;
         }
         
         @keyframes spin {
@@ -359,15 +386,20 @@
         
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            background: #48bb78;
+            top: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
-            border-radius: 6px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             animation: slideIn 0.3s ease;
             z-index: 1000;
+            font-weight: 600;
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
         }
         
         @keyframes slideIn {
@@ -381,110 +413,92 @@
             }
         }
         
+        .formula-box {
+            background: linear-gradient(135deg, #edf2f7, #e2e8f0);
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-bottom: 25px;
+            color: #2d3748;
+        }
+        
         .config-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px;
+            padding: 15px;
             background: #f7fafc;
-            border-radius: 6px;
-            margin-bottom: 8px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .config-row:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
         }
         
         .config-label {
             font-size: 14px;
+            font-weight: 600;
             color: #2d3748;
-            flex: 1;
-        }
-        
-        .config-description {
-            font-size: 12px;
-            color: #718096;
-            margin-top: 4px;
         }
         
         .config-input {
-            width: 80px;
-            padding: 6px 10px;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
+            width: 100px;
+            padding: 8px 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
             text-align: center;
             font-size: 14px;
-        }
-        
-        .formula-box {
-            background: #edf2f7;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            padding: 16px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        
-        .filter-group {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .filter-label {
-            font-size: 12px;
-            color: #718096;
-            font-weight: 500;
-        }
-        
-        .api-config {
-            background: #fffbeb;
-            border: 1px solid #fcd34d;
-            border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .api-config h4 {
-            color: #92400e;
-            margin-bottom: 12px;
-        }
-        
-        .field-mapping-header {
-            display: grid;
-            grid-template-columns: 2fr 2fr 80px 80px 60px;
-            gap: 12px;
-            padding: 8px;
-            background: #f7fafc;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 12px;
             font-weight: 600;
-            color: #4a5568;
+            background: white;
         }
         
-        .field-mapping-row {
-            display: grid;
-            grid-template-columns: 2fr 2fr 80px 80px 60px;
-            gap: 12px;
-            margin-bottom: 8px;
-            align-items: center;
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
         
-        .category-header {
-            background: #2d3748;
-            color: white;
+        .mode-btn {
             padding: 8px 16px;
+            border: 2px solid #cbd5e0;
+            background: white;
             border-radius: 6px;
-            margin-top: 24px;
-            margin-bottom: 12px;
-            font-size: 14px;
+            cursor: pointer;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .api-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .api-status.connected {
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .api-status.disconnected {
+            background: #fed7d7;
+            color: #9b2c2c;
         }
     </style>
 </head>
@@ -497,100 +511,91 @@
         // JIRA API Service
         class JiraAPIService {
             constructor() {
-                this.baseUrl = localStorage.getItem('jira_base_url') || '';
-                this.email = localStorage.getItem('jira_email') || '';
-                this.apiToken = localStorage.getItem('jira_api_token') || '';
+                this.apiEnabled = false;
             }
             
-            updateCredentials(baseUrl, email, apiToken) {
-                this.baseUrl = baseUrl;
-                this.email = email;
-                this.apiToken = apiToken;
-                localStorage.setItem('jira_base_url', baseUrl);
-                localStorage.setItem('jira_email', email);
-                localStorage.setItem('jira_api_token', apiToken);
-            }
-            
-            getAuthHeader() {
-                return 'Basic ' + btoa(this.email + ':' + this.apiToken);
-            }
-            
-            async fetchTicketsByKeys(keys, fieldMappings) {
-                if (!this.baseUrl || !this.email || !this.apiToken) {
-                    throw new Error('JIRA API credentials not configured');
+            async checkAPIConnection() {
+                try {
+                    const response = await fetch('/api/jira/health', {
+                        method: 'GET'
+                    });
+                    return response.ok;
+                } catch (error) {
+                    console.log('API not available, using demo mode');
+                    return false;
                 }
-                
-                const keyArray = keys.split(',').map(k => k.trim());
-                const jql = `key in (${keyArray.join(',')})`;
-                return this.fetchTicketsByJQL(jql, fieldMappings);
             }
             
-            async fetchTicketsByJQL(jql, fieldMappings) {
-                if (!this.baseUrl || !this.email || !this.apiToken) {
-                    throw new Error('JIRA API credentials not configured');
+            async fetchTicketsByKeys(keys) {
+                if (!this.apiEnabled) {
+                    return this.getMockTickets(keys);
                 }
-                
-                // Build fields list from mappings
-                const fields = [
-                    'key', 'summary', 'issuetype', 'status', 'created', 'priority', 'duedate',
-                    ...Object.values(fieldMappings.required),
-                    ...fieldMappings.additional.filter(f => f.enabled).map(f => f.jiraField)
-                ].filter(Boolean).join(',');
                 
                 try {
-                    const response = await fetch(`${this.baseUrl}/rest/api/3/search`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': this.getAuthHeader(),
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            jql: jql,
-                            fields: fields,
-                            maxResults: 100
+                    const response = await fetch('/api/jira', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            type: 'byKeys',
+                            keys: keys.split(',').map(k => k.trim())
                         })
                     });
                     
                     if (!response.ok) {
-                        throw new Error(`JIRA API error: ${response.status}`);
+                        throw new Error('API request failed');
                     }
                     
                     const data = await response.json();
-                    return this.transformJiraTickets(data.issues, fieldMappings);
+                    return this.transformJiraTickets(data.issues || []);
                 } catch (error) {
                     console.error('JIRA API Error:', error);
-                    // Return mock data for demo
-                    return this.getMockTickets(jql, fieldMappings);
+                    return this.getMockTickets(keys);
                 }
             }
             
-            transformJiraTickets(issues, fieldMappings) {
-                return issues.map(issue => {
-                    const customFields = {};
-                    fieldMappings.additional.forEach(field => {
-                        if (field.enabled && issue.fields[field.jiraField]) {
-                            customFields[field.displayName] = issue.fields[field.jiraField];
-                        }
+            async fetchTicketsByJQL(jql) {
+                if (!this.apiEnabled) {
+                    return this.getMockTickets(jql);
+                }
+                
+                try {
+                    const response = await fetch('/api/jira', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            type: 'byJQL',
+                            jql: jql
+                        })
                     });
                     
-                    return {
-                        key: issue.key,
-                        summary: issue.fields.summary,
-                        severity: this.mapPriorityToSeverity(issue.fields.priority?.name),
-                        issueValue: issue.fields[fieldMappings.required.issueValue] || 0,
-                        enterpriseAccounts: issue.fields[fieldMappings.required.enterpriseAccounts] || 0,
-                        flaggedAccounts: issue.fields[fieldMappings.required.flaggedAccounts] || 0,
-                        dueDate: issue.fields.duedate || '',
-                        marketTiming: issue.fields[fieldMappings.required.marketTiming] || 'No timing impact',
-                        rrOeValue: issue.fields[fieldMappings.required.rrOeValue] || 5,
-                        storyPoints: issue.fields[fieldMappings.required.storyPoints] || 3,
-                        createdDate: issue.fields.created,
-                        issueType: issue.fields.issuetype?.name || 'Task',
-                        status: issue.fields.status?.name || 'To Do',
-                        customFields: customFields
-                    };
-                });
+                    if (!response.ok) {
+                        throw new Error('API request failed');
+                    }
+                    
+                    const data = await response.json();
+                    return this.transformJiraTickets(data.issues || []);
+                } catch (error) {
+                    console.error('JIRA API Error:', error);
+                    return this.getMockTickets(jql);
+                }
+            }
+            
+            transformJiraTickets(issues) {
+                return issues.map(issue => ({
+                    key: issue.key,
+                    summary: issue.fields.summary,
+                    severity: this.mapPriorityToSeverity(issue.fields.priority?.name),
+                    issueValue: issue.fields.customfield_10001 || Math.floor(Math.random() * 30000) + 5000,
+                    enterpriseAccounts: issue.fields.customfield_10002 || 0,
+                    flaggedAccounts: issue.fields.customfield_10003 || 0,
+                    dueDate: issue.fields.duedate || '',
+                    marketTiming: issue.fields.customfield_10004 || 'No timing impact',
+                    rrOeValue: issue.fields.customfield_10005 || 5,
+                    storyPoints: issue.fields.customfield_10006 || 3,
+                    createdDate: issue.fields.created,
+                    issueType: issue.fields.issuetype?.name || 'Task',
+                    status: issue.fields.status?.name || 'To Do'
+                }));
             }
             
             mapPriorityToSeverity(priority) {
@@ -604,64 +609,23 @@
                 return mapping[priority] || 'Level 2 - Medium';
             }
             
-            async updateJiraField(ticketKey, fieldId, value) {
-                if (!this.baseUrl || !this.email || !this.apiToken) {
-                    throw new Error('JIRA API credentials not configured');
-                }
-                
-                try {
-                    const response = await fetch(`${this.baseUrl}/rest/api/3/issue/${ticketKey}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Authorization': this.getAuthHeader(),
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            fields: {
-                                [fieldId]: value
-                            }
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`JIRA API error: ${response.status}`);
-                    }
-                    
-                    return true;
-                } catch (error) {
-                    console.error('JIRA Update Error:', error);
-                    return false;
-                }
-            }
-            
-            getMockTickets(jql, fieldMappings) {
-                // Return mock data for demo purposes
-                return Array(5).fill(null).map((_, i) => {
-                    const customFields = {};
-                    fieldMappings.additional.forEach(field => {
-                        if (field.enabled) {
-                            customFields[field.displayName] = `Sample ${field.displayName} ${i + 1}`;
-                        }
-                    });
-                    
-                    return {
-                        key: `DEMO-${1000 + i}`,
-                        summary: `Sample ticket from JQL: ${jql.substring(0, 30)}...`,
-                        severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
-                        issueValue: Math.floor(Math.random() * 30000) + 5000,
-                        enterpriseAccounts: Math.floor(Math.random() * 8),
-                        flaggedAccounts: Math.floor(Math.random() * 4),
-                        dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
-                        rrOeValue: Math.floor(Math.random() * 10) + 1,
-                        storyPoints: Math.floor(Math.random() * 8) + 1,
-                        createdDate: new Date().toISOString().split('T')[0],
-                        issueType: 'Task',
-                        status: 'To Do',
-                        customFields: customFields
-                    };
-                });
+            getMockTickets(searchTerm) {
+                // Generate mock tickets based on search
+                return Array(3).fill(null).map((_, i) => ({
+                    key: `DEMO-${2000 + i}`,
+                    summary: `Sample ticket from search: ${searchTerm.substring(0, 30)}...`,
+                    severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
+                    issueValue: Math.floor(Math.random() * 30000) + 5000,
+                    enterpriseAccounts: Math.floor(Math.random() * 8),
+                    flaggedAccounts: Math.floor(Math.random() * 4),
+                    dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                    rrOeValue: Math.floor(Math.random() * 10) + 1,
+                    storyPoints: Math.floor(Math.random() * 8) + 1,
+                    createdDate: new Date().toISOString().split('T')[0],
+                    issueType: 'Task',
+                    status: 'To Do'
+                }));
             }
         }
         
@@ -670,8 +634,6 @@
             constructor() {
                 this.tickets = this.loadTickets();
                 this.config = this.loadConfig();
-                this.fieldMappings = this.loadFieldMappings();
-                this.exportMappings = this.loadExportMappings();
                 this.jiraAPI = new JiraAPIService();
             }
             
@@ -693,52 +655,6 @@
             saveConfig(config) {
                 localStorage.setItem('wsjf_config', JSON.stringify(config));
                 this.config = config;
-            }
-            
-            loadFieldMappings() {
-                const stored = localStorage.getItem('wsjf_field_mappings');
-                return stored ? JSON.parse(stored) : this.getDefaultFieldMappings();
-            }
-            
-            saveFieldMappings(mappings) {
-                localStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
-                this.fieldMappings = mappings;
-            }
-            
-            loadExportMappings() {
-                const stored = localStorage.getItem('wsjf_export_mappings');
-                return stored ? JSON.parse(stored) : this.getDefaultExportMappings();
-            }
-            
-            saveExportMappings(mappings) {
-                localStorage.setItem('wsjf_export_mappings', JSON.stringify(mappings));
-                this.exportMappings = mappings;
-            }
-            
-            getDefaultFieldMappings() {
-                return {
-                    required: {
-                        issueValue: 'customfield_10001',
-                        enterpriseAccounts: 'customfield_10002',
-                        flaggedAccounts: 'customfield_10003',
-                        marketTiming: 'customfield_10004',
-                        rrOeValue: 'customfield_10005',
-                        storyPoints: 'customfield_10006'
-                    },
-                    additional: [
-                        { jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: true },
-                        { jiraField: 'components', displayName: 'Components', enabled: true, showInTable: false },
-                        { jiraField: 'customfield_10007', displayName: 'Customer', enabled: false, showInTable: false }
-                    ]
-                };
-            }
-            
-            getDefaultExportMappings() {
-                return [
-                    { appField: 'wsjfScore', jiraField: 'customfield_10010', enabled: false },
-                    { appField: 'costOfDelay', jiraField: 'customfield_10011', enabled: false },
-                    { appField: 'rank', jiraField: 'customfield_10012', enabled: false }
-                ];
             }
             
             getDefaultConfig() {
@@ -787,61 +703,49 @@
             generateSampleTickets() {
                 return [
                     {
-                        key: 'PROD-1234',
-                        summary: 'Payment processing failure for enterprise clients',
-                        severity: 'Level 4 - Critical',
-                        issueValue: 25000,
-                        enterpriseAccounts: 5,
-                        flaggedAccounts: 2,
-                        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        marketTiming: 'Drops steeply',
-                        rrOeValue: 8,
-                        storyPoints: 5,
-                        createdDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        issueType: 'Bug',
-                        status: 'In Progress',
-                        customFields: {
-                            Labels: 'payment, critical',
-                            Customer: 'Enterprise Corp'
-                        }
-                    },
-                    {
-                        key: 'PROD-1235',
-                        summary: 'UI enhancement for dashboard widgets',
-                        severity: 'Level 2 - Medium',
-                        issueValue: 5000,
-                        enterpriseAccounts: 0,
-                        flaggedAccounts: 0,
-                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        marketTiming: 'No timing impact',
-                        rrOeValue: 3,
-                        storyPoints: 3,
-                        createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                        issueType: 'Improvement',
-                        status: 'To Do',
-                        customFields: {
-                            Labels: 'ui, enhancement',
-                            Customer: 'General'
-                        }
-                    },
-                    {
-                        key: 'PROD-1236',
-                        summary: 'Security vulnerability in authentication',
+                        key: 'DEMO-1001',
+                        summary: 'Payment processing timeout for enterprise clients',
                         severity: 'Level 5 - FIRE',
-                        issueValue: 50000,
-                        enterpriseAccounts: 10,
-                        flaggedAccounts: 5,
-                        dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueValue: 45000,
+                        enterpriseAccounts: 8,
+                        flaggedAccounts: 3,
+                        dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         marketTiming: 'Pointless afterwards',
                         rrOeValue: 13,
                         storyPoints: 8,
                         createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Review',
-                        customFields: {
-                            Labels: 'security, critical',
-                            Customer: 'All Customers'
-                        }
+                        status: 'In Progress'
+                    },
+                    {
+                        key: 'DEMO-1002',
+                        summary: 'Dashboard performance optimization',
+                        severity: 'Level 3 - High',
+                        issueValue: 15000,
+                        enterpriseAccounts: 2,
+                        flaggedAccounts: 0,
+                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Slowly degrading',
+                        rrOeValue: 5,
+                        storyPoints: 5,
+                        createdDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Improvement',
+                        status: 'To Do'
+                    },
+                    {
+                        key: 'DEMO-1003',
+                        summary: 'Implement new compliance reporting feature',
+                        severity: 'Level 4 - Critical',
+                        issueValue: 30000,
+                        enterpriseAccounts: 5,
+                        flaggedAccounts: 2,
+                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Drops steeply',
+                        rrOeValue: 8,
+                        storyPoints: 13,
+                        createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'New Feature',
+                        status: 'In Progress'
                     }
                 ];
             }
@@ -864,24 +768,26 @@
                 const weightedBusinessValue = (severityScore + clientCountBonus + strategicTierBonus) * config.weights.businessValue;
                 
                 let dueDateUrgency = 1;
-                const today = new Date();
-                const dueDate = new Date(ticket.dueDate);
-                const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
-                
-                if (daysUntilDue < 0) {
-                    dueDateUrgency = config.dueDateUrgency['Overdue'];
-                } else if (daysUntilDue < 7) {
-                    dueDateUrgency = config.dueDateUrgency['< 1 week'];
-                } else if (daysUntilDue < 14) {
-                    dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
-                } else if (daysUntilDue < 28) {
-                    dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
-                } else if (daysUntilDue < 60) {
-                    dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
-                } else if (daysUntilDue < 180) {
-                    dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
-                } else {
-                    dueDateUrgency = config.dueDateUrgency['No deadline'];
+                if (ticket.dueDate) {
+                    const today = new Date();
+                    const dueDate = new Date(ticket.dueDate);
+                    const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysUntilDue < 0) {
+                        dueDateUrgency = config.dueDateUrgency['Overdue'];
+                    } else if (daysUntilDue < 7) {
+                        dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                    } else if (daysUntilDue < 14) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
+                    } else if (daysUntilDue < 28) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
+                    } else if (daysUntilDue < 60) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
+                    } else if (daysUntilDue < 180) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
+                    } else {
+                        dueDateUrgency = config.dueDateUrgency['No deadline'];
+                    }
                 }
                 
                 const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
@@ -903,13 +809,13 @@
         const backend = new BackendService();
         
         // Notification Component
-        function Notification({ message, onClose }) {
+        function Notification({ message, type, onClose }) {
             useEffect(() => {
                 const timer = setTimeout(onClose, 3000);
                 return () => clearTimeout(timer);
             }, []);
             
-            return <div className="notification">{message}</div>;
+            return <div className={`notification ${type === 'error' ? 'error' : ''}`}>{message}</div>;
         }
         
         // Main App Component
@@ -917,15 +823,10 @@
             const [activeTab, setActiveTab] = useState('dashboard');
             const [tickets, setTickets] = useState(backend.tickets);
             const [config, setConfig] = useState(backend.config);
-            const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
-            const [exportMappings, setExportMappings] = useState(backend.exportMappings);
             const [loading, setLoading] = useState(false);
             const [notification, setNotification] = useState(null);
-            
-            // API Configuration
-            const [jiraUrl, setJiraUrl] = useState(backend.jiraAPI.baseUrl);
-            const [jiraEmail, setJiraEmail] = useState(backend.jiraAPI.email);
-            const [jiraToken, setJiraToken] = useState(backend.jiraAPI.apiToken);
+            const [apiConnected, setApiConnected] = useState(false);
+            const [mode, setMode] = useState('demo'); // 'demo' or 'jira'
             
             // Import state
             const [importKeys, setImportKeys] = useState('');
@@ -945,116 +846,77 @@
                 storyPoints: 3,
                 createdDate: new Date().toISOString().split('T')[0],
                 issueType: 'Bug',
-                status: 'To Do',
-                customFields: {}
+                status: 'To Do'
             });
             
-            // Filter state
-            const [filterText, setFilterText] = useState('');
-            const [customFilters, setCustomFilters] = useState({});
-            const [sortField, setSortField] = useState('wsjfScore');
-            const [sortDirection, setSortDirection] = useState('desc');
+            // Check API connection on mount
+            useEffect(() => {
+                checkAPIStatus();
+            }, []);
             
-            const showNotification = (message) => {
-                setNotification(message);
+            const checkAPIStatus = async () => {
+                const isConnected = await backend.jiraAPI.checkAPIConnection();
+                setApiConnected(isConnected);
+                backend.jiraAPI.apiEnabled = isConnected && mode === 'jira';
             };
             
-            const handleSaveJiraConfig = () => {
-                backend.jiraAPI.updateCredentials(jiraUrl, jiraEmail, jiraToken);
-                showNotification('JIRA configuration saved successfully');
+            const showNotification = (message, type = 'success') => {
+                setNotification({ message, type });
+            };
+            
+            const handleModeChange = (newMode) => {
+                setMode(newMode);
+                backend.jiraAPI.apiEnabled = newMode === 'jira' && apiConnected;
+                if (newMode === 'jira' && !apiConnected) {
+                    showNotification('JIRA API not connected. Using demo data.', 'error');
+                }
             };
             
             const handleImportByKeys = async () => {
                 if (!importKeys) {
-                    showNotification('Please enter issue keys');
+                    showNotification('Please enter issue keys', 'error');
                     return;
                 }
                 setLoading(true);
                 try {
-                    const newTickets = await backend.jiraAPI.fetchTicketsByKeys(importKeys, fieldMappings);
+                    const newTickets = await backend.jiraAPI.fetchTicketsByKeys(importKeys);
                     const updatedTickets = [...tickets, ...newTickets];
                     backend.saveTickets(updatedTickets);
                     setTickets(updatedTickets);
                     setImportKeys('');
                     showNotification(`Imported ${newTickets.length} tickets successfully`);
                 } catch (error) {
-                    showNotification(`Error: ${error.message}`);
+                    showNotification(`Error: ${error.message}`, 'error');
                 }
                 setLoading(false);
             };
             
             const handleImportByJQL = async () => {
                 if (!jqlQuery) {
-                    showNotification('Please enter a JQL query');
+                    showNotification('Please enter a JQL query', 'error');
                     return;
                 }
                 setLoading(true);
                 try {
-                    const newTickets = await backend.jiraAPI.fetchTicketsByJQL(jqlQuery, fieldMappings);
+                    const newTickets = await backend.jiraAPI.fetchTicketsByJQL(jqlQuery);
                     const updatedTickets = [...tickets, ...newTickets];
                     backend.saveTickets(updatedTickets);
                     setTickets(updatedTickets);
                     setJqlQuery('');
                     showNotification(`Imported ${newTickets.length} tickets via JQL`);
                 } catch (error) {
-                    showNotification(`Error: ${error.message}`);
+                    showNotification(`Error: ${error.message}`, 'error');
                 }
                 setLoading(false);
             };
             
-            const handleExportToJira = async (ticket, rank) => {
-                const calculations = backend.calculateWSJF(ticket, config);
-                let success = true;
-                
-                for (const mapping of exportMappings) {
-                    if (mapping.enabled) {
-                        let value;
-                        if (mapping.appField === 'rank') {
-                            value = rank;
-                        } else {
-                            value = calculations[mapping.appField] || ticket[mapping.appField];
-                        }
-                        
-                        const result = await backend.jiraAPI.updateJiraField(
-                            ticket.key,
-                            mapping.jiraField,
-                            value
-                        );
-                        
-                        if (!result) {
-                            success = false;
-                            break;
-                        }
-                    }
-                }
-                
-                if (success) {
-                    showNotification(`Updated JIRA ticket ${ticket.key}`);
-                } else {
-                    showNotification(`Failed to update ${ticket.key}`);
-                }
-            };
-            
             const handleManualSubmit = () => {
                 if (!manualTicket.key || !manualTicket.summary) {
-                    showNotification('Please provide Key and Summary');
+                    showNotification('Please provide Key and Summary', 'error');
                     return;
                 }
                 
-                // Add custom field values
-                const customFieldValues = {};
-                fieldMappings.additional.forEach(field => {
-                    if (field.enabled) {
-                        customFieldValues[field.displayName] = manualTicket.customFields[field.displayName] || '';
-                    }
-                });
-                
-                const newTicket = {
-                    ...manualTicket,
-                    customFields: customFieldValues
-                };
-                
-                const updatedTickets = [...tickets, newTicket];
+                const updatedTickets = [...tickets, manualTicket];
                 backend.saveTickets(updatedTickets);
                 setTickets(updatedTickets);
                 
@@ -1071,10 +933,11 @@
                     storyPoints: 3,
                     createdDate: new Date().toISOString().split('T')[0],
                     issueType: 'Bug',
-                    status: 'To Do',
-                    customFields: {}
+                    status: 'To Do'
                 });
+                
                 showNotification('Ticket added successfully');
+                setActiveTab('dashboard');
             };
             
             const handleConfigUpdate = (section, key, value) => {
@@ -1089,110 +952,25 @@
                 target[keys[keys.length - 1]][key] = isNaN(value) ? value : parseFloat(value);
                 backend.saveConfig(newConfig);
                 setConfig(newConfig);
+                showNotification('Configuration updated');
             };
             
-            const handleFieldMappingUpdate = (index, field, value) => {
-                const newMappings = { ...fieldMappings };
-                if (index === 'required') {
-                    newMappings.required[field] = value;
-                } else {
-                    newMappings.additional[index][field] = value;
-                }
-                backend.saveFieldMappings(newMappings);
-                setFieldMappings(newMappings);
-            };
-            
-            const handleAddCustomField = () => {
-                const newMappings = { ...fieldMappings };
-                newMappings.additional.push({
-                    jiraField: '',
-                    displayName: '',
-                    enabled: false,
-                    showInTable: false
-                });
-                backend.saveFieldMappings(newMappings);
-                setFieldMappings(newMappings);
-            };
-            
-            const handleRemoveCustomField = (index) => {
-                const newMappings = { ...fieldMappings };
-                newMappings.additional.splice(index, 1);
-                backend.saveFieldMappings(newMappings);
-                setFieldMappings(newMappings);
-            };
-            
-            const handleExportMappingUpdate = (index, field, value) => {
-                const newMappings = [...exportMappings];
-                newMappings[index][field] = value;
-                backend.saveExportMappings(newMappings);
-                setExportMappings(newMappings);
-            };
-            
-            const handleSort = (field) => {
-                if (sortField === field) {
-                    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-                } else {
-                    setSortField(field);
-                    setSortDirection('desc');
-                }
+            const handleDeleteTicket = (key) => {
+                const updatedTickets = tickets.filter(t => t.key !== key);
+                backend.saveTickets(updatedTickets);
+                setTickets(updatedTickets);
+                showNotification('Ticket deleted');
             };
             
             const calculatePrioritizedTickets = () => {
-                let filteredTickets = tickets.map(ticket => {
+                return tickets.map(ticket => {
                     const calculations = backend.calculateWSJF(ticket, config);
                     return { ...ticket, ...calculations };
-                });
-                
-                // Apply text filter
-                if (filterText) {
-                    filteredTickets = filteredTickets.filter(ticket => 
-                        ticket.key.toLowerCase().includes(filterText.toLowerCase()) ||
-                        ticket.summary.toLowerCase().includes(filterText.toLowerCase())
-                    );
-                }
-                
-                // Apply custom field filters
-                Object.entries(customFilters).forEach(([field, value]) => {
-                    if (value) {
-                        filteredTickets = filteredTickets.filter(ticket => {
-                            const fieldValue = ticket.customFields?.[field] || '';
-                            return fieldValue.toString().toLowerCase().includes(value.toLowerCase());
-                        });
-                    }
-                });
-                
-                // Sort tickets
-                filteredTickets.sort((a, b) => {
-                    let aVal, bVal;
-                    
-                    if (sortField.startsWith('custom_')) {
-                        const fieldName = sortField.replace('custom_', '');
-                        aVal = a.customFields?.[fieldName] || '';
-                        bVal = b.customFields?.[fieldName] || '';
-                    } else {
-                        aVal = a[sortField];
-                        bVal = b[sortField];
-                    }
-                    
-                    // Convert to numbers if possible
-                    const aNum = parseFloat(aVal);
-                    const bNum = parseFloat(bVal);
-                    if (!isNaN(aNum) && !isNaN(bNum)) {
-                        aVal = aNum;
-                        bVal = bNum;
-                    }
-                    
-                    if (sortDirection === 'asc') {
-                        return aVal > bVal ? 1 : -1;
-                    } else {
-                        return aVal < bVal ? 1 : -1;
-                    }
-                });
-                
-                return filteredTickets;
+                }).sort((a, b) => parseFloat(b.wsjfScore) - parseFloat(a.wsjfScore));
             };
             
             const prioritizedTickets = calculatePrioritizedTickets();
+            
             const stats = {
                 total: prioritizedTickets.length,
                 avgWSJF: prioritizedTickets.reduce((sum, t) => sum + parseFloat(t.wsjfScore), 0) / prioritizedTickets.length || 0,
@@ -1208,29 +986,60 @@
                 return 'badge-low';
             };
             
-            const getSortClass = (field) => {
-                if (sortField === field) {
-                    return sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc';
-                }
-                return '';
+            const exportToCSV = () => {
+                const headers = ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Status'];
+                const csv = [
+                    headers,
+                    ...prioritizedTickets.map((t, i) => [
+                        i + 1,
+                        t.key,
+                        `"${t.summary}"`,
+                        t.wsjfScore,
+                        t.costOfDelay,
+                        t.storyPoints,
+                        t.severity,
+                        t.status
+                    ])
+                ].map(row => row.join(',')).join('\n');
+                
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `wsjf_export_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                showNotification('Export completed');
             };
             
             return (
-                <div className="container">
+                <div className="app-container">
                     {notification && (
                         <Notification
-                            message={notification}
+                            message={notification.message}
+                            type={notification.type}
                             onClose={() => setNotification(null)}
                         />
                     )}
                     
                     <div className="header">
                         <h1>WSJF Prioritization System</h1>
-                        <div className="header-info">
-                            <span>Total Tickets: {tickets.length}</span>
-                            <span>Average WSJF: {stats.avgWSJF.toFixed(1)}</span>
-                            <span>Critical Issues: {stats.critical}</span>
-                            <span>Total Story Points: {stats.totalPoints}</span>
+                        <div className="header-stats">
+                            <div className="header-stat">
+                                <div className="header-stat-value">{tickets.length}</div>
+                                <div className="header-stat-label">Total Tickets</div>
+                            </div>
+                            <div className="header-stat">
+                                <div className="header-stat-value">{stats.avgWSJF.toFixed(1)}</div>
+                                <div className="header-stat-label">Avg WSJF Score</div>
+                            </div>
+                            <div className="header-stat">
+                                <div className="header-stat-value">{stats.critical}</div>
+                                <div className="header-stat-label">Critical Issues</div>
+                            </div>
+                            <div className="header-stat">
+                                <div className="header-stat-value">{stats.totalPoints}</div>
+                                <div className="header-stat-label">Story Points</div>
+                            </div>
                         </div>
                     </div>
                     
@@ -1239,37 +1048,25 @@
                             className={`tab ${activeTab === 'dashboard' ? 'active' : ''}`}
                             onClick={() => setActiveTab('dashboard')}
                         >
-                            Dashboard
+                            📊 Dashboard
                         </button>
                         <button 
                             className={`tab ${activeTab === 'import' ? 'active' : ''}`}
                             onClick={() => setActiveTab('import')}
                         >
-                            Import from JIRA
+                            📥 Import from JIRA
                         </button>
                         <button 
-                            className={`tab ${activeTab === 'manual' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('manual')}
+                            className={`tab ${activeTab === 'add' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('add')}
                         >
-                            Manual Entry
-                        </button>
-                        <button 
-                            className={`tab ${activeTab === 'fields' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('fields')}
-                        >
-                            Field Mappings
+                            ➕ Add Ticket
                         </button>
                         <button 
                             className={`tab ${activeTab === 'config' ? 'active' : ''}`}
                             onClick={() => setActiveTab('config')}
                         >
-                            Configuration
-                        </button>
-                        <button 
-                            className={`tab ${activeTab === 'api' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('api')}
-                        >
-                            API Settings
+                            ⚙️ Configuration
                         </button>
                     </div>
                     
@@ -1285,6 +1082,25 @@
                             <div>
                                 <h2 className="section-title">Priority Dashboard</h2>
                                 
+                                <div className="mode-toggle">
+                                    <span style={{ fontWeight: 600, marginRight: 10 }}>Mode:</span>
+                                    <button 
+                                        className={`mode-btn ${mode === 'demo' ? 'active' : ''}`}
+                                        onClick={() => handleModeChange('demo')}
+                                    >
+                                        Demo Mode
+                                    </button>
+                                    <button 
+                                        className={`mode-btn ${mode === 'jira' ? 'active' : ''}`}
+                                        onClick={() => handleModeChange('jira')}
+                                    >
+                                        JIRA Integration
+                                    </button>
+                                    <span className={`api-status ${apiConnected ? 'connected' : 'disconnected'}`}>
+                                        API: {apiConnected ? '✓ Connected' : '✗ Not Connected'}
+                                    </span>
+                                </div>
+                                
                                 <div className="stats-grid">
                                     <div className="stat-card">
                                         <div className="stat-value">{stats.total}</div>
@@ -1296,7 +1112,7 @@
                                     </div>
                                     <div className="stat-card">
                                         <div className="stat-value">{stats.totalPoints}</div>
-                                        <div className="stat-label">Story Points</div>
+                                        <div className="stat-label">Total Points</div>
                                     </div>
                                     <div className="stat-card">
                                         <div className="stat-value">{stats.critical}</div>
@@ -1304,124 +1120,33 @@
                                     </div>
                                 </div>
                                 
-                                <div className="filter-group">
-                                    <div className="filter-item">
-                                        <label className="filter-label">Search</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Search tickets..."
-                                            value={filterText}
-                                            onChange={(e) => setFilterText(e.target.value)}
-                                            className="form-input"
-                                            style={{ width: '200px' }}
-                                        />
-                                    </div>
-                                    
-                                    {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
-                                        <div key={field.displayName} className="filter-item">
-                                            <label className="filter-label">{field.displayName}</label>
-                                            <input
-                                                type="text"
-                                                placeholder={`Filter ${field.displayName}...`}
-                                                value={customFilters[field.displayName] || ''}
-                                                onChange={(e) => setCustomFilters({
-                                                    ...customFilters,
-                                                    [field.displayName]: e.target.value
-                                                })}
-                                                className="form-input"
-                                                style={{ width: '150px' }}
-                                            />
-                                        </div>
-                                    ))}
-                                    
-                                    <button
-                                        className="btn btn-secondary"
-                                        onClick={() => {
-                                            setFilterText('');
-                                            setCustomFilters({});
-                                        }}
-                                    >
-                                        Clear Filters
-                                    </button>
-                                    
-                                    <button
-                                        className="btn btn-success"
-                                        onClick={() => {
-                                            const headers = ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Status'];
-                                            fieldMappings.additional.filter(f => f.enabled && f.showInTable).forEach(field => {
-                                                headers.push(field.displayName);
-                                            });
-                                            
-                                            const csv = [
-                                                headers,
-                                                ...prioritizedTickets.map((t, i) => {
-                                                    const row = [i + 1, t.key, t.summary, t.wsjfScore, t.costOfDelay, t.storyPoints, t.severity, t.status];
-                                                    fieldMappings.additional.filter(f => f.enabled && f.showInTable).forEach(field => {
-                                                        row.push(t.customFields?.[field.displayName] || '');
-                                                    });
-                                                    return row;
-                                                })
-                                            ].map(row => row.join(',')).join('\n');
-                                            
-                                            const blob = new Blob([csv], { type: 'text/csv' });
-                                            const url = URL.createObjectURL(blob);
-                                            const a = document.createElement('a');
-                                            a.href = url;
-                                            a.download = 'wsjf_export.csv';
-                                            a.click();
-                                            showNotification('Export completed');
-                                        }}
-                                    >
-                                        Export CSV
+                                <div style={{ marginBottom: '20px' }}>
+                                    <button className="btn btn-success" onClick={exportToCSV}>
+                                        📥 Export to CSV
                                     </button>
                                 </div>
                                 
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th className="sortable" onClick={() => handleSort('rank')}>
-                                                Rank
-                                            </th>
-                                            <th className={`sortable ${getSortClass('key')}`} onClick={() => handleSort('key')}>
-                                                Key
-                                            </th>
-                                            <th className={`sortable ${getSortClass('summary')}`} onClick={() => handleSort('summary')}>
-                                                Summary
-                                            </th>
-                                            <th className={`sortable ${getSortClass('wsjfScore')}`} onClick={() => handleSort('wsjfScore')}>
-                                                WSJF Score
-                                            </th>
-                                            <th className={`sortable ${getSortClass('costOfDelay')}`} onClick={() => handleSort('costOfDelay')}>
-                                                Cost of Delay
-                                            </th>
-                                            <th className={`sortable ${getSortClass('storyPoints')}`} onClick={() => handleSort('storyPoints')}>
-                                                Story Points
-                                            </th>
-                                            <th className={`sortable ${getSortClass('severity')}`} onClick={() => handleSort('severity')}>
-                                                Severity
-                                            </th>
-                                            <th className={`sortable ${getSortClass('status')}`} onClick={() => handleSort('status')}>
-                                                Status
-                                            </th>
-                                            {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
-                                                <th 
-                                                    key={field.displayName}
-                                                    className={`sortable ${getSortClass(`custom_${field.displayName}`)}`}
-                                                    onClick={() => handleSort(`custom_${field.displayName}`)}
-                                                >
-                                                    {field.displayName}
-                                                </th>
-                                            ))}
+                                            <th>Rank</th>
+                                            <th>Key</th>
+                                            <th>Summary</th>
+                                            <th>WSJF Score</th>
+                                            <th>Cost of Delay</th>
+                                            <th>Points</th>
+                                            <th>Severity</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {prioritizedTickets.map((ticket, index) => (
                                             <tr key={ticket.key}>
-                                                <td>#{index + 1}</td>
+                                                <td><strong>#{index + 1}</strong></td>
                                                 <td><strong>{ticket.key}</strong></td>
                                                 <td>{ticket.summary}</td>
-                                                <td><strong>{ticket.wsjfScore}</strong></td>
+                                                <td><strong style={{ color: '#667eea' }}>{ticket.wsjfScore}</strong></td>
                                                 <td>{ticket.costOfDelay}</td>
                                                 <td>{ticket.storyPoints}</td>
                                                 <td>
@@ -1430,18 +1155,13 @@
                                                     </span>
                                                 </td>
                                                 <td>{ticket.status}</td>
-                                                {fieldMappings.additional.filter(f => f.enabled && f.showInTable).map(field => (
-                                                    <td key={field.displayName}>
-                                                        {ticket.customFields?.[field.displayName] || '-'}
-                                                    </td>
-                                                ))}
                                                 <td>
                                                     <button
-                                                        className="btn btn-primary"
-                                                        style={{ padding: '4px 8px', fontSize: '12px' }}
-                                                        onClick={() => handleExportToJira(ticket, index + 1)}
+                                                        className="btn btn-danger"
+                                                        style={{ padding: '6px 12px', fontSize: '12px' }}
+                                                        onClick={() => handleDeleteTicket(ticket.key)}
                                                     >
-                                                        Push to JIRA
+                                                        Delete
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1455,9 +1175,15 @@
                             <div>
                                 <h2 className="section-title">Import from JIRA</h2>
                                 
-                                {(!jiraUrl || !jiraEmail || !jiraToken) && (
+                                {mode === 'demo' && (
                                     <div className="alert alert-warning">
-                                        ⚠️ JIRA API credentials not configured. Please configure them in the API Settings tab.
+                                        ⚠️ Currently in Demo Mode. Switch to JIRA Integration mode to import real tickets.
+                                    </div>
+                                )}
+                                
+                                {mode === 'jira' && !apiConnected && (
+                                    <div className="alert alert-warning">
+                                        ⚠️ JIRA API not connected. Imports will use demo data. Deploy the backend API to enable real JIRA integration.
                                     </div>
                                 )}
                                 
@@ -1474,7 +1200,11 @@
                                                 onChange={(e) => setImportKeys(e.target.value)}
                                             />
                                         </div>
-                                        <button className="btn btn-primary" onClick={handleImportByKeys}>
+                                        <button 
+                                            className="btn btn-primary" 
+                                            onClick={handleImportByKeys}
+                                            disabled={loading}
+                                        >
                                             Import Tickets
                                         </button>
                                     </div>
@@ -1490,7 +1220,11 @@
                                                 onChange={(e) => setJqlQuery(e.target.value)}
                                             />
                                         </div>
-                                        <button className="btn btn-primary" onClick={handleImportByJQL}>
+                                        <button 
+                                            className="btn btn-primary" 
+                                            onClick={handleImportByJQL}
+                                            disabled={loading}
+                                        >
                                             Import via JQL
                                         </button>
                                     </div>
@@ -1501,525 +1235,37 @@
                                     • project = PROD AND status = "In Progress"<br/>
                                     • assignee = currentUser() AND priority = High<br/>
                                     • issuetype = Bug AND created >= -7d<br/>
-                                    • labels in (customer-reported, critical)<br/>
-                                    • fixVersion = "2024.1" AND component = "Payment Module"
+                                    • labels in (customer-reported, critical)
                                 </div>
                             </div>
                         )}
                         
-                        {!loading && activeTab === 'manual' && (
+                        {!loading && activeTab === 'add' && (
                             <div>
-                                <h2 className="section-title">Manual Ticket Entry</h2>
-                                
-                                <div className="grid grid-2">
-                                    <div className="form-group">
-                                        <label className="form-label">Ticket Key *</label>
-                                        <input
-                                            type="text"
-                                            className="form-input"
-                                            value={manualTicket.key}
-                                            onChange={(e) => setManualTicket({...manualTicket, key: e.target.value})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Issue Type</label>
-                                        <select
-                                            className="form-select"
-                                            value={manualTicket.issueType}
-                                            onChange={(e) => setManualTicket({...manualTicket, issueType: e.target.value})}
-                                        >
-                                            <option>Bug</option>
-                                            <option>Improvement</option>
-                                            <option>New Feature</option>
-                                            <option>Task</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div className="form-group">
-                                    <label className="form-label">Summary *</label>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={manualTicket.summary}
-                                        onChange={(e) => setManualTicket({...manualTicket, summary: e.target.value})}
-                                    />
-                                </div>
-                                
-                                <div className="grid grid-3">
-                                    <div className="form-group">
-                                        <label className="form-label">Severity</label>
-                                        <select
-                                            className="form-select"
-                                            value={manualTicket.severity}
-                                            onChange={(e) => setManualTicket({...manualTicket, severity: e.target.value})}
-                                        >
-                                            <option>Level 1 - Low</option>
-                                            <option>Level 2 - Medium</option>
-                                            <option>Level 3 - High</option>
-                                            <option>Level 4 - Critical</option>
-                                            <option>Level 5 - FIRE</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Issue Value ($)</label>
-                                        <input
-                                            type="number"
-                                            className="form-input"
-                                            value={manualTicket.issueValue}
-                                            onChange={(e) => setManualTicket({...manualTicket, issueValue: parseInt(e.target.value) || 0})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Story Points</label>
-                                        <input
-                                            type="number"
-                                            className="form-input"
-                                            value={manualTicket.storyPoints}
-                                            onChange={(e) => setManualTicket({...manualTicket, storyPoints: parseInt(e.target.value) || 1})}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <div className="grid grid-3">
-                                    <div className="form-group">
-                                        <label className="form-label">Enterprise Accounts</label>
-                                        <input
-                                            type="number"
-                                            className="form-input"
-                                            value={manualTicket.enterpriseAccounts}
-                                            onChange={(e) => setManualTicket({...manualTicket, enterpriseAccounts: parseInt(e.target.value) || 0})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Flagged Accounts</label>
-                                        <input
-                                            type="number"
-                                            className="form-input"
-                                            value={manualTicket.flaggedAccounts}
-                                            onChange={(e) => setManualTicket({...manualTicket, flaggedAccounts: parseInt(e.target.value) || 0})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">RR/OE Value</label>
-                                        <input
-                                            type="number"
-                                            className="form-input"
-                                            value={manualTicket.rrOeValue}
-                                            onChange={(e) => setManualTicket({...manualTicket, rrOeValue: parseInt(e.target.value) || 0})}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <div className="grid grid-2">
-                                    <div className="form-group">
-                                        <label className="form-label">Due Date</label>
-                                        <input
-                                            type="date"
-                                            className="form-input"
-                                            value={manualTicket.dueDate}
-                                            onChange={(e) => setManualTicket({...manualTicket, dueDate: e.target.value})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Market Timing</label>
-                                        <select
-                                            className="form-select"
-                                            value={manualTicket.marketTiming}
-                                            onChange={(e) => setManualTicket({...manualTicket, marketTiming: e.target.value})}
-                                        >
-                                            <option>No timing impact</option>
-                                            <option>Nice to meet deadline</option>
-                                            <option>Slowly degrading</option>
-                                            <option>Drops steeply</option>
-                                            <option>Pointless afterwards</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                {fieldMappings.additional.filter(f => f.enabled).length > 0 && (
-                                    <>
-                                        <h3 style={{ marginTop: '24px', marginBottom: '16px' }}>Custom Fields</h3>
-                                        <div className="grid grid-2">
-                                            {fieldMappings.additional.filter(f => f.enabled).map(field => (
-                                                <div key={field.displayName} className="form-group">
-                                                    <label className="form-label">{field.displayName}</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-input"
-                                                        value={manualTicket.customFields[field.displayName] || ''}
-                                                        onChange={(e) => setManualTicket({
-                                                            ...manualTicket,
-                                                            customFields: {
-                                                                ...manualTicket.customFields,
-                                                                [field.displayName]: e.target.value
-                                                            }
-                                                        })}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                )}
-                                
-                                <button className="btn btn-primary" onClick={handleManualSubmit}>
-                                    Add Ticket
-                                </button>
-                            </div>
-                        )}
-                        
-                        {!loading && activeTab === 'fields' && (
-                            <div>
-                                <h2 className="section-title">Field Mappings</h2>
-                                
-                                <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h3 className="card-title">Required WSJF Fields (JIRA → App)</h3>
-                                    <div className="alert alert-info">
-                                        These JIRA custom field IDs will be imported into the corresponding WSJF calculation fields
-                                    </div>
-                                    {Object.entries(fieldMappings.required).map(([field, jiraField]) => (
-                                        <div key={field} className="form-group">
-                                            <label className="form-label">{field} (App Field)</label>
-                                            <input
-                                                type="text"
-                                                className="form-input"
-                                                value={jiraField}
-                                                onChange={(e) => handleFieldMappingUpdate('required', field, e.target.value)}
-                                                placeholder="JIRA field ID (e.g., customfield_10001)"
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
+                                <h2 className="section-title">Add New Ticket</h2>
                                 
                                 <div className="card">
-                                    <h3 className="card-title">Additional Custom Fields</h3>
-                                    <div className="alert alert-info">
-                                        Configure additional JIRA fields to import and display in the app
-                                    </div>
-                                    
-                                    <div className="field-mapping-header">
-                                        <div>JIRA Field ID</div>
-                                        <div>Display Name in App</div>
-                                        <div>Import</div>
-                                        <div>Show in Table</div>
-                                        <div>Action</div>
-                                    </div>
-                                    
-                                    {fieldMappings.additional.map((field, index) => (
-                                        <div key={index} className="field-mapping-row">
+                                    <div className="grid grid-2">
+                                        <div className="form-group">
+                                            <label className="form-label">Ticket Key *</label>
                                             <input
                                                 type="text"
                                                 className="form-input"
-                                                placeholder="e.g., labels, customfield_10007"
-                                                value={field.jiraField}
-                                                onChange={(e) => handleFieldMappingUpdate(index, 'jiraField', e.target.value)}
+                                                placeholder="e.g., PROD-1234"
+                                                value={manualTicket.key}
+                                                onChange={(e) => setManualTicket({...manualTicket, key: e.target.value})}
                                             />
-                                            <input
-                                                type="text"
-                                                className="form-input"
-                                                placeholder="e.g., Labels, Customer"
-                                                value={field.displayName}
-                                                onChange={(e) => handleFieldMappingUpdate(index, 'displayName', e.target.value)}
-                                            />
-                                            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={field.enabled}
-                                                    onChange={(e) => handleFieldMappingUpdate(index, 'enabled', e.target.checked)}
-                                                />
-                                            </label>
-                                            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={field.showInTable}
-                                                    onChange={(e) => handleFieldMappingUpdate(index, 'showInTable', e.target.checked)}
-                                                />
-                                            </label>
-                                            <button
-                                                className="btn btn-danger"
-                                                style={{ padding: '4px 12px', fontSize: '12px' }}
-                                                onClick={() => handleRemoveCustomField(index)}
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">Issue Type</label>
+                                            <select
+                                                className="form-select"
+                                                value={manualTicket.issueType}
+                                                onChange={(e) => setManualTicket({...manualTicket, issueType: e.target.value})}
                                             >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    ))}
-                                    <button className="btn btn-primary" onClick={handleAddCustomField}>
-                                        Add Custom Field
-                                    </button>
-                                </div>
-                                
-                                <div className="card" style={{ marginTop: '20px' }}>
-                                    <h3 className="card-title">Export Fields (App → JIRA)</h3>
-                                    <div className="alert alert-info">
-                                        Configure which calculated values to push back to JIRA
-                                    </div>
-                                    {exportMappings.map((mapping, index) => (
-                                        <div key={index} style={{ display: 'flex', gap: '12px', marginBottom: '12px', alignItems: 'center' }}>
-                                            <span style={{ width: '150px', fontWeight: '500' }}>{mapping.appField}</span>
-                                            <span>→</span>
-                                            <input
-                                                type="text"
-                                                className="form-input"
-                                                placeholder="JIRA field ID"
-                                                value={mapping.jiraField}
-                                                onChange={(e) => handleExportMappingUpdate(index, 'jiraField', e.target.value)}
-                                                style={{ flex: 1 }}
-                                            />
-                                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={mapping.enabled}
-                                                    onChange={(e) => handleExportMappingUpdate(index, 'enabled', e.target.checked)}
-                                                />
-                                                Enable
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                        
-                        {!loading && activeTab === 'config' && (
-                            <div>
-                                <h2 className="section-title">Configuration</h2>
-                                
-                                <div className="formula-box">
-                                    <strong>WSJF Formula:</strong><br/>
-                                    WSJF Score = (Cost of Delay ÷ Job Size) × {config.calculationFactors.finalMultiplier}<br/>
-                                    Cost of Delay = Weighted Business Value + Weighted Time Criticality + Weighted RR/OE<br/><br/>
-                                    Business Value = (Severity + ClientBonus + StrategicTier) × {config.weights.businessValue}<br/>
-                                    Time Criticality = (DueDateUrgency × MarketTiming) × {config.weights.timeCriticality}<br/>
-                                    RR/OE = RR/OE Value × {config.weights.rrOe}
-                                </div>
-                                
-                                <div className="category-header">Core Weights</div>
-                                <div className="card" style={{ marginBottom: '20px' }}>
-                                    <div className="config-row">
-                                        <div>
-                                            <div className="config-label">Business Value Weight</div>
-                                            <div className="config-description">Weight applied to business value component</div>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            className="config-input"
-                                            step="0.1"
-                                            value={config.weights.businessValue}
-                                            onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="config-row">
-                                        <div>
-                                            <div className="config-label">Time Criticality Weight</div>
-                                            <div className="config-description">Weight applied to time criticality component</div>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            className="config-input"
-                                            step="0.1"
-                                            value={config.weights.timeCriticality}
-                                            onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="config-row">
-                                        <div>
-                                            <div className="config-label">RR/OE Weight</div>
-                                            <div className="config-description">Weight for Risk Reduction/Opportunity Enablement</div>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            className="config-input"
-                                            step="0.1"
-                                            value={config.weights.rrOe}
-                                            onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <div className="category-header">Business Value Components</div>
-                                <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h4 style={{ marginBottom: '12px', color: '#4a5568' }}>Severity Scores</h4>
-                                    {Object.entries(config.severityScores).map(([level, score]) => (
-                                        <div key={level} className="config-row">
-                                            <span className="config-label">{level}</span>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={score}
-                                                onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                    
-                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Strategic Tier Bonuses</h4>
-                                    {Object.entries(config.strategicTierBonus).map(([tier, bonus]) => (
-                                        <div key={tier} className="config-row">
-                                            <span className="config-label">{tier}</span>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={bonus}
-                                                onChange={(e) => handleConfigUpdate('strategicTierBonus', tier, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                    
-                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Client Count Calculation</h4>
-                                    <div className="config-row">
-                                        <div>
-                                            <div className="config-label">Client Count Divisor</div>
-                                            <div className="config-description">Issue Value is divided by this number (default: 1000)</div>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            className="config-input"
-                                            value={config.calculationFactors.clientCountDivisor}
-                                            onChange={(e) => handleConfigUpdate('calculationFactors', 'clientCountDivisor', e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <div className="category-header">Time Criticality Components</div>
-                                <div className="card" style={{ marginBottom: '20px' }}>
-                                    <h4 style={{ marginBottom: '12px', color: '#4a5568' }}>Due Date Urgency Scores</h4>
-                                    {Object.entries(config.dueDateUrgency).map(([period, score]) => (
-                                        <div key={period} className="config-row">
-                                            <span className="config-label">{period}</span>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={score}
-                                                onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                    
-                                    <h4 style={{ marginTop: '20px', marginBottom: '12px', color: '#4a5568' }}>Market Timing Multipliers</h4>
-                                    {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
-                                        <div key={timing} className="config-row">
-                                            <div>
-                                                <div className="config-label">{timing}</div>
-                                                <div className="config-description">
-                                                    {timing === 'Pointless afterwards' && 'e.g., Tax deadlines, compliance dates'}
-                                                    {timing === 'Drops steeply' && 'e.g., Monthly processing, billing cycles'}
-                                                    {timing === 'Slowly degrading' && 'e.g., Customer satisfaction declining'}
-                                                    {timing === 'Nice to meet deadline' && 'e.g., Soft promises, targets'}
-                                                    {timing === 'No timing impact' && 'e.g., General improvements'}
-                                                </div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                step="0.1"
-                                                value={multiplier}
-                                                onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="category-header">Final Calculation</div>
-                                <div className="card">
-                                    <div className="config-row">
-                                        <div>
-                                            <div className="config-label">Final Score Multiplier</div>
-                                            <div className="config-description">Multiplier applied after dividing by story points (default: 10)</div>
-                                        </div>
-                                        <input
-                                            type="number"
-                                            className="config-input"
-                                            value={config.calculationFactors.finalMultiplier}
-                                            onChange={(e) => handleConfigUpdate('calculationFactors', 'finalMultiplier', e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <div className="alert alert-success" style={{ marginTop: '20px' }}>
-                                    All changes are automatically saved and applied to calculations
-                                </div>
-                            </div>
-                        )}
-                        
-                        {!loading && activeTab === 'api' && (
-                            <div>
-                                <h2 className="section-title">API Settings</h2>
-                                
-                                <div className="api-config">
-                                    <h4>JIRA API Configuration</h4>
-                                    <p style={{ fontSize: '14px', color: '#92400e', marginBottom: '16px' }}>
-                                        Configure your JIRA instance connection for importing and exporting tickets
-                                    </p>
-                                    
-                                    <div className="form-group">
-                                        <label className="form-label">JIRA Base URL</label>
-                                        <input
-                                            type="text"
-                                            className="form-input"
-                                            placeholder="https://your-company.atlassian.net"
-                                            value={jiraUrl}
-                                            onChange={(e) => setJiraUrl(e.target.value)}
-                                        />
-                                    </div>
-                                    
-                                    <div className="form-group">
-                                        <label className="form-label">Email</label>
-                                        <input
-                                            type="email"
-                                            className="form-input"
-                                            placeholder="your-email@company.com"
-                                            value={jiraEmail}
-                                            onChange={(e) => setJiraEmail(e.target.value)}
-                                        />
-                                    </div>
-                                    
-                                    <div className="form-group">
-                                        <label className="form-label">API Token</label>
-                                        <input
-                                            type="password"
-                                            className="form-input"
-                                            placeholder="Your JIRA API token"
-                                            value={jiraToken}
-                                            onChange={(e) => setJiraToken(e.target.value)}
-                                        />
-                                        <small style={{ color: '#718096', display: 'block', marginTop: '4px' }}>
-                                            Generate token at: https://id.atlassian.com/manage-profile/security/api-tokens
-                                        </small>
-                                    </div>
-                                    
-                                    <button className="btn btn-primary" onClick={handleSaveJiraConfig}>
-                                        Save Configuration
-                                    </button>
-                                </div>
-                                
-                                <div className="alert alert-info" style={{ marginTop: '20px' }}>
-                                    <strong>API Features:</strong><br/>
-                                    • Import tickets using issue keys or JQL queries<br/>
-                                    • Export WSJF scores back to JIRA custom fields<br/>
-                                    • Sync custom fields between JIRA and the app<br/>
-                                    • Automatic field mapping based on configuration
-                                </div>
-                                
-                                <div className="card" style={{ marginTop: '20px' }}>
-                                    <h3 className="card-title">API Documentation</h3>
-                                    <p style={{ marginBottom: '12px' }}>Available API methods:</p>
-                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
-                                        fetchTicketsByKeys(keys, fieldMappings) - Import tickets by comma-separated keys
-                                    </code>
-                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
-                                        fetchTicketsByJQL(jql, fieldMappings) - Import tickets using JQL query
-                                    </code>
-                                    <code style={{ display: 'block', padding: '12px', background: '#f7fafc', borderRadius: '4px', marginBottom: '8px' }}>
-                                        updateJiraField(ticketKey, fieldId, value) - Update a JIRA field value
-                                    </code>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-        
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
-</html>
+                                                <option>Bug</option>
+                                                <option>Improvement</option>
+                                                <option>New Feature</option>
+                                                <option>Task</option>
+                                                <option>Variable</option>
+                                                <option>CleanUp</option>
