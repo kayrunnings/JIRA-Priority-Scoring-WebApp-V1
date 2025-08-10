@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WSJF Prioritization System - Modern UI</title>
+    <title>WSJF Prioritization System - Complete</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -22,7 +22,6 @@
             min-height: 100vh;
         }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -38,11 +37,6 @@
             border-radius: 4px;
         }
         
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.7);
-        }
-        
-        /* Glassmorphism effect */
         .glass {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -55,7 +49,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Animations */
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -67,37 +60,10 @@
             }
         }
         
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        
         .slide-in {
             animation: slideIn 0.5s ease-out;
         }
         
-        .pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        
-        .float {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        /* Loading spinner */
         .spinner {
             width: 40px;
             height: 40px;
@@ -111,7 +77,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Button hover effects */
         .btn-glow {
             position: relative;
             overflow: hidden;
@@ -136,7 +101,6 @@
             height: 300px;
         }
         
-        /* Card hover effects */
         .card-hover {
             transition: all 0.3s ease;
         }
@@ -146,16 +110,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
         
-        /* Tab indicator */
-        .tab-indicator {
-            position: absolute;
-            bottom: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            transition: all 0.3s ease;
-        }
-        
-        /* Priority colors */
         .priority-fire {
             background: linear-gradient(135deg, #ef4444, #dc2626);
         }
@@ -176,7 +130,6 @@
             background: linear-gradient(135deg, #6b7280, #4b5563);
         }
         
-        /* Input focus effects */
         .input-modern {
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.05);
@@ -189,35 +142,6 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
         
-        /* Custom checkbox */
-        .checkbox-custom {
-            width: 20px;
-            height: 20px;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        
-        .checkbox-custom:checked {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-color: transparent;
-        }
-        
-        .checkbox-custom:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 14px;
-        }
-        
-        /* Stats card gradient borders */
         .gradient-border {
             position: relative;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
@@ -231,25 +155,6 @@
             padding: 20px;
         }
         
-        /* Table styling */
-        .table-modern th {
-            background: rgba(99, 102, 241, 0.1);
-            backdrop-filter: blur(10px);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-        
-        .table-modern tr {
-            transition: all 0.2s ease;
-        }
-        
-        .table-modern tr:hover {
-            background: rgba(99, 102, 241, 0.05);
-        }
-        
-        /* Success/Error notifications */
         .notification {
             position: fixed;
             top: 20px;
@@ -272,6 +177,43 @@
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
         }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-webkit-slider-track {
+            background: rgba(99, 102, 241, 0.2);
+            height: 6px;
+            border-radius: 3px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #6366f1;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            margin-top: -6px;
+        }
+        
+        input[type="range"]::-moz-range-track {
+            background: rgba(99, 102, 241, 0.2);
+            height: 6px;
+            border-radius: 3px;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            background: #6366f1;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -280,7 +222,7 @@
     <script type="text/babel">
         const { useState, useEffect, useCallback, useRef } = React;
         
-        // Icons as components
+        // Icons
         const Icons = {
             Import: () => (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -308,34 +250,14 @@
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             ),
-            Search: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            ),
-            Filter: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                </svg>
-            ),
-            Download: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-            ),
             Check: () => (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-            ),
-            X: () => (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
             )
         };
         
-        // Backend Service (same as before, just the class definition)
+        // Backend Service
         class BackendService {
             constructor() {
                 this.tickets = this.loadTickets();
@@ -383,11 +305,7 @@
                         rrOeValue: 'customfield_10005',
                         storyPoints: 'customfield_10006'
                     },
-                    additional: [
-                        { jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: true },
-                        { jiraField: 'components', displayName: 'Components', enabled: true, showInTable: true },
-                        { jiraField: 'priority', displayName: 'Priority', enabled: true, showInTable: true }
-                    ]
+                    additional: []
                 };
             }
             
@@ -439,12 +357,7 @@
                         storyPoints: 5,
                         createdDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Progress',
-                        customFields: {
-                            labels: ['payment', 'critical'],
-                            components: ['Payment Module'],
-                            priority: 'High'
-                        }
+                        status: 'In Progress'
                     },
                     {
                         key: 'PROD-1235',
@@ -459,12 +372,7 @@
                         storyPoints: 3,
                         createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Improvement',
-                        status: 'To Do',
-                        customFields: {
-                            labels: ['ui', 'enhancement'],
-                            components: ['Dashboard'],
-                            priority: 'Medium'
-                        }
+                        status: 'To Do'
                     },
                     {
                         key: 'PROD-1236',
@@ -479,12 +387,7 @@
                         storyPoints: 8,
                         createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Review',
-                        customFields: {
-                            labels: ['security', 'critical'],
-                            components: ['Auth', 'Security'],
-                            priority: 'Highest'
-                        }
+                        status: 'In Review'
                     }
                 ];
             }
@@ -495,54 +398,21 @@
                         const keyArray = keys.split(',').map(k => k.trim());
                         const mockTickets = keyArray.map(key => ({
                             key: key,
-                            summary: `Fetched: ${key} - Sample issue`,
-                            severity: ['Level 2 - Medium', 'Level 3 - High'][Math.floor(Math.random() * 2)],
-                            issueValue: Math.floor(Math.random() * 20000) + 5000,
-                            enterpriseAccounts: Math.floor(Math.random() * 5),
-                            flaggedAccounts: Math.floor(Math.random() * 3),
-                            dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            marketTiming: ['No timing impact', 'Slowly degrading'][Math.floor(Math.random() * 2)],
-                            rrOeValue: Math.floor(Math.random() * 10) + 1,
-                            storyPoints: Math.floor(Math.random() * 8) + 1,
+                            summary: `Fetched: ${key}`,
+                            severity: 'Level 2 - Medium',
+                            issueValue: 10000,
+                            enterpriseAccounts: 2,
+                            flaggedAccounts: 1,
+                            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                            marketTiming: 'No timing impact',
+                            rrOeValue: 5,
+                            storyPoints: 3,
                             createdDate: new Date().toISOString().split('T')[0],
-                            issueType: ['Bug', 'Task'][Math.floor(Math.random() * 2)],
-                            status: 'To Do',
-                            customFields: {
-                                labels: ['imported'],
-                                components: ['Core'],
-                                priority: 'Medium'
-                            }
+                            issueType: 'Task',
+                            status: 'To Do'
                         }));
                         resolve(mockTickets);
                     }, 1000);
-                });
-            }
-            
-            async fetchTicketsByJQL(jql) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const mockTickets = Array(5).fill(null).map((_, i) => ({
-                            key: `JQL-${1000 + i}`,
-                            summary: `JQL Result: ${jql.substring(0, 20)}... - Item ${i + 1}`,
-                            severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][Math.floor(Math.random() * 3)],
-                            issueValue: Math.floor(Math.random() * 30000) + 5000,
-                            enterpriseAccounts: Math.floor(Math.random() * 8),
-                            flaggedAccounts: Math.floor(Math.random() * 4),
-                            dueDate: new Date(Date.now() + Math.random() * 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][Math.floor(Math.random() * 3)],
-                            rrOeValue: Math.floor(Math.random() * 12) + 1,
-                            storyPoints: Math.floor(Math.random() * 10) + 1,
-                            createdDate: new Date().toISOString().split('T')[0],
-                            issueType: 'Task',
-                            status: 'To Do',
-                            customFields: {
-                                labels: ['jql-import'],
-                                components: ['Module'],
-                                priority: 'High'
-                            }
-                        }));
-                        resolve(mockTickets);
-                    }, 1500);
                 });
             }
             
@@ -609,58 +479,22 @@
             
             return (
                 <div className={`notification notification-${type}`}>
-                    {type === 'success' ? <Icons.Check /> : <Icons.X />}
+                    <Icons.Check />
                     <span>{message}</span>
                 </div>
             );
         }
         
-        // Main App Component with Modern UI
+        // Main App
         function App() {
-            const [activeTab, setActiveTab] = useState('import');
+            const [activeTab, setActiveTab] = useState('config');
             const [tickets, setTickets] = useState(backend.tickets);
             const [config, setConfig] = useState(backend.config);
-            const [fieldMappings, setFieldMappings] = useState(backend.fieldMappings);
             const [loading, setLoading] = useState(false);
             const [notification, setNotification] = useState(null);
-            const [importKeys, setImportKeys] = useState('');
-            const [jqlQuery, setJqlQuery] = useState('');
-            const [filterText, setFilterText] = useState('');
-            const [sortField, setSortField] = useState('wsjfScore');
-            const [sortDirection, setSortDirection] = useState('desc');
             
             const showNotification = (message, type = 'success') => {
                 setNotification({ message, type });
-            };
-            
-            const handleImportByKeys = async () => {
-                if (!importKeys) {
-                    showNotification('Please enter issue keys', 'error');
-                    return;
-                }
-                setLoading(true);
-                const newTickets = await backend.fetchTicketsByKeys(importKeys);
-                const updatedTickets = [...tickets, ...newTickets];
-                backend.saveTickets(updatedTickets);
-                setTickets(updatedTickets);
-                setImportKeys('');
-                setLoading(false);
-                showNotification(`Successfully imported ${newTickets.length} tickets`);
-            };
-            
-            const handleImportByJQL = async () => {
-                if (!jqlQuery) {
-                    showNotification('Please enter a JQL query', 'error');
-                    return;
-                }
-                setLoading(true);
-                const newTickets = await backend.fetchTicketsByJQL(jqlQuery);
-                const updatedTickets = [...tickets, ...newTickets];
-                backend.saveTickets(updatedTickets);
-                setTickets(updatedTickets);
-                setJqlQuery('');
-                setLoading(false);
-                showNotification(`Successfully imported ${newTickets.length} tickets via JQL`);
             };
             
             const handleConfigUpdate = (section, key, value) => {
@@ -675,34 +509,15 @@
             };
             
             const calculatePrioritizedTickets = () => {
-                let filteredTickets = tickets.map(ticket => {
+                return tickets.map(ticket => {
                     const calculations = backend.calculateWSJF(ticket, config);
                     return { ...ticket, ...calculations };
-                });
-                
-                if (filterText) {
-                    filteredTickets = filteredTickets.filter(ticket => 
-                        ticket.key.toLowerCase().includes(filterText.toLowerCase()) ||
-                        ticket.summary.toLowerCase().includes(filterText.toLowerCase())
-                    );
-                }
-                
-                filteredTickets.sort((a, b) => {
-                    let aVal = parseFloat(a[sortField]) || a[sortField];
-                    let bVal = parseFloat(b[sortField]) || b[sortField];
-                    return sortDirection === 'asc' ? 
-                        (aVal > bVal ? 1 : -1) : 
-                        (aVal < bVal ? 1 : -1);
-                });
-                
-                return filteredTickets;
+                }).sort((a, b) => parseFloat(b.wsjfScore) - parseFloat(a.wsjfScore));
             };
             
             const prioritizedTickets = calculatePrioritizedTickets();
             const stats = {
-                total: prioritizedTickets.length,
                 avgWSJF: prioritizedTickets.reduce((sum, t) => sum + parseFloat(t.wsjfScore), 0) / prioritizedTickets.length || 0,
-                totalPoints: prioritizedTickets.reduce((sum, t) => sum + t.storyPoints, 0),
                 critical: prioritizedTickets.filter(t => t.severity.includes('Critical') || t.severity.includes('FIRE')).length
             };
             
@@ -711,7 +526,7 @@
                 { id: 'fields', label: 'Fields', icon: <Icons.Fields /> },
                 { id: 'manual', label: 'Manual', icon: <Icons.Plus /> },
                 { id: 'config', label: 'Config', icon: <Icons.Settings /> },
-                { id: 'prioritization', label: 'Dashboard', icon: <Icons.Chart /> }
+                { id: 'dashboard', label: 'Dashboard', icon: <Icons.Chart /> }
             ];
             
             return (
@@ -753,7 +568,7 @@
                         </div>
                     </div>
                     
-                    {/* Navigation Tabs */}
+                    {/* Navigation */}
                     <div className="max-w-7xl mx-auto mb-6">
                         <div className="glass rounded-xl p-2">
                             <div className="flex gap-2 overflow-x-auto">
@@ -775,266 +590,202 @@
                         </div>
                     </div>
                     
-                    {/* Content Area */}
+                    {/* Content */}
                     <div className="max-w-7xl mx-auto">
                         <div className="glass-dark rounded-2xl p-6 md:p-8 min-h-[600px]">
-                            {loading ? (
-                                <div className="flex flex-col items-center justify-center h-96">
-                                    <div className="spinner mb-4"></div>
-                                    <p className="text-gray-400">Loading tickets...</p>
-                                </div>
-                            ) : (
-                                <>
-                                    {activeTab === 'import' && (
-                                        <div className="slide-in space-y-6">
-                                            <h2 className="text-2xl font-bold text-white mb-6">Import Tickets</h2>
-                                            
-                                            <div className="grid md:grid-cols-2 gap-6">
-                                                <div className="glass rounded-xl p-6 card-hover">
-                                                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                                                        <span className="text-indigo-400">📋</span> Import by Keys
-                                                    </h3>
+                            {activeTab === 'config' && (
+                                <div className="slide-in space-y-6">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h2 className="text-2xl font-bold text-white">Configuration Center</h2>
+                                        <button
+                                            onClick={() => {
+                                                if (confirm('Reset all settings to default values?')) {
+                                                    const defaultConfig = backend.getDefaultConfig();
+                                                    backend.saveConfig(defaultConfig);
+                                                    setConfig(defaultConfig);
+                                                    showNotification('Configuration reset to defaults');
+                                                }
+                                            }}
+                                            className="px-4 py-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all"
+                                        >
+                                            Reset to Defaults
+                                        </button>
+                                    </div>
+                                    
+                                    {/* WSJF Formula */}
+                                    <div className="glass rounded-xl p-6">
+                                        <h3 className="text-lg font-semibold text-white mb-4">📐 WSJF Formula</h3>
+                                        <div className="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                                            <div className="text-indigo-400">WSJF = (Cost of Delay ÷ Job Size) × 10</div>
+                                            <div className="text-gray-400 mt-2">Cost of Delay = Business Value + Time Criticality + RR/OE</div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Factor Weights */}
+                                    <div className="glass rounded-xl p-6">
+                                        <h3 className="text-lg font-semibold text-white mb-4">⚖️ Factor Weights</h3>
+                                        <div className="grid md:grid-cols-3 gap-6">
+                                            <div>
+                                                <label className="block text-sm text-gray-400 mb-2">Business Value Weight</label>
+                                                <div className="flex items-center gap-3">
                                                     <input
-                                                        type="text"
-                                                        placeholder="PROD-1234, PROD-1235"
-                                                        value={importKeys}
-                                                        onChange={(e) => setImportKeys(e.target.value)}
-                                                        className="w-full px-4 py-3 rounded-lg input-modern text-white placeholder-gray-500 mb-4"
+                                                        type="range"
+                                                        min="0"
+                                                        max="1"
+                                                        step="0.1"
+                                                        value={config.weights.businessValue}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
+                                                        className="flex-1"
                                                     />
-                                                    <button
-                                                        onClick={handleImportByKeys}
-                                                        className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-lg font-medium btn-glow"
-                                                    >
-                                                        Import Keys
-                                                    </button>
-                                                </div>
-                                                
-                                                <div className="glass rounded-xl p-6 card-hover">
-                                                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                                                        <span className="text-green-400">🔍</span> Import by JQL
-                                                    </h3>
-                                                    <textarea
-                                                        placeholder="project = PROD AND status = 'In Progress'"
-                                                        value={jqlQuery}
-                                                        onChange={(e) => setJqlQuery(e.target.value)}
-                                                        className="w-full px-4 py-3 rounded-lg input-modern text-white placeholder-gray-500 mb-4 h-24 resize-none font-mono text-sm"
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.businessValue}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
+                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
                                                     />
-                                                    <button
-                                                        onClick={handleImportByJQL}
-                                                        className="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white px-6 py-3 rounded-lg font-medium btn-glow"
-                                                    >
-                                                        Import JQL
-                                                    </button>
                                                 </div>
                                             </div>
-                                            
-                                            <div className="glass rounded-xl p-6">
-                                                <h3 className="text-lg font-semibold text-white mb-4">Recent Tickets</h3>
-                                                <div className="space-y-3">
-                                                    {tickets.slice(0, 3).map(ticket => (
-                                                        <div key={ticket.key} className="flex items-center justify-between p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-all">
-                                                            <div className="flex items-center gap-4">
-                                                                <span className="text-indigo-400 font-mono">{ticket.key}</span>
-                                                                <span className="text-gray-300">{ticket.summary}</span>
-                                                            </div>
-                                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                                ticket.severity.includes('FIRE') ? 'priority-fire' :
-                                                                ticket.severity.includes('Critical') ? 'priority-critical' :
-                                                                ticket.severity.includes('High') ? 'priority-high' :
-                                                                ticket.severity.includes('Medium') ? 'priority-medium' :
-                                                                'priority-low'
-                                                            } text-white`}>
-                                                                {ticket.severity.split(' - ')[1]}
-                                                            </span>
-                                                        </div>
-                                                    ))}
+                                            <div>
+                                                <label className="block text-sm text-gray-400 mb-2">Time Criticality Weight</label>
+                                                <div className="flex items-center gap-3">
+                                                    <input
+                                                        type="range"
+                                                        min="0"
+                                                        max="1"
+                                                        step="0.1"
+                                                        value={config.weights.timeCriticality}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
+                                                        className="flex-1"
+                                                    />
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.timeCriticality}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
+                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm text-gray-400 mb-2">RR/OE Weight</label>
+                                                <div className="flex items-center gap-3">
+                                                    <input
+                                                        type="range"
+                                                        min="0"
+                                                        max="1"
+                                                        step="0.1"
+                                                        value={config.weights.rrOe}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
+                                                        className="flex-1"
+                                                    />
+                                                    <input
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={config.weights.rrOe}
+                                                        onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
+                                                        className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-                                    )}
+                                    </div>
                                     
-                                    {activeTab === 'prioritization' && (
-                                        <div className="slide-in space-y-6">
-                                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                                                <h2 className="text-2xl font-bold text-white">Priority Dashboard</h2>
-                                                <div className="flex gap-3">
-                                                    <div className="relative">
-                                                        <Icons.Search />
+                                    {/* Severity Scores */}
+                                    <div className="glass rounded-xl p-6">
+                                        <h3 className="text-lg font-semibold text-white mb-4">🔥 Severity Scores</h3>
+                                        <div className="space-y-3">
+                                            {Object.entries(config.severityScores).map(([level, score]) => (
+                                                <div key={level} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
+                                                    <span className="text-gray-300">{level}</span>
+                                                    <div className="flex items-center gap-3">
                                                         <input
-                                                            type="text"
-                                                            placeholder="Search tickets..."
-                                                            value={filterText}
-                                                            onChange={(e) => setFilterText(e.target.value)}
-                                                            className="pl-10 pr-4 py-2 rounded-lg input-modern text-white placeholder-gray-500"
-                                                            style={{ paddingLeft: '40px' }}
+                                                            type="range"
+                                                            min="1"
+                                                            max="30"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
+                                                            className="w-32"
                                                         />
-                                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                                            <Icons.Search />
-                                                        </div>
-                                                    </div>
-                                                    <button
-                                                        onClick={() => {
-                                                            const csv = [
-                                                                ['Rank', 'Key', 'Summary', 'WSJF Score', 'Severity', 'Story Points'],
-                                                                ...prioritizedTickets.map((t, i) => [
-                                                                    i + 1, t.key, t.summary, t.wsjfScore, t.severity, t.storyPoints
-                                                                ])
-                                                            ].map(row => row.join(',')).join('\n');
-                                                            
-                                                            const blob = new Blob([csv], { type: 'text/csv' });
-                                                            const url = URL.createObjectURL(blob);
-                                                            const a = document.createElement('a');
-                                                            a.href = url;
-                                                            a.download = 'wsjf_export.csv';
-                                                            a.click();
-                                                            showNotification('Export completed successfully');
-                                                        }}
-                                                        className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-lg font-medium btn-glow"
-                                                    >
-                                                        <Icons.Download />
-                                                        Export
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            
-                                            {/* Stats Cards */}
-                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                                <div className="gradient-border">
-                                                    <div className="gradient-border-inner">
-                                                        <p className="text-gray-400 text-sm mb-1">Total Tickets</p>
-                                                        <p className="text-3xl font-bold text-white">{stats.total}</p>
+                                                        <input
+                                                            type="number"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
+                                                            className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
+                                                        />
                                                     </div>
                                                 </div>
-                                                <div className="gradient-border">
-                                                    <div className="gradient-border-inner">
-                                                        <p className="text-gray-400 text-sm mb-1">Avg WSJF</p>
-                                                        <p className="text-3xl font-bold text-indigo-400">{stats.avgWSJF.toFixed(1)}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="gradient-border">
-                                                    <div className="gradient-border-inner">
-                                                        <p className="text-gray-400 text-sm mb-1">Story Points</p>
-                                                        <p className="text-3xl font-bold text-purple-400">{stats.totalPoints}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="gradient-border">
-                                                    <div className="gradient-border-inner">
-                                                        <p className="text-gray-400 text-sm mb-1">Critical</p>
-                                                        <p className="text-3xl font-bold text-red-400">{stats.critical}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            {/* Table */}
-                                            <div className="overflow-x-auto">
-                                                <table className="w-full table-modern">
-                                                    <thead>
-                                                        <tr className="text-gray-300">
-                                                            <th className="px-4 py-3 text-left rounded-tl-lg">Rank</th>
-                                                            <th className="px-4 py-3 text-left">Key</th>
-                                                            <th className="px-4 py-3 text-left">Summary</th>
-                                                            <th className="px-4 py-3 text-left">WSJF</th>
-                                                            <th className="px-4 py-3 text-left">Severity</th>
-                                                            <th className="px-4 py-3 text-left rounded-tr-lg">Points</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {prioritizedTickets.map((ticket, index) => (
-                                                            <tr key={ticket.key} className="text-gray-300 border-t border-gray-800">
-                                                                <td className="px-4 py-4">
-                                                                    <span className={`inline-block w-8 h-8 rounded-full text-center leading-8 text-sm font-bold ${
-                                                                        index === 0 ? 'bg-gradient-to-r from-red-500 to-pink-500' :
-                                                                        index === 1 ? 'bg-gradient-to-r from-orange-500 to-yellow-500' :
-                                                                        index === 2 ? 'bg-gradient-to-r from-yellow-500 to-green-500' :
-                                                                        'bg-gray-700'
-                                                                    } text-white`}>
-                                                                        {index + 1}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="px-4 py-4 font-mono text-indigo-400">{ticket.key}</td>
-                                                                <td className="px-4 py-4">{ticket.summary}</td>
-                                                                <td className="px-4 py-4">
-                                                                    <span className="text-xl font-bold text-white">{ticket.wsjfScore}</span>
-                                                                </td>
-                                                                <td className="px-4 py-4">
-                                                                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                                        ticket.severity.includes('FIRE') ? 'priority-fire' :
-                                                                        ticket.severity.includes('Critical') ? 'priority-critical' :
-                                                                        ticket.severity.includes('High') ? 'priority-high' :
-                                                                        ticket.severity.includes('Medium') ? 'priority-medium' :
-                                                                        'priority-low'
-                                                                    } text-white`}>
-                                                                        {ticket.severity.split(' - ')[1]}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="px-4 py-4 text-center">{ticket.storyPoints}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                            ))}
                                         </div>
-                                    )}
+                                    </div>
                                     
-                                    {activeTab === 'config' && (
-                                        <div className="slide-in space-y-6">
-                                            <h2 className="text-2xl font-bold text-white mb-6">Configuration</h2>
-                                            
-                                            <div className="glass rounded-xl p-6">
-                                                <h3 className="text-lg font-semibold text-white mb-4">WSJF Formula Weights</h3>
-                                                <div className="grid md:grid-cols-3 gap-6">
-                                                    <div>
-                                                        <label className="block text-sm text-gray-400 mb-2">Business Value</label>
+                                    {/* Due Date Urgency */}
+                                    <div className="glass rounded-xl p-6">
+                                        <h3 className="text-lg font-semibold text-white mb-4">📅 Due Date Urgency Scores</h3>
+                                        <div className="grid md:grid-cols-2 gap-3">
+                                            {Object.entries(config.dueDateUrgency).map(([period, score]) => (
+                                                <div key={period} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
+                                                    <span className="text-gray-300">{period}</span>
+                                                    <div className="flex items-center gap-3">
                                                         <input
-                                                            type="number"
-                                                            step="0.1"
-                                                            value={config.weights.businessValue}
-                                                            onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
-                                                            className="w-full px-4 py-2 rounded-lg input-modern text-white"
+                                                            type="range"
+                                                            min="1"
+                                                            max="30"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
+                                                            className="w-24"
                                                         />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-sm text-gray-400 mb-2">Time Criticality</label>
                                                         <input
                                                             type="number"
-                                                            step="0.1"
-                                                            value={config.weights.timeCriticality}
-                                                            onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
-                                                            className="w-full px-4 py-2 rounded-lg input-modern text-white"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="block text-sm text-gray-400 mb-2">RR/OE</label>
-                                                        <input
-                                                            type="number"
-                                                            step="0.1"
-                                                            value={config.weights.rrOe}
-                                                            onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
-                                                            className="w-full px-4 py-2 rounded-lg input-modern text-white"
+                                                            value={score}
+                                                            onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
+                                                            className="w-16 px-2 py-1 rounded-lg input-modern text-white text-center"
                                                         />
                                                     </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <div className="glass rounded-xl p-6">
-                                                <h3 className="text-lg font-semibold text-white mb-4">Severity Scores</h3>
-                                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                                    {Object.entries(config.severityScores).map(([level, score]) => (
-                                                        <div key={level} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                                                            <span className="text-gray-300 text-sm">{level}</span>
-                                                            <input
-                                                                type="number"
-                                                                value={score}
-                                                                onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
-                                                                className="w-20 px-3 py-1 rounded input-modern text-white text-center"
-                                                            />
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
-                                    )}
-                                </>
+                                    </div>
+                                    
+                                    {/* Market Timing Multipliers */}
+                                    <div className="glass rounded-xl p-6">
+                                        <h3 className="text-lg font-semibold text-white mb-4">⏰ Market Timing Multipliers</h3>
+                                        <div className="space-y-3">
+                                            {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
+                                                <div key={timing} className="flex items-center justify-between p-4 rounded-lg bg-white/5">
+                                                    <div>
+                                                        <span className="text-gray-300 block">{timing}</span>
+                                                        <span className="text-gray-500 text-xs">
+                                                            {timing === 'Pointless afterwards' && 'e.g., Tax deadlines'}
+                                                            {timing === 'Drops steeply' && 'e.g., Monthly processing'}
+                                                            {timing === 'Slowly degrading' && 'e.g., Client satisfaction'}
+                                                            {timing === 'Nice to meet deadline' && 'e.g., Soft promises'}
+                                                            {timing === 'No timing impact' && 'e.g., General improvements'}
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <input
+                                                            type="range"
+                                                            min="0.5"
+                                                            max="3"
+                                                            step="0.1"
+                                                            value={multiplier}
+                                                            onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
+                                                            className="w-32"
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            step="0.1"
+                                                            value={multiplier}
+                                                            onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
+                                                            className="w-20 px-3 py-2 rounded-lg input-modern text-white text-center"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
