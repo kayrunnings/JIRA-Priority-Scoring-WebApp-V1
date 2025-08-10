@@ -1,48 +1,12 @@
 {
-  "name": "wsjf-prioritization-system",
+  "name": "wsjf-enterprise-system",
   "version": "2.0.0",
-  "description": "Advanced WSJF ticket prioritization system with JQL support and custom field mapping for JIRA",
-  "main": "index.html",
+  "description": "Enterprise WSJF Prioritization System with Advanced Features",
   "scripts": {
-    "start": "npx serve .",
-    "build": "echo 'No build needed for HTML version'",
-    "deploy": "echo 'Deploy to your preferred platform'",
-    "test": "echo 'No tests configured'"
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
   },
-  "keywords": [
-    "wsjf",
-    "weighted-shortest-job-first",
-    "jira",
-    "jql",
-    "prioritization",
-    "agile",
-    "scrum",
-    "safe",
-    "ticket-management",
-    "project-management",
-    "custom-fields",
-    "fintech"
-  ],
-  "author": "Your Name",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/YOUR-USERNAME/wsjf-prioritization-system.git"
-  },
-  "bugs": {
-    "url": "https://github.com/YOUR-USERNAME/wsjf-prioritization-system/issues"
-  },
-  "homepage": "https://github.com/YOUR-USERNAME/wsjf-prioritization-system#readme",
-  "devDependencies": {
-    "serve": "^14.0.0"
-  },
-  "features": {
-    "jql-support": true,
-    "custom-fields": true,
-    "field-mapping": true,
-    "csv-export": true,
-    "local-storage": true,
-    "filtering": true,
-    "sorting": true
-  }
+  "keywords": ["wsjf", "jira", "enterprise", "prioritization"],
+  "author": "Your Company",
+  "license": "PRIVATE"
 }
