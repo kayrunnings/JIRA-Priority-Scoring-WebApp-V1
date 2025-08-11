@@ -1150,15 +1150,79 @@
             }
             
             async pushToJira(ticket, calculations, fieldMappings) {
-                // Simulated JIRA push
-                console.log('Pushing to JIRA:', { ticket, calculations, fieldMappings });
-                
-                // In real implementation, this would make API calls
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        resolve({ success: true, message: `Pushed ${ticket.key} to JIRA` });
-                    }, 1000);
-                });
+                try {
+                    const response = await fetch('/api/jira?action=push-to-jira', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ticketKey: ticket.key,
+                            wsjfScore: calculations.wsjfScore,
+                            costOfDelay: calculations.costOfDelay,
+                            rank: ticket.rank
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error pushing to JIRA:', error);
+                    return { success: false, message: 'Failed to push to JIRA' };
+                }
+            }
+            
+            async importFromJira(keys) {
+                try {
+                    const response = await fetch('/api/jira?action=import-by-keys', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ keys })
+                    });
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error importing from JIRA:', error);
+                    return { success: false, tickets: [] };
+                }
+            }
+            
+            async importByJQL(jql) {
+                try {
+                    const response = await fetch('/api/jira?action=import-by-jql', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ jql })
+                    });
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error importing from JIRA:', error);
+                    return { success: false, tickets: [] };
+                }
+            }
+            
+            async testJiraConnection() {
+                try {
+                    const response = await fetch('/api/jira?action=test-connection', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error testing JIRA connection:', error);
+                    return { success: false };
+                }
             }
         }
         
@@ -1368,34 +1432,34 @@
             };
             
             const handleImportFromJira = async () => {
-                // Simulated import
-                const newTicket = {
-                    key: `JIRA-${Date.now()}`,
-                    summary: 'New imported ticket from JIRA',
-                    severity: 'Level 3 - High',
-                    issueValue: 30000,
-                    enterpriseAccounts: 4,
-                    flaggedAccounts: 2,
-                    dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                    marketTiming: 'Slowly degrading',
-                    rrOeValue: 6,
-                    storyPoints: 5,
-                    createdDate: new Date().toISOString().split('T')[0],
-                    issueType: 'Bug',
-                    status: 'To Do',
-                    Customer: 'New Client',
-                    Team: 'Backend'
-                };
+                // Show import dialog or use prompt for demo
+                const jql = prompt('Enter JQL query or issue keys (comma-separated):', 'project = PROD AND status != Done');
+                if (!jql) return;
                 
-                const updatedTickets = [...tickets, newTicket];
-                setTickets(updatedTickets);
-                dataService.saveTickets(updatedTickets);
+                // Check if it's keys or JQL
+                const isKeys = jql.includes(',') || jql.match(/^[A-Z]+-\d+$/);
                 
-                const newSync = { ...syncStatus, lastImport: new Date().toISOString() };
-                setSyncStatus(newSync);
-                dataService.saveSyncStatus(newSync);
+                let result;
+                if (isKeys) {
+                    const keys = jql.split(',').map(k => k.trim());
+                    result = await dataService.importFromJira(keys);
+                } else {
+                    result = await dataService.importByJQL(jql);
+                }
                 
-                showNotification('Successfully imported 1 ticket from JIRA');
+                if (result.success && result.tickets) {
+                    const updatedTickets = [...tickets, ...result.tickets];
+                    setTickets(updatedTickets);
+                    dataService.saveTickets(updatedTickets);
+                    
+                    const newSync = { ...syncStatus, lastImport: new Date().toISOString() };
+                    setSyncStatus(newSync);
+                    dataService.saveSyncStatus(newSync);
+                    
+                    showNotification(`Successfully imported ${result.tickets.length} tickets from JIRA`);
+                } else {
+                    showNotification('Failed to import from JIRA. Check your configuration.');
+                }
             };
             
             const handleRecalculate = () => {
