@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WSJF Enterprise Prioritization System</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         * {
@@ -76,26 +76,6 @@
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
-        }
-        
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .user-info {
-            text-align: right;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            color: #2d3436;
-        }
-        
-        .user-role {
-            font-size: 12px;
-            color: #718096;
         }
         
         .nav-tabs {
@@ -231,11 +211,6 @@
             border: 1px solid #e2e8f0;
         }
         
-        .btn-danger {
-            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-            color: white;
-        }
-        
         .filter-bar {
             background: white;
             border-radius: 12px;
@@ -298,11 +273,6 @@
             font-size: 18px;
             font-weight: 600;
             color: #2d3436;
-        }
-        
-        .table-actions {
-            display: flex;
-            gap: 12px;
         }
         
         .data-table {
@@ -453,100 +423,6 @@
             font-family: inherit;
         }
         
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-        
-        .modal {
-            background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 85vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        .modal-header {
-            padding: 24px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2d3436;
-        }
-        
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: none;
-            background: #f1f5f9;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #718096;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: #e2e8f0;
-            color: #4a5568;
-        }
-        
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            flex: 1;
-        }
-        
-        .modal-footer {
-            padding: 20px 24px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-        }
-        
-        .column-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: move;
-            transition: all 0.3s ease;
-        }
-        
-        .column-item:hover {
-            background: #edf2f7;
-        }
-        
-        .column-item.dragging {
-            opacity: 0.5;
-        }
-        
         .formula-box {
             background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
             border: 2px solid #cbd5e0;
@@ -556,12 +432,6 @@
             font-size: 14px;
             margin-bottom: 24px;
             line-height: 1.6;
-        }
-        
-        .formula-title {
-            font-weight: 700;
-            color: #6c5ce7;
-            margin-bottom: 12px;
         }
         
         .config-section {
@@ -577,11 +447,6 @@
             border-bottom: 2px solid #e2e8f0;
         }
         
-        .config-grid {
-            display: grid;
-            gap: 12px;
-        }
-        
         .config-row {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -590,6 +455,7 @@
             background: #f7fafc;
             border-radius: 8px;
             align-items: center;
+            margin-bottom: 12px;
         }
         
         .config-label {
@@ -611,102 +477,6 @@
             text-align: center;
             font-size: 14px;
             font-weight: 600;
-        }
-        
-        .field-mapping-grid {
-            display: grid;
-            gap: 16px;
-        }
-        
-        .field-mapping-row {
-            display: grid;
-            grid-template-columns: 200px 1fr 120px 100px 100px;
-            gap: 12px;
-            padding: 16px;
-            background: #f7fafc;
-            border-radius: 8px;
-            align-items: center;
-        }
-        
-        .field-mapping-header {
-            display: grid;
-            grid-template-columns: 200px 1fr 120px 100px 100px;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #2d3436;
-            color: white;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        
-        .calculation-modal {
-            background: #f7fafc;
-            border-radius: 12px;
-            padding: 20px;
-        }
-        
-        .calc-section {
-            margin-bottom: 20px;
-            padding: 16px;
-            background: white;
-            border-radius: 8px;
-        }
-        
-        .calc-title {
-            font-weight: 600;
-            color: #6c5ce7;
-            margin-bottom: 12px;
-        }
-        
-        .calc-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        
-        .calc-row:last-child {
-            border-bottom: none;
-        }
-        
-        .calc-label {
-            color: #4a5568;
-            font-size: 14px;
-        }
-        
-        .calc-value {
-            font-weight: 600;
-            color: #2d3436;
-        }
-        
-        .calc-formula {
-            font-family: monospace;
-            font-size: 12px;
-            color: #718096;
-            margin-top: 4px;
-        }
-        
-        .final-score {
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        
-        .final-score-label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-        
-        .final-score-value {
-            font-size: 36px;
-            font-weight: 700;
         }
         
         .notification {
@@ -733,50 +503,52 @@
             }
         }
         
-        .checkbox-wrapper {
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
         }
         
-        .checkbox-wrapper input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .action-buttons {
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow: hidden;
             display: flex;
-            gap: 8px;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         
-        .icon-btn {
-            padding: 6px 10px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .icon-btn.calc {
-            background: #edf2f7;
-            color: #6c5ce7;
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
         }
         
-        .icon-btn.calc:hover {
-            background: #6c5ce7;
-            color: white;
-        }
-        
-        .icon-btn.push {
-            background: #c6f6d5;
-            color: #276749;
-        }
-        
-        .icon-btn.push:hover {
-            background: #48bb78;
-            color: white;
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
         }
         
         .empty-state {
@@ -790,16 +562,6 @@
             margin-bottom: 16px;
             opacity: 0.5;
         }
-        
-        .empty-state-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .empty-state-text {
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
@@ -808,85 +570,71 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo, useCallback } = React;
         
-        // Data Service with error handling
+        // Data Service with improved storage handling
         class DataService {
             constructor() {
+                this.storageAvailable = this.checkStorageAvailable();
                 this.tickets = this.loadTickets();
                 this.config = this.loadConfig();
-                this.fieldMappings = this.loadFieldMappings();
-                this.columns = this.loadColumns();
                 this.syncStatus = this.loadSyncStatus();
             }
             
-            // Safe localStorage access with try-catch
-            safeLocalStorage = {
-                getItem: (key) => {
-                    try {
-                        return localStorage.getItem(key);
-                    } catch (e) {
-                        console.warn('localStorage not available:', e);
-                        return null;
-                    }
-                },
-                setItem: (key, value) => {
-                    try {
-                        localStorage.setItem(key, value);
-                        return true;
-                    } catch (e) {
-                        console.warn('localStorage not available:', e);
-                        return false;
-                    }
+            checkStorageAvailable() {
+                try {
+                    const test = '__storage_test__';
+                    window.localStorage.setItem(test, test);
+                    window.localStorage.removeItem(test);
+                    return true;
+                } catch(e) {
+                    return false;
                 }
-            };
+            }
+            
+            safeGet(key, defaultValue) {
+                if (!this.storageAvailable) return defaultValue;
+                try {
+                    const item = window.localStorage.getItem(key);
+                    return item ? JSON.parse(item) : defaultValue;
+                } catch (e) {
+                    return defaultValue;
+                }
+            }
+            
+            safeSet(key, value) {
+                if (!this.storageAvailable) return false;
+                try {
+                    window.localStorage.setItem(key, JSON.stringify(value));
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
             
             loadTickets() {
-                const stored = this.safeLocalStorage.getItem('wsjf_tickets');
-                return stored ? JSON.parse(stored) : this.getSampleTickets();
+                return this.safeGet('wsjf_tickets', this.getSampleTickets());
             }
             
             saveTickets(tickets) {
-                this.safeLocalStorage.setItem('wsjf_tickets', JSON.stringify(tickets));
                 this.tickets = tickets;
+                this.safeSet('wsjf_tickets', tickets);
             }
             
             loadConfig() {
-                const stored = this.safeLocalStorage.getItem('wsjf_config');
-                return stored ? JSON.parse(stored) : this.getDefaultConfig();
+                return this.safeGet('wsjf_config', this.getDefaultConfig());
             }
             
             saveConfig(config) {
-                this.safeLocalStorage.setItem('wsjf_config', JSON.stringify(config));
                 this.config = config;
-            }
-            
-            loadFieldMappings() {
-                const stored = this.safeLocalStorage.getItem('wsjf_field_mappings');
-                return stored ? JSON.parse(stored) : this.getDefaultFieldMappings();
-            }
-            
-            saveFieldMappings(mappings) {
-                this.safeLocalStorage.setItem('wsjf_field_mappings', JSON.stringify(mappings));
-                this.fieldMappings = mappings;
-            }
-            
-            loadColumns() {
-                const stored = this.safeLocalStorage.getItem('wsjf_columns');
-                return stored ? JSON.parse(stored) : this.getDefaultColumns();
-            }
-            
-            saveColumns(columns) {
-                this.safeLocalStorage.setItem('wsjf_columns', JSON.stringify(columns));
-                this.columns = columns;
+                this.safeSet('wsjf_config', config);
             }
             
             loadSyncStatus() {
-                const stored = this.safeLocalStorage.getItem('wsjf_sync');
-                return stored ? JSON.parse(stored) : { lastImport: null, lastCalc: null };
+                return this.safeGet('wsjf_sync', { lastImport: null, lastCalc: null });
             }
             
             saveSyncStatus(status) {
-                this.safeLocalStorage.setItem('wsjf_sync', JSON.stringify(status));
                 this.syncStatus = status;
+                this.safeSet('wsjf_sync', status);
             }
             
             getDefaultConfig() {
@@ -926,58 +674,8 @@
                         'Neither': 0
                     },
                     clientCountDivisor: 1000,
-                    finalMultiplier: 10,
-                    jiraUrl: '',
-                    jiraEmail: '',
-                    jiraToken: ''
+                    finalMultiplier: 10
                 };
-            }
-            
-            getDefaultFieldMappings() {
-                return {
-                    severity: { jiraField: 'priority', type: 'dropdown' },
-                    issueValue: { jiraField: 'customfield_10001', type: 'number' },
-                    enterpriseAccounts: { jiraField: 'customfield_10002', type: 'number' },
-                    flaggedAccounts: { jiraField: 'customfield_10003', type: 'number' },
-                    dueDate: { jiraField: 'duedate', type: 'date' },
-                    marketTiming: { jiraField: 'customfield_10004', type: 'dropdown' },
-                    rrOeValue: { jiraField: 'customfield_10005', type: 'number' },
-                    storyPoints: { jiraField: 'customfield_10006', type: 'number' },
-                    issueType: { jiraField: 'issuetype', type: 'dropdown' },
-                    createdDate: { jiraField: 'created', type: 'date' },
-                    custom: [
-                        { name: 'Customer', jiraField: 'customfield_10007', type: 'text', enabled: true, showInTable: true },
-                        { name: 'Team', jiraField: 'customfield_10008', type: 'dropdown', enabled: true, showInTable: true },
-                        { name: 'Sprint', jiraField: 'customfield_10009', type: 'text', enabled: false, showInTable: false }
-                    ],
-                    export: [
-                        { field: 'wsjfScore', jiraField: 'customfield_10010', enabled: true },
-                        { field: 'costOfDelay', jiraField: 'customfield_10011', enabled: true },
-                        { field: 'rank', jiraField: 'customfield_10012', enabled: false }
-                    ]
-                };
-            }
-            
-            getDefaultColumns() {
-                return [
-                    { id: 'rank', name: 'Rank', visible: true, order: 0 },
-                    { id: 'key', name: 'Key', visible: true, order: 1 },
-                    { id: 'summary', name: 'Summary', visible: true, order: 2 },
-                    { id: 'wsjfScore', name: 'WSJF Score', visible: true, order: 3 },
-                    { id: 'costOfDelay', name: 'Cost of Delay', visible: true, order: 4 },
-                    { id: 'storyPoints', name: 'Story Points', visible: true, order: 5 },
-                    { id: 'severity', name: 'Severity', visible: true, order: 6 },
-                    { id: 'status', name: 'Status', visible: true, order: 7 },
-                    { id: 'dueDate', name: 'Due Date', visible: false, order: 8 },
-                    { id: 'issueValue', name: 'Issue Value', visible: false, order: 9 },
-                    { id: 'enterpriseAccounts', name: 'Enterprise', visible: false, order: 10 },
-                    { id: 'flaggedAccounts', name: 'Flagged', visible: false, order: 11 },
-                    { id: 'marketTiming', name: 'Market Timing', visible: false, order: 12 },
-                    { id: 'rrOeValue', name: 'RR/OE', visible: false, order: 13 },
-                    { id: 'Customer', name: 'Customer', visible: true, order: 14 },
-                    { id: 'Team', name: 'Team', visible: true, order: 15 },
-                    { id: 'actions', name: 'Actions', visible: true, order: 16 }
-                ];
             }
             
             getSampleTickets() {
@@ -995,9 +693,7 @@
                         storyPoints: 8,
                         createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Progress',
-                        Customer: 'Enterprise Corp',
-                        Team: 'Backend'
+                        status: 'In Progress'
                     },
                     {
                         key: 'PROD-1002',
@@ -1012,9 +708,7 @@
                         storyPoints: 5,
                         createdDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Improvement',
-                        status: 'To Do',
-                        Customer: 'Multiple',
-                        Team: 'Frontend'
+                        status: 'To Do'
                     },
                     {
                         key: 'PROD-1003',
@@ -1029,276 +723,281 @@
                         storyPoints: 13,
                         createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'New Feature',
-                        status: 'In Review',
-                        Customer: 'EU Clients',
-                        Team: 'Compliance'
+                        status: 'In Review'
                     }
                 ];
             }
             
             calculateWSJF(ticket, config) {
-                // Validate inputs
-                if (!ticket || !config) {
-                    console.error('Missing ticket or config for WSJF calculation');
-                    return { wsjfScore: '0.00', costOfDelay: 0, calculations: {} };
-                }
-                
                 // Business Value Calculation
-                const severityScore = config.severityScores?.[ticket.severity] || 0;
-                const issueValue = parseFloat(ticket.issueValue) || 0;
-                const clientCountBonus = issueValue / (config.clientCountDivisor || 1000);
-                
-                const enterpriseAccounts = parseInt(ticket.enterpriseAccounts) || 0;
-                const flaggedAccounts = parseInt(ticket.flaggedAccounts) || 0;
+                const severityScore = config.severityScores[ticket.severity] || 0;
+                const clientCountBonus = (ticket.issueValue || 0) / config.clientCountDivisor;
                 
                 let strategicTierBonus = 0;
-                if (enterpriseAccounts > 0 && flaggedAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus?.['Both Enterprise & Flagged'] || 5;
-                } else if (flaggedAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus?.['Only Flagged'] || 3;
-                } else if (enterpriseAccounts > 0) {
-                    strategicTierBonus = config.strategicTierBonus?.['Only Enterprise'] || 2;
+                if (ticket.enterpriseAccounts > 0 && ticket.flaggedAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus['Both Enterprise & Flagged'];
+                } else if (ticket.flaggedAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus['Only Flagged'];
+                } else if (ticket.enterpriseAccounts > 0) {
+                    strategicTierBonus = config.strategicTierBonus['Only Enterprise'];
                 } else {
-                    strategicTierBonus = config.strategicTierBonus?.['Neither'] || 0;
+                    strategicTierBonus = config.strategicTierBonus['Neither'];
                 }
                 
                 const businessValue = severityScore + clientCountBonus + strategicTierBonus;
-                const weightedBusinessValue = businessValue * (config.weights?.businessValue || 0.4);
+                const weightedBusinessValue = businessValue * config.weights.businessValue;
                 
                 // Time Criticality Calculation
-                let dueDateUrgency = 1;
+                let dueDateUrgency = config.dueDateUrgency['No deadline'];
                 if (ticket.dueDate) {
-                    try {
-                        const today = new Date();
-                        const dueDate = new Date(ticket.dueDate);
-                        
-                        if (!isNaN(dueDate.getTime())) {
-                            const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
-                            
-                            if (daysUntilDue < 0) {
-                                dueDateUrgency = config.dueDateUrgency?.['Overdue'] || 21;
-                            } else if (daysUntilDue < 7) {
-                                dueDateUrgency = config.dueDateUrgency?.['< 1 week'] || 13;
-                            } else if (daysUntilDue < 14) {
-                                dueDateUrgency = config.dueDateUrgency?.['1 to 2 weeks'] || 8;
-                            } else if (daysUntilDue < 28) {
-                                dueDateUrgency = config.dueDateUrgency?.['2 to 4 weeks'] || 5;
-                            } else if (daysUntilDue < 60) {
-                                dueDateUrgency = config.dueDateUrgency?.['1 to 2 months'] || 3;
-                            } else if (daysUntilDue < 180) {
-                                dueDateUrgency = config.dueDateUrgency?.['2 to 6 months'] || 2;
-                            } else {
-                                dueDateUrgency = config.dueDateUrgency?.['No deadline'] || 1;
-                            }
-                        }
-                    } catch (e) {
-                        console.warn('Invalid date format:', ticket.dueDate);
-                        dueDateUrgency = config.dueDateUrgency?.['No deadline'] || 1;
+                    const today = new Date();
+                    const dueDate = new Date(ticket.dueDate);
+                    const daysUntilDue = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysUntilDue < 0) {
+                        dueDateUrgency = config.dueDateUrgency['Overdue'];
+                    } else if (daysUntilDue < 7) {
+                        dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                    } else if (daysUntilDue < 14) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
+                    } else if (daysUntilDue < 28) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
+                    } else if (daysUntilDue < 60) {
+                        dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
+                    } else if (daysUntilDue < 180) {
+                        dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
                     }
                 } else {
                     // Apply defaults based on issue type and severity
                     dueDateUrgency = this.getDefaultDueDateUrgency(ticket, config);
                 }
                 
-                const marketTimingMultiplier = config.marketTimingMultipliers?.[ticket.marketTiming] || 1.0;
+                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 
+                    this.getDefaultMarketTiming(ticket.severity, config);
+                
                 const timeCriticality = dueDateUrgency * marketTimingMultiplier;
-                const weightedTimeCriticality = timeCriticality * (config.weights?.timeCriticality || 0.3);
+                const weightedTimeCriticality = timeCriticality * config.weights.timeCriticality;
                 
                 // RR/OE Calculation
-                const rrOeValue = parseFloat(ticket.rrOeValue) || 5;
-                const weightedRROE = rrOeValue * (config.weights?.rrOe || 0.3);
+                const weightedRROE = (ticket.rrOeValue || 5) * config.weights.rrOe;
                 
                 // Final Calculations
                 const costOfDelay = Math.round(weightedBusinessValue + weightedTimeCriticality + weightedRROE);
-                const jobSize = parseInt(ticket.storyPoints) || 1;
-                const wsjfScore = (costOfDelay / jobSize) * (config.finalMultiplier || 10);
+                const wsjfScore = (costOfDelay / (ticket.storyPoints || 1)) * config.finalMultiplier;
                 
                 return {
                     wsjfScore: wsjfScore.toFixed(2),
                     costOfDelay,
-                    calculations: {
-                        severityScore,
-                        clientCountBonus: clientCountBonus.toFixed(2),
-                        strategicTierBonus,
-                        businessValue: businessValue.toFixed(2),
-                        weightedBusinessValue: weightedBusinessValue.toFixed(2),
-                        dueDateUrgency,
-                        marketTimingMultiplier,
-                        timeCriticality: timeCriticality.toFixed(2),
-                        weightedTimeCriticality: weightedTimeCriticality.toFixed(2),
-                        rrOeValue,
-                        weightedRROE: weightedRROE.toFixed(2),
-                        jobSize
-                    }
+                    weightedBusinessValue: weightedBusinessValue.toFixed(2),
+                    weightedTimeCriticality: weightedTimeCriticality.toFixed(2),
+                    weightedRROE: weightedRROE.toFixed(2)
                 };
             }
             
             getDefaultDueDateUrgency(ticket, config) {
-                // Default due date urgency based on issue type and severity
-                const severityLevel = ticket.severity?.split(' - ')[0] || 'Level 2';
-                const issueType = ticket.issueType || 'Bug';
+                const severity = ticket.severity;
+                const issueType = ticket.issueType;
                 
-                if (severityLevel.includes('5') || severityLevel.includes('FIRE')) {
-                    return config.dueDateUrgency?.['< 1 week'] || 13;
-                } else if (severityLevel.includes('4') || severityLevel.includes('Critical')) {
-                    return config.dueDateUrgency?.['< 1 week'] || 13;
-                } else if (severityLevel.includes('3') || severityLevel.includes('High')) {
-                    return config.dueDateUrgency?.['1 to 2 weeks'] || 8;
+                if (severity?.includes('FIRE') || severity?.includes('Critical')) {
+                    return config.dueDateUrgency['< 1 week'];
+                } else if (severity?.includes('High')) {
+                    return config.dueDateUrgency['1 to 2 weeks'];
+                } else if (severity?.includes('Medium') || severity?.includes('Low')) {
+                    if (issueType === 'Bug') {
+                        return config.dueDateUrgency['2 to 4 weeks'];
+                    } else if (issueType === 'New Feature') {
+                        return config.dueDateUrgency['2 to 6 months'];
+                    } else {
+                        return config.dueDateUrgency['1 to 2 months'];
+                    }
+                }
+                return config.dueDateUrgency['No deadline'];
+            }
+            
+            getDefaultMarketTiming(severity, config) {
+                if (severity?.includes('FIRE')) {
+                    return config.marketTimingMultipliers['Drops steeply'];
+                } else if (severity?.includes('Critical') || severity?.includes('High')) {
+                    return config.marketTimingMultipliers['Slowly degrading'];
                 } else {
-                    return config.dueDateUrgency?.['2 to 4 weeks'] || 5;
+                    return config.marketTimingMultipliers['No timing impact'];
                 }
             }
             
-            async pushToJira(ticket, calculations, fieldMappings) {
+            async importFromJira(type, value) {
                 try {
-                    const response = await fetch('/api/jira?action=push-to-jira', {
+                    const response = await fetch('/api/jira', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            ticketKey: ticket.key,
-                            wsjfScore: calculations.wsjfScore,
-                            costOfDelay: calculations.costOfDelay,
-                            rank: ticket.rank
+                            action: type === 'keys' ? 'fetchByKeys' : 'fetchByJQL',
+                            keys: type === 'keys' ? value : undefined,
+                            jql: type === 'jql' ? value : undefined
                         })
                     });
                     
                     const data = await response.json();
-                    return data;
+                    
+                    if (data.issues) {
+                        return data.issues.map(issue => this.transformJiraIssue(issue));
+                    } else if (data.mock) {
+                        // Generate mock data if API is not configured
+                        return this.generateMockTickets(value);
+                    }
+                    
+                    return [];
                 } catch (error) {
-                    console.error('Error pushing to JIRA:', error);
-                    return { success: false, message: 'Failed to push to JIRA' };
+                    console.error('Import error:', error);
+                    return this.generateMockTickets(value);
                 }
             }
             
-            async importFromJira(keys) {
-                try {
-                    const response = await fetch('/api/jira?action=import-by-keys', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ keys })
-                    });
-                    
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Error importing from JIRA:', error);
-                    return { success: false, tickets: [] };
-                }
+            transformJiraIssue(issue) {
+                const fields = issue.fields || {};
+                return {
+                    key: issue.key,
+                    summary: fields.summary || 'No summary',
+                    severity: this.mapPriorityToSeverity(fields.priority?.name),
+                    issueValue: fields.customfield_10001 || 0,
+                    enterpriseAccounts: fields.customfield_10002 || 0,
+                    flaggedAccounts: fields.customfield_10003 || 0,
+                    dueDate: fields.duedate || '',
+                    marketTiming: fields.customfield_10004 || 'No timing impact',
+                    rrOeValue: fields.customfield_10005 || 5,
+                    storyPoints: fields.customfield_10006 || 3,
+                    createdDate: fields.created || new Date().toISOString(),
+                    issueType: fields.issuetype?.name || 'Task',
+                    status: fields.status?.name || 'To Do'
+                };
             }
             
-            async importByJQL(jql) {
-                try {
-                    const response = await fetch('/api/jira?action=import-by-jql', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ jql })
-                    });
-                    
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Error importing from JIRA:', error);
-                    return { success: false, tickets: [] };
-                }
+            mapPriorityToSeverity(priority) {
+                const mapping = {
+                    'Highest': 'Level 5 - FIRE',
+                    'High': 'Level 4 - Critical',
+                    'Medium': 'Level 3 - High',
+                    'Low': 'Level 2 - Medium',
+                    'Lowest': 'Level 1 - Low'
+                };
+                return mapping[priority] || 'Level 2 - Medium';
             }
             
-            async testJiraConnection() {
-                try {
-                    const response = await fetch('/api/jira?action=test-connection', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
+            generateMockTickets(context) {
+                const count = Math.floor(Math.random() * 3) + 2;
+                const tickets = [];
+                
+                for (let i = 0; i < count; i++) {
+                    tickets.push({
+                        key: `DEMO-${Date.now() + i}`,
+                        summary: `Mock ticket from: ${String(context).substring(0, 30)}...`,
+                        severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
+                        issueValue: Math.floor(Math.random() * 50000) + 10000,
+                        enterpriseAccounts: Math.floor(Math.random() * 10),
+                        flaggedAccounts: Math.floor(Math.random() * 5),
+                        dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                        rrOeValue: Math.floor(Math.random() * 10) + 1,
+                        storyPoints: Math.floor(Math.random() * 8) + 1,
+                        createdDate: new Date().toISOString().split('T')[0],
+                        issueType: ['Bug', 'Improvement', 'New Feature'][i % 3],
+                        status: ['To Do', 'In Progress', 'In Review'][i % 3]
                     });
-                    
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Error testing JIRA connection:', error);
-                    return { success: false };
                 }
+                
+                return tickets;
             }
         }
         
         const dataService = new DataService();
         
-        // Components
-        function ColumnManager({ columns, onSave, onClose }) {
-            const [cols, setCols] = useState([...columns].sort((a, b) => a.order - b.order));
-            const [draggedItem, setDraggedItem] = useState(null);
+        // Import Modal Component
+        function ImportModal({ onClose, onImport }) {
+            const [importType, setImportType] = useState('jql');
+            const [inputValue, setInputValue] = useState('');
+            const [loading, setLoading] = useState(false);
             
-            const handleDragStart = (e, index) => {
-                setDraggedItem(index);
-            };
-            
-            const handleDragOver = (e) => {
-                e.preventDefault();
-            };
-            
-            const handleDrop = (e, dropIndex) => {
-                e.preventDefault();
-                if (draggedItem === null) return;
+            const handleImport = async () => {
+                if (!inputValue.trim()) return;
                 
-                const draggedCol = cols[draggedItem];
-                const newCols = [...cols];
-                newCols.splice(draggedItem, 1);
-                newCols.splice(dropIndex, 0, draggedCol);
-                
-                const reordered = newCols.map((col, idx) => ({ ...col, order: idx }));
-                setCols(reordered);
-                setDraggedItem(null);
-            };
-            
-            const toggleVisibility = (id) => {
-                setCols(cols.map(col => 
-                    col.id === id ? { ...col, visible: !col.visible } : col
-                ));
+                setLoading(true);
+                const tickets = await dataService.importFromJira(importType, inputValue);
+                onImport(tickets);
+                setLoading(false);
+                onClose();
             };
             
             return (
                 <div className="modal-overlay" onClick={onClose}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3 className="modal-title">Manage Columns</h3>
-                            <button className="modal-close" onClick={onClose}>×</button>
+                            <h3>Import from JIRA</h3>
+                            <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: 'pointer' }}>×</button>
                         </div>
                         <div className="modal-body">
-                            <p style={{ marginBottom: 16, color: '#718096', fontSize: 14 }}>
-                                Drag to reorder, check/uncheck to show/hide columns
-                            </p>
-                            {cols.map((col, index) => (
-                                <div
-                                    key={col.id}
-                                    className={`column-item ${draggedItem === index ? 'dragging' : ''}`}
-                                    draggable={col.id !== 'actions'}
-                                    onDragStart={(e) => handleDragStart(e, index)}
-                                    onDragOver={handleDragOver}
-                                    onDrop={(e) => handleDrop(e, index)}
-                                >
-                                    <span style={{ cursor: 'move' }}>☰</span>
-                                    <div className="checkbox-wrapper">
-                                        <input
-                                            type="checkbox"
-                                            checked={col.visible}
-                                            onChange={() => toggleVisibility(col.id)}
-                                        />
+                            <div style={{ marginBottom: 20 }}>
+                                <label style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+                                    <input
+                                        type="radio"
+                                        name="importType"
+                                        value="jql"
+                                        checked={importType === 'jql'}
+                                        onChange={(e) => setImportType(e.target.value)}
+                                        style={{ marginRight: 8 }}
+                                    />
+                                    Import by JQL Query
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center' }}>
+                                    <input
+                                        type="radio"
+                                        name="importType"
+                                        value="keys"
+                                        checked={importType === 'keys'}
+                                        onChange={(e) => setImportType(e.target.value)}
+                                        style={{ marginRight: 8 }}
+                                    />
+                                    Import by Issue Keys
+                                </label>
+                            </div>
+                            
+                            {importType === 'jql' ? (
+                                <div>
+                                    <label className="form-label">JQL Query</label>
+                                    <textarea
+                                        className="form-textarea"
+                                        placeholder="project = PROD AND status != Done"
+                                        value={inputValue}
+                                        onChange={(e) => setInputValue(e.target.value)}
+                                    />
+                                    <div style={{ marginTop: 10, fontSize: 12, color: '#718096' }}>
+                                        Examples:<br/>
+                                        • project = PROD AND status = "In Progress"<br/>
+                                        • assignee = currentUser() AND priority = High<br/>
+                                        • labels in (critical, customer-reported)
                                     </div>
-                                    <span style={{ flex: 1 }}>{col.name}</span>
                                 </div>
-                            ))}
+                            ) : (
+                                <div>
+                                    <label className="form-label">Issue Keys (comma-separated)</label>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="PROD-1234, PROD-1235, PROD-1236"
+                                        value={inputValue}
+                                        onChange={(e) => setInputValue(e.target.value)}
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div className="modal-footer">
-                            <button className="btn btn-primary" onClick={() => onSave(cols)}>
-                                Save Changes
-                            </button>
-                            <button className="btn btn-secondary" onClick={onClose}>
-                                Cancel
+                            <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+                            <button 
+                                className="btn btn-primary" 
+                                onClick={handleImport}
+                                disabled={loading || !inputValue.trim()}
+                            >
+                                {loading ? 'Importing...' : 'Import'}
                             </button>
                         </div>
                     </div>
@@ -1306,122 +1005,19 @@
             );
         }
         
-        function CalculationModal({ ticket, config, onClose }) {
-            const calc = dataService.calculateWSJF(ticket, config);
-            
-            return (
-                <div className="modal-overlay" onClick={onClose}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3 className="modal-title">WSJF Calculation Details - {ticket.key}</h3>
-                            <button className="modal-close" onClick={onClose}>×</button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="calculation-modal">
-                                <div className="calc-section">
-                                    <div className="calc-title">Business Value Component</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Severity Score ({ticket.severity})</span>
-                                        <span className="calc-value">{calc.calculations.severityScore}</span>
-                                    </div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Client Count Bonus</span>
-                                        <span className="calc-value">{calc.calculations.clientCountBonus}</span>
-                                    </div>
-                                    <div className="calc-formula">= Issue Value ({ticket.issueValue}) ÷ {config.clientCountDivisor}</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Strategic Tier Bonus</span>
-                                        <span className="calc-value">{calc.calculations.strategicTierBonus}</span>
-                                    </div>
-                                    <div className="calc-formula">Enterprise: {ticket.enterpriseAccounts}, Flagged: {ticket.flaggedAccounts}</div>
-                                    <div className="calc-row" style={{ marginTop: 12, paddingTop: 12, borderTop: '2px solid #e2e8f0' }}>
-                                        <span className="calc-label"><strong>Total Business Value</strong></span>
-                                        <span className="calc-value"><strong>{calc.calculations.businessValue}</strong></span>
-                                    </div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Weighted (× {config.weights.businessValue})</span>
-                                        <span className="calc-value">{calc.calculations.weightedBusinessValue}</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="calc-section">
-                                    <div className="calc-title">Time Criticality Component</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Due Date Urgency</span>
-                                        <span className="calc-value">{calc.calculations.dueDateUrgency}</span>
-                                    </div>
-                                    <div className="calc-formula">Due: {ticket.dueDate || 'No deadline'}</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Market Timing ({ticket.marketTiming})</span>
-                                        <span className="calc-value">×{calc.calculations.marketTimingMultiplier}</span>
-                                    </div>
-                                    <div className="calc-row" style={{ marginTop: 12, paddingTop: 12, borderTop: '2px solid #e2e8f0' }}>
-                                        <span className="calc-label"><strong>Total Time Criticality</strong></span>
-                                        <span className="calc-value"><strong>{calc.calculations.timeCriticality}</strong></span>
-                                    </div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Weighted (× {config.weights.timeCriticality})</span>
-                                        <span className="calc-value">{calc.calculations.weightedTimeCriticality}</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="calc-section">
-                                    <div className="calc-title">RR/OE Component</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">RR/OE Value</span>
-                                        <span className="calc-value">{calc.calculations.rrOeValue}</span>
-                                    </div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Weighted (× {config.weights.rrOe})</span>
-                                        <span className="calc-value">{calc.calculations.weightedRROE}</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="calc-section">
-                                    <div className="calc-title">Final Calculation</div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Cost of Delay</span>
-                                        <span className="calc-value">{calc.costOfDelay}</span>
-                                    </div>
-                                    <div className="calc-formula">
-                                        = {calc.calculations.weightedBusinessValue} + {calc.calculations.weightedTimeCriticality} + {calc.calculations.weightedRROE}
-                                    </div>
-                                    <div className="calc-row">
-                                        <span className="calc-label">Job Size (Story Points)</span>
-                                        <span className="calc-value">{calc.calculations.jobSize}</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="final-score">
-                                    <div className="final-score-label">WSJF Priority Score</div>
-                                    <div className="final-score-value">{calc.wsjfScore}</div>
-                                    <div style={{ fontSize: 14, marginTop: 8, opacity: 0.9 }}>
-                                        = (Cost of Delay ÷ Job Size) × {config.finalMultiplier}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
+        // Main App Component
         function App() {
             const [activeTab, setActiveTab] = useState('dashboard');
             const [tickets, setTickets] = useState(dataService.tickets);
             const [config, setConfig] = useState(dataService.config);
-            const [fieldMappings, setFieldMappings] = useState(dataService.fieldMappings);
-            const [columns, setColumns] = useState(dataService.columns);
             const [syncStatus, setSyncStatus] = useState(dataService.syncStatus);
             const [notification, setNotification] = useState(null);
-            const [showColumnManager, setShowColumnManager] = useState(false);
-            const [calculationTicket, setCalculationTicket] = useState(null);
+            const [showImportModal, setShowImportModal] = useState(false);
             const [filters, setFilters] = useState({
                 search: '',
                 severity: '',
                 status: '',
-                team: '',
-                customer: ''
+                issueType: ''
             });
             const [sortField, setSortField] = useState('wsjfScore');
             const [sortDirection, setSortDirection] = useState('desc');
@@ -1431,52 +1027,24 @@
                 setTimeout(() => setNotification(null), 3000);
             };
             
-            const handleImportFromJira = async () => {
-                // Show import dialog or use prompt for demo
-                const jql = prompt('Enter JQL query or issue keys (comma-separated):', 'project = PROD AND status != Done');
-                if (!jql) return;
+            const handleImport = (newTickets) => {
+                const updatedTickets = [...tickets, ...newTickets];
+                setTickets(updatedTickets);
+                dataService.saveTickets(updatedTickets);
                 
-                // Check if it's keys or JQL
-                const isKeys = jql.includes(',') || jql.match(/^[A-Z]+-\d+$/);
+                const newSync = { ...syncStatus, lastImport: new Date().toISOString() };
+                setSyncStatus(newSync);
+                dataService.saveSyncStatus(newSync);
                 
-                let result;
-                if (isKeys) {
-                    const keys = jql.split(',').map(k => k.trim());
-                    result = await dataService.importFromJira(keys);
-                } else {
-                    result = await dataService.importByJQL(jql);
-                }
-                
-                if (result.success && result.tickets) {
-                    const updatedTickets = [...tickets, ...result.tickets];
-                    setTickets(updatedTickets);
-                    dataService.saveTickets(updatedTickets);
-                    
-                    const newSync = { ...syncStatus, lastImport: new Date().toISOString() };
-                    setSyncStatus(newSync);
-                    dataService.saveSyncStatus(newSync);
-                    
-                    showNotification(`Successfully imported ${result.tickets.length} tickets from JIRA`);
-                } else {
-                    showNotification('Failed to import from JIRA. Check your configuration.');
-                }
+                showNotification(`Successfully imported ${newTickets.length} tickets`);
             };
             
             const handleRecalculate = () => {
                 const newSync = { ...syncStatus, lastCalc: new Date().toISOString() };
                 setSyncStatus(newSync);
                 dataService.saveSyncStatus(newSync);
-                setTickets([...tickets]); // Force re-render
+                setTickets([...tickets]);
                 showNotification('Recalculated all WSJF scores');
-            };
-            
-            const handlePushToJira = async (ticket, rank) => {
-                const calculations = dataService.calculateWSJF(ticket, config);
-                const result = await dataService.pushToJira(ticket, calculations, fieldMappings);
-                
-                if (result.success) {
-                    showNotification(result.message);
-                }
             };
             
             const handleSort = (field) => {
@@ -1488,67 +1056,16 @@
                 }
             };
             
-            const handleSaveColumns = (newColumns) => {
-                setColumns(newColumns);
-                dataService.saveColumns(newColumns);
-                setShowColumnManager(false);
-                showNotification('Column settings saved');
-            };
-            
             const handleConfigUpdate = (section, key, value) => {
                 const newConfig = { ...config };
-                if (section.includes('.')) {
-                    const [main, sub] = section.split('.');
-                    newConfig[main][sub] = isNaN(value) ? value : parseFloat(value);
-                } else {
+                if (section) {
                     newConfig[section][key] = isNaN(value) ? value : parseFloat(value);
+                } else {
+                    newConfig[key] = isNaN(value) ? value : parseFloat(value);
                 }
                 setConfig(newConfig);
                 dataService.saveConfig(newConfig);
-            };
-            
-            const handleFieldMappingUpdate = (field, prop, value) => {
-                const newMappings = { ...fieldMappings };
-                if (newMappings[field]) {
-                    newMappings[field][prop] = value;
-                }
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-            };
-            
-            const handleCustomFieldUpdate = (index, prop, value) => {
-                const newMappings = { ...fieldMappings };
-                newMappings.custom[index][prop] = value;
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-                
-                // Update columns if needed
-                if (prop === 'name' || prop === 'showInTable') {
-                    const field = newMappings.custom[index];
-                    const newColumns = [...columns];
-                    const colIndex = newColumns.findIndex(c => c.id === field.name);
-                    
-                    if (field.showInTable && colIndex === -1) {
-                        newColumns.push({
-                            id: field.name,
-                            name: field.name,
-                            visible: true,
-                            order: newColumns.length
-                        });
-                    } else if (!field.showInTable && colIndex !== -1) {
-                        newColumns.splice(colIndex, 1);
-                    }
-                    
-                    setColumns(newColumns);
-                    dataService.saveColumns(newColumns);
-                }
-            };
-            
-            const handleExportFieldUpdate = (index, prop, value) => {
-                const newMappings = { ...fieldMappings };
-                newMappings.export[index][prop] = value;
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
+                showNotification('Configuration updated');
             };
             
             const processedTickets = useMemo(() => {
@@ -1571,13 +1088,8 @@
                 if (filters.status) {
                     result = result.filter(t => t.status === filters.status);
                 }
-                if (filters.team) {
-                    result = result.filter(t => t.Team === filters.team);
-                }
-                if (filters.customer) {
-                    result = result.filter(t => 
-                        t.Customer?.toLowerCase().includes(filters.customer.toLowerCase())
-                    );
+                if (filters.issueType) {
+                    result = result.filter(t => t.issueType === filters.issueType);
                 }
                 
                 // Sort
@@ -1585,7 +1097,6 @@
                     let aVal = a[sortField];
                     let bVal = b[sortField];
                     
-                    // Handle numeric values
                     if (sortField === 'wsjfScore' || sortField === 'costOfDelay' || 
                         sortField === 'storyPoints' || sortField === 'issueValue') {
                         aVal = parseFloat(aVal) || 0;
@@ -1611,37 +1122,17 @@
                 ).length
             };
             
-            const visibleColumns = columns
-                .filter(col => col.visible)
-                .sort((a, b) => a.order - b.order);
-            
-            const formatDate = (dateStr) => {
-                if (!dateStr) return 'N/A';
-                try {
-                    const date = new Date(dateStr);
-                    if (isNaN(date.getTime())) return 'Invalid Date';
-                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                } catch (e) {
-                    return 'Invalid Date';
-                }
-            };
-            
             const formatSyncTime = (isoString) => {
                 if (!isoString) return 'Never';
-                try {
-                    const date = new Date(isoString);
-                    if (isNaN(date.getTime())) return 'Never';
-                    const now = new Date();
-                    const diffMs = now - date;
-                    const diffMins = Math.floor(diffMs / 60000);
-                    
-                    if (diffMins < 1) return 'Just now';
-                    if (diffMins < 60) return `${diffMins}m ago`;
-                    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
-                    return `${Math.floor(diffMins / 1440)}d ago`;
-                } catch (e) {
-                    return 'Never';
-                }
+                const date = new Date(isoString);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / 60000);
+                
+                if (diffMins < 1) return 'Just now';
+                if (diffMins < 60) return `${diffMins}m ago`;
+                if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+                return `${Math.floor(diffMins / 1440)}d ago`;
             };
             
             return (
@@ -1661,12 +1152,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div className="user-section">
-                            <div className="user-info">
-                                <div className="user-name">John Doe</div>
-                                <div className="user-role">Product Manager</div>
-                            </div>
-                        </div>
                     </div>
                     
                     <div className="nav-tabs">
@@ -1677,22 +1162,10 @@
                             Dashboard
                         </button>
                         <button
-                            className={`nav-tab ${activeTab === 'field-mapper' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('field-mapper')}
-                        >
-                            Field Mapper
-                        </button>
-                        <button
                             className={`nav-tab ${activeTab === 'scoring' ? 'active' : ''}`}
                             onClick={() => setActiveTab('scoring')}
                         >
                             Scoring Engine
-                        </button>
-                        <button
-                            className={`nav-tab ${activeTab === 'jira-config' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('jira-config')}
-                        >
-                            JIRA Config
                         </button>
                     </div>
                     
@@ -1723,7 +1196,7 @@
                                 </div>
                                 
                                 <div className="action-bar">
-                                    <button className="btn btn-primary" onClick={handleImportFromJira}>
+                                    <button className="btn btn-primary" onClick={() => setShowImportModal(true)}>
                                         <span>📥</span> Import from JIRA
                                     </button>
                                     <button className="btn btn-success" onClick={handleRecalculate}>
@@ -1731,14 +1204,17 @@
                                     </button>
                                     <button className="btn btn-secondary" onClick={() => {
                                         const csv = [
-                                            visibleColumns.filter(c => c.id !== 'actions').map(c => c.name),
-                                            ...processedTickets.map((t, i) => 
-                                                visibleColumns.filter(c => c.id !== 'actions').map(c => {
-                                                    if (c.id === 'rank') return i + 1;
-                                                    if (c.id === 'dueDate') return formatDate(t[c.id]);
-                                                    return t[c.id] || '';
-                                                })
-                                            )
+                                            ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Status'],
+                                            ...processedTickets.map((t, i) => [
+                                                i + 1,
+                                                t.key,
+                                                t.summary,
+                                                t.wsjfScore,
+                                                t.costOfDelay,
+                                                t.storyPoints,
+                                                t.severity,
+                                                t.status
+                                            ])
                                         ].map(row => row.join(',')).join('\n');
                                         
                                         const blob = new Blob([csv], { type: 'text/csv' });
@@ -1750,12 +1226,6 @@
                                         showNotification('Exported to CSV');
                                     }}>
                                         <span>📤</span> Export CSV
-                                    </button>
-                                    <button 
-                                        className="btn btn-secondary" 
-                                        onClick={() => setShowColumnManager(true)}
-                                    >
-                                        <span>⚙️</span> Manage Columns
                                     </button>
                                 </div>
                                 
@@ -1801,28 +1271,18 @@
                                             </select>
                                         </div>
                                         <div className="filter-group">
-                                            <label className="filter-label">Team</label>
+                                            <label className="filter-label">Issue Type</label>
                                             <select
                                                 className="filter-select"
-                                                value={filters.team}
-                                                onChange={(e) => setFilters({...filters, team: e.target.value})}
+                                                value={filters.issueType}
+                                                onChange={(e) => setFilters({...filters, issueType: e.target.value})}
                                             >
                                                 <option value="">All</option>
-                                                <option value="Backend">Backend</option>
-                                                <option value="Frontend">Frontend</option>
-                                                <option value="Compliance">Compliance</option>
-                                                <option value="DevOps">DevOps</option>
+                                                <option value="Bug">Bug</option>
+                                                <option value="Improvement">Improvement</option>
+                                                <option value="New Feature">New Feature</option>
+                                                <option value="Task">Task</option>
                                             </select>
-                                        </div>
-                                        <div className="filter-group">
-                                            <label className="filter-label">Customer</label>
-                                            <input
-                                                type="text"
-                                                className="filter-input"
-                                                placeholder="Filter by customer..."
-                                                value={filters.customer}
-                                                onChange={(e) => setFilters({...filters, customer: e.target.value})}
-                                            />
                                         </div>
                                         <div className="filter-group">
                                             <label className="filter-label">&nbsp;</label>
@@ -1832,8 +1292,7 @@
                                                     search: '',
                                                     severity: '',
                                                     status: '',
-                                                    team: '',
-                                                    customer: ''
+                                                    issueType: ''
                                                 })}
                                             >
                                                 Clear
@@ -1845,546 +1304,193 @@
                                 <div className="table-container">
                                     <div className="table-header">
                                         <h3 className="table-title">Prioritized Tickets ({processedTickets.length})</h3>
-                                        <div className="table-actions">
-                                            <span style={{ fontSize: 12, color: '#718096' }}>
-                                                Click column headers to sort
-                                            </span>
-                                        </div>
                                     </div>
                                     
                                     {processedTickets.length === 0 ? (
                                         <div className="empty-state">
                                             <div className="empty-state-icon">📭</div>
-                                            <div className="empty-state-title">No tickets found</div>
-                                            <div className="empty-state-text">
-                                                Try adjusting your filters or import tickets from JIRA
-                                            </div>
+                                            <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>No tickets found</div>
+                                            <div>Try adjusting your filters or import tickets from JIRA</div>
                                         </div>
                                     ) : (
                                         <table className="data-table">
                                             <thead>
                                                 <tr>
-                                                    {visibleColumns.map(col => (
-                                                        <th
-                                                            key={col.id}
-                                                            className={col.id !== 'actions' ? `sortable ${sortField === col.id ? (sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc') : ''}` : ''}
-                                                            onClick={() => col.id !== 'actions' && handleSort(col.id)}
-                                                        >
-                                                            {col.name}
-                                                        </th>
-                                                    ))}
+                                                    <th>Rank</th>
+                                                    <th className="sortable" onClick={() => handleSort('key')}>
+                                                        Key {sortField === 'key' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('summary')}>
+                                                        Summary {sortField === 'summary' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className={`sortable ${sortField === 'wsjfScore' ? (sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc') : ''}`} 
+                                                        onClick={() => handleSort('wsjfScore')}>
+                                                        WSJF Score
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('costOfDelay')}>
+                                                        Cost of Delay {sortField === 'costOfDelay' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('storyPoints')}>
+                                                        Points {sortField === 'storyPoints' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('severity')}>
+                                                        Severity {sortField === 'severity' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('status')}>
+                                                        Status {sortField === 'status' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {processedTickets.map((ticket, index) => (
-                                                    <tr key={ticket.key}>
-                                                        {visibleColumns.map(col => {
-                                                            if (col.id === 'rank') {
-                                                                return <td key={col.id}><strong>#{index + 1}</strong></td>;
-                                                            }
-                                                            if (col.id === 'key') {
-                                                                return <td key={col.id}><strong>{ticket.key}</strong></td>;
-                                                            }
-                                                            if (col.id === 'severity') {
-                                                                const level = ticket.severity.split(' - ')[1].toLowerCase();
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <span className={`badge badge-${level}`}>
-                                                                            {ticket.severity.split(' - ')[1]}
-                                                                        </span>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            if (col.id === 'wsjfScore') {
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <strong style={{ color: '#6c5ce7' }}>
-                                                                            {ticket.wsjfScore}
-                                                                        </strong>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            if (col.id === 'dueDate') {
-                                                                return <td key={col.id}>{formatDate(ticket.dueDate)}</td>;
-                                                            }
-                                                            if (col.id === 'actions') {
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <div className="action-buttons">
-                                                                            <button
-                                                                                className="icon-btn calc"
-                                                                                onClick={() => setCalculationTicket(ticket)}
-                                                                                title="Show Calculation"
-                                                                            >
-                                                                                📊 Calc
-                                                                            </button>
-                                                                            <button
-                                                                                className="icon-btn push"
-                                                                                onClick={() => handlePushToJira(ticket, index + 1)}
-                                                                                title="Push to JIRA"
-                                                                            >
-                                                                                ↗️ Push
-                                                                            </button>
-                                                                        </div>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            return <td key={col.id}>{ticket[col.id] || '-'}</td>;
-                                                        })}
-                                                    </tr>
-                                                ))}
+                                                {processedTickets.map((ticket, index) => {
+                                                    const level = ticket.severity.split(' - ')[1].toLowerCase();
+                                                    return (
+                                                        <tr key={ticket.key}>
+                                                            <td><strong>#{index + 1}</strong></td>
+                                                            <td><strong>{ticket.key}</strong></td>
+                                                            <td>{ticket.summary}</td>
+                                                            <td><strong style={{ color: '#6c5ce7' }}>{ticket.wsjfScore}</strong></td>
+                                                            <td>{ticket.costOfDelay}</td>
+                                                            <td>{ticket.storyPoints}</td>
+                                                            <td>
+                                                                <span className={`badge badge-${level}`}>
+                                                                    {ticket.severity.split(' - ')[1]}
+                                                                </span>
+                                                            </td>
+                                                            <td>{ticket.status}</td>
+                                                        </tr>
+                                                    );
+                                                })}
                                             </tbody>
                                         </table>
                                     )}
                                 </div>
                                 
-                                {showColumnManager && (
-                                    <ColumnManager
-                                        columns={columns}
-                                        onSave={handleSaveColumns}
-                                        onClose={() => setShowColumnManager(false)}
-                                    />
-                                )}
-                                
-                                {calculationTicket && (
-                                    <CalculationModal
-                                        ticket={calculationTicket}
-                                        config={config}
-                                        onClose={() => setCalculationTicket(null)}
+                                {showImportModal && (
+                                    <ImportModal
+                                        onClose={() => setShowImportModal(false)}
+                                        onImport={handleImport}
                                     />
                                 )}
                             </>
                         )}
                         
-                        {activeTab === 'field-mapper' && (
-                            <div className="form-section">
-                                <h2 className="form-title">Field Mapping Configuration</h2>
-                                <p className="form-subtitle">
-                                    Configure how JIRA fields map to WSJF calculation fields
-                                </p>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Required WSJF Fields</div>
-                                    <div className="field-mapping-header">
-                                        <div>Field Name</div>
-                                        <div>JIRA Field ID</div>
-                                        <div>Field Type</div>
-                                        <div></div>
-                                        <div></div>
-                                    </div>
-                                    <div className="field-mapping-grid">
-                                        {Object.entries({
-                                            severity: 'Severity Level',
-                                            issueValue: 'Issue Value ($)',
-                                            enterpriseAccounts: 'Enterprise Accounts',
-                                            flaggedAccounts: 'Flagged Accounts',
-                                            dueDate: 'Due Date',
-                                            marketTiming: 'Market Timing',
-                                            rrOeValue: 'RR/OE Value',
-                                            storyPoints: 'Story Points',
-                                            issueType: 'Issue Type',
-                                            createdDate: 'Created Date'
-                                        }).map(([field, label]) => (
-                                            <div key={field} className="field-mapping-row">
-                                                <div><strong>{label}</strong></div>
-                                                <input
-                                                    type="text"
-                                                    className="form-input"
-                                                    value={fieldMappings[field]?.jiraField || ''}
-                                                    onChange={(e) => handleFieldMappingUpdate(field, 'jiraField', e.target.value)}
-                                                    placeholder="e.g., customfield_10001"
-                                                />
-                                                <select
-                                                    className="form-select"
-                                                    value={fieldMappings[field]?.type || 'text'}
-                                                    onChange={(e) => handleFieldMappingUpdate(field, 'type', e.target.value)}
-                                                >
-                                                    <option value="text">Text</option>
-                                                    <option value="number">Number</option>
-                                                    <option value="dropdown">Dropdown</option>
-                                                    <option value="date">Date</option>
-                                                </select>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Custom Fields</div>
-                                    <div className="field-mapping-header">
-                                        <div>Display Name</div>
-                                        <div>JIRA Field ID</div>
-                                        <div>Field Type</div>
-                                        <div>Import</div>
-                                        <div>Show in Table</div>
-                                    </div>
-                                    <div className="field-mapping-grid">
-                                        {fieldMappings.custom.map((field, index) => (
-                                            <div key={index} className="field-mapping-row">
-                                                <input
-                                                    type="text"
-                                                    className="form-input"
-                                                    value={field.name}
-                                                    onChange={(e) => handleCustomFieldUpdate(index, 'name', e.target.value)}
-                                                    placeholder="Display name"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    className="form-input"
-                                                    value={field.jiraField}
-                                                    onChange={(e) => handleCustomFieldUpdate(index, 'jiraField', e.target.value)}
-                                                    placeholder="e.g., customfield_10007"
-                                                />
-                                                <select
-                                                    className="form-select"
-                                                    value={field.type}
-                                                    onChange={(e) => handleCustomFieldUpdate(index, 'type', e.target.value)}
-                                                >
-                                                    <option value="text">Text</option>
-                                                    <option value="number">Number</option>
-                                                    <option value="dropdown">Dropdown</option>
-                                                    <option value="date">Date</option>
-                                                </select>
-                                                <div className="checkbox-wrapper" style={{ justifyContent: 'center' }}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={field.enabled}
-                                                        onChange={(e) => handleCustomFieldUpdate(index, 'enabled', e.target.checked)}
-                                                    />
-                                                </div>
-                                                <div className="checkbox-wrapper" style={{ justifyContent: 'center' }}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={field.showInTable}
-                                                        onChange={(e) => handleCustomFieldUpdate(index, 'showInTable', e.target.checked)}
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            const newMappings = { ...fieldMappings };
-                                            newMappings.custom.push({
-                                                name: '',
-                                                jiraField: '',
-                                                type: 'text',
-                                                enabled: false,
-                                                showInTable: false
-                                            });
-                                            setFieldMappings(newMappings);
-                                            dataService.saveFieldMappings(newMappings);
-                                        }}
-                                        style={{ marginTop: 16 }}
-                                    >
-                                        + Add Custom Field
-                                    </button>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Export Fields (Push to JIRA)</div>
-                                    <div className="field-mapping-header">
-                                        <div>Calculated Field</div>
-                                        <div>JIRA Field ID</div>
-                                        <div>Enabled</div>
-                                        <div></div>
-                                        <div></div>
-                                    </div>
-                                    <div className="field-mapping-grid">
-                                        {fieldMappings.export.map((field, index) => (
-                                            <div key={index} className="field-mapping-row">
-                                                <div><strong>{field.field}</strong></div>
-                                                <input
-                                                    type="text"
-                                                    className="form-input"
-                                                    value={field.jiraField}
-                                                    onChange={(e) => handleExportFieldUpdate(index, 'jiraField', e.target.value)}
-                                                    placeholder="e.g., customfield_10010"
-                                                />
-                                                <div className="checkbox-wrapper">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={field.enabled}
-                                                        onChange={(e) => handleExportFieldUpdate(index, 'enabled', e.target.checked)}
-                                                    />
-                                                </div>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        
                         {activeTab === 'scoring' && (
                             <div className="form-section">
                                 <h2 className="form-title">Scoring Engine Configuration</h2>
-                                <p className="form-subtitle">
-                                    Fine-tune the WSJF calculation parameters
-                                </p>
+                                <p className="form-subtitle">Fine-tune the WSJF calculation parameters</p>
                                 
                                 <div className="formula-box">
-                                    <div className="formula-title">WSJF Calculation Formula</div>
+                                    <div style={{ fontWeight: 700, color: '#6c5ce7', marginBottom: 12 }}>WSJF Calculation Formula</div>
                                     <div><strong>WSJF Score = (Cost of Delay ÷ Job Size) × {config.finalMultiplier}</strong></div>
                                     <div style={{ marginTop: 12 }}>
                                         Cost of Delay = ROUND(Weighted Business Value + Weighted Time Criticality + Weighted RR/OE)
-                                    </div>
-                                    <div style={{ marginTop: 8, fontSize: 13, opacity: 0.9 }}>
-                                        • Business Value = (Severity + Client Bonus + Strategic Tier) × {config.weights.businessValue}<br/>
-                                        • Time Criticality = (Due Date Urgency × Market Timing) × {config.weights.timeCriticality}<br/>
-                                        • RR/OE = RR/OE Value × {config.weights.rrOe}
                                     </div>
                                 </div>
                                 
                                 <div className="config-section">
                                     <div className="config-title">Component Weights</div>
-                                    <div className="config-grid">
-                                        <div className="config-row">
-                                            <div>
-                                                <div className="config-label">Business Value Weight</div>
-                                                <div className="config-description">Weight for business value component</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                step="0.1"
-                                                min="0"
-                                                max="1"
-                                                value={config.weights.businessValue}
-                                                onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
-                                            />
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Business Value Weight</div>
+                                            <div className="config-description">Weight for business value component</div>
                                         </div>
-                                        <div className="config-row">
-                                            <div>
-                                                <div className="config-label">Time Criticality Weight</div>
-                                                <div className="config-description">Weight for time criticality component</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                step="0.1"
-                                                min="0"
-                                                max="1"
-                                                value={config.weights.timeCriticality}
-                                                onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
-                                            />
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.businessValue}
+                                            onChange={(e) => handleConfigUpdate('weights', 'businessValue', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Time Criticality Weight</div>
+                                            <div className="config-description">Weight for time criticality component</div>
                                         </div>
-                                        <div className="config-row">
-                                            <div>
-                                                <div className="config-label">RR/OE Weight</div>
-                                                <div className="config-description">Weight for Risk Reduction/Opportunity Enablement</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                step="0.1"
-                                                min="0"
-                                                max="1"
-                                                value={config.weights.rrOe}
-                                                onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
-                                            />
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.timeCriticality}
+                                            onChange={(e) => handleConfigUpdate('weights', 'timeCriticality', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">RR/OE Weight</div>
+                                            <div className="config-description">Weight for Risk Reduction/Opportunity Enablement</div>
                                         </div>
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            step="0.1"
+                                            value={config.weights.rrOe}
+                                            onChange={(e) => handleConfigUpdate('weights', 'rrOe', e.target.value)}
+                                        />
                                     </div>
                                 </div>
                                 
                                 <div className="config-section">
                                     <div className="config-title">Severity Scores</div>
-                                    <div className="config-grid">
-                                        {Object.entries(config.severityScores).map(([level, score]) => (
-                                            <div key={level} className="config-row">
-                                                <div>
-                                                    <div className="config-label">{level}</div>
-                                                    <div className="config-description">
-                                                        {level.includes('FIRE') && 'System down, security breach, legal liability'}
-                                                        {level.includes('Critical') && 'Business blocked, churn risk'}
-                                                        {level.includes('High') && 'Workaround difficult, >50% impact'}
-                                                        {level.includes('Medium') && 'Functional issues, <50% impact'}
-                                                        {level.includes('Low') && 'Cosmetic issues, minor improvements'}
-                                                    </div>
+                                    {Object.entries(config.severityScores).map(([level, score]) => (
+                                        <div key={level} className="config-row">
+                                            <div>
+                                                <div className="config-label">{level}</div>
+                                                <div className="config-description">
+                                                    {level.includes('FIRE') && 'System down, security breach, legal liability'}
+                                                    {level.includes('Critical') && 'Business blocked, churn risk'}
+                                                    {level.includes('High') && 'Workaround difficult, >50% impact'}
+                                                    {level.includes('Medium') && 'Functional issues, <50% impact'}
+                                                    {level.includes('Low') && 'Cosmetic issues, minor improvements'}
                                                 </div>
-                                                <input
-                                                    type="number"
-                                                    className="config-input"
-                                                    value={score}
-                                                    onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
-                                                />
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Due Date Urgency Scores</div>
-                                    <div className="config-grid">
-                                        {Object.entries(config.dueDateUrgency).map(([period, score]) => (
-                                            <div key={period} className="config-row">
-                                                <div>
-                                                    <div className="config-label">{period}</div>
-                                                </div>
-                                                <input
-                                                    type="number"
-                                                    className="config-input"
-                                                    value={score}
-                                                    onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Market Timing Multipliers</div>
-                                    <div className="config-grid">
-                                        {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
-                                            <div key={timing} className="config-row">
-                                                <div>
-                                                    <div className="config-label">{timing}</div>
-                                                    <div className="config-description">
-                                                        {timing === 'Pointless afterwards' && 'Tax deadlines, client churn'}
-                                                        {timing === 'Drops steeply' && 'Monthly processing, periodic usage'}
-                                                        {timing === 'Slowly degrading' && 'Growing dissatisfaction'}
-                                                        {timing === 'Nice to meet deadline' && 'Soft promises'}
-                                                        {timing === 'No timing impact' && 'No timing consideration'}
-                                                    </div>
-                                                </div>
-                                                <input
-                                                    type="number"
-                                                    className="config-input"
-                                                    step="0.1"
-                                                    value={multiplier}
-                                                    onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Strategic Tier Bonuses</div>
-                                    <div className="config-grid">
-                                        {Object.entries(config.strategicTierBonus).map(([tier, bonus]) => (
-                                            <div key={tier} className="config-row">
-                                                <div>
-                                                    <div className="config-label">{tier}</div>
-                                                </div>
-                                                <input
-                                                    type="number"
-                                                    className="config-input"
-                                                    value={bonus}
-                                                    onChange={(e) => handleConfigUpdate('strategicTierBonus', tier, e.target.value)}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={score}
+                                                onChange={(e) => handleConfigUpdate('severityScores', level, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                                 
                                 <div className="config-section">
                                     <div className="config-title">Calculation Parameters</div>
-                                    <div className="config-grid">
-                                        <div className="config-row">
-                                            <div>
-                                                <div className="config-label">Client Count Divisor</div>
-                                                <div className="config-description">Issue Value is divided by this number</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={config.clientCountDivisor}
-                                                onChange={(e) => handleConfigUpdate('', 'clientCountDivisor', e.target.value)}
-                                            />
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Client Count Divisor</div>
+                                            <div className="config-description">Issue Value is divided by this number</div>
                                         </div>
-                                        <div className="config-row">
-                                            <div>
-                                                <div className="config-label">Final Multiplier</div>
-                                                <div className="config-description">Applied after dividing by story points</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={config.finalMultiplier}
-                                                onChange={(e) => handleConfigUpdate('', 'finalMultiplier', e.target.value)}
-                                            />
+                                        <input
+                                            type="number"
+                                            className="config-input"
+                                            value={config.clientCountDivisor}
+                                            onChange={(e) => handleConfigUpdate(null, 'clientCountDivisor', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="config-row">
+                                        <div>
+                                            <div className="config-label">Final Multiplier</div>
+                                            <div className="config-description">Applied after dividing by story points</div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        
-                        {activeTab === 'jira-config' && (
-                            <div className="form-section">
-                                <h2 className="form-title">JIRA Configuration</h2>
-                                <p className="form-subtitle">
-                                    Configure your JIRA instance connection and import settings
-                                </p>
-                                
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label className="form-label">JIRA Base URL</label>
                                         <input
-                                            type="text"
-                                            className="form-input"
-                                            placeholder="https://yourcompany.atlassian.net"
-                                            value={config.jiraUrl}
-                                            onChange={(e) => handleConfigUpdate('', 'jiraUrl', e.target.value)}
+                                            type="number"
+                                            className="config-input"
+                                            value={config.finalMultiplier}
+                                            onChange={(e) => handleConfigUpdate(null, 'finalMultiplier', e.target.value)}
                                         />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Email</label>
-                                        <input
-                                            type="email"
-                                            className="form-input"
-                                            placeholder="your-email@company.com"
-                                            value={config.jiraEmail}
-                                            onChange={(e) => handleConfigUpdate('', 'jiraEmail', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">API Token</label>
-                                        <input
-                                            type="password"
-                                            className="form-input"
-                                            placeholder="Your JIRA API token"
-                                            value={config.jiraToken}
-                                            onChange={(e) => handleConfigUpdate('', 'jiraToken', e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => {
-                                        showNotification('JIRA configuration saved');
-                                    }}
-                                    style={{ marginTop: 24 }}
-                                >
-                                    Save Configuration
-                                </button>
-                                
-                                <div style={{ marginTop: 32, padding: 20, background: '#f7fafc', borderRadius: 12 }}>
-                                    <h3 style={{ marginBottom: 16 }}>JQL Query Templates</h3>
-                                    <div style={{ display: 'grid', gap: 12 }}>
-                                        {[
-                                            { name: 'Current Sprint', jql: 'sprint in openSprints() AND status != Done' },
-                                            { name: 'High Priority', jql: 'priority in (Highest, High) AND status != Done' },
-                                            { name: 'Overdue', jql: 'duedate < now() AND status != Done' },
-                                            { name: 'My Issues', jql: 'assignee = currentUser() AND status != Done' }
-                                        ].map(template => (
-                                            <div key={template.name} style={{ padding: 12, background: 'white', borderRadius: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <div>
-                                                    <div style={{ fontWeight: 600, marginBottom: 4 }}>{template.name}</div>
-                                                    <code style={{ fontSize: 12, color: '#718096' }}>{template.jql}</code>
-                                                </div>
-                                                <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 12 }}>
-                                                    Use Template
-                                                </button>
-                                            </div>
-                                        ))}
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
+                </div>
+            );
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
