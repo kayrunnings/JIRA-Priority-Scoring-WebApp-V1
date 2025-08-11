@@ -1,72 +1,33 @@
 {
-  "name": "wsjf-enterprise-client",
+  "name": "wsjf-prioritization-system",
   "version": "2.0.0",
-  "description": "WSJF Enterprise System Frontend",
+  "description": "WSJF Enterprise Prioritization System with JIRA Integration",
   "private": true,
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1",
-    "axios": "^1.6.2",
-    "recharts": "^2.10.3",
-    "tailwindcss": "^3.4.0",
-    "@headlessui/react": "^1.7.17",
-    "@heroicons/react": "^2.1.1",
-    "date-fns": "^3.0.6",
-    "react-query": "^3.39.3",
-    "zustand": "^4.4.7",
-    "react-hook-form": "^7.48.2",
-    "react-table": "^7.8.0",
-    "react-select": "^5.8.0",
-    "react-datepicker": "^4.25.0",
-    "react-toastify": "^10.0.3",
-    "socket.io-client": "^4.6.1",
-    "xlsx": "^0.18.5",
-    "file-saver": "^2.0.5",
-    "react-beautiful-dnd": "^13.1.1"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.18",
-    "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.0.10",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^3.1.1",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
-    "@testing-library/react": "^14.1.2",
-    "@testing-library/jest-dom": "^6.1.5",
-    "@testing-library/user-event": "^14.5.1",
-    "vitest": "^1.1.0",
-    "msw": "^2.0.11"
-  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\""
+    "dev": "vercel dev",
+    "deploy": "vercel --prod",
+    "test": "echo \"No tests configured\"",
+    "lint": "echo \"No linting configured\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^32.0.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "keywords": [
+    "wsjf",
+    "jira",
+    "prioritization",
+    "fintech",
+    "agile",
+    "safe"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/wsjf-prioritization-system"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
