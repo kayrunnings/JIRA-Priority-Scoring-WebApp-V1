@@ -1,8 +1,29 @@
 {
-  "functions": {
-    "api/jira.js": {
-      "maxDuration": 30
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "JIRA_BASE_URL": "@jira_base_url",
+    "JIRA_EMAIL": "@jira_email",
+    "JIRA_API_TOKEN": "@jira_api_token"
   },
   "headers": [
     {
@@ -14,11 +35,15 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=1, stale-while-revalidate"
         }
       ]
     }
