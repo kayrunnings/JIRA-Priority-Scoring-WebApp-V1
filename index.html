@@ -21,128 +21,6 @@
             color: #2d3436;
         }
         
-        /* Authentication Styles */
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .auth-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 440px;
-            padding: 40px;
-            animation: slideUp 0.5s ease;
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .auth-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        
-        .auth-logo {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .auth-title {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        
-        .auth-subtitle {
-            color: #718096;
-            font-size: 14px;
-        }
-        
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .auth-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .auth-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4a5568;
-        }
-        
-        .auth-input {
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .auth-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .auth-button {
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .auth-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .auth-footer {
-            text-align: center;
-            margin-top: 24px;
-            color: #718096;
-            font-size: 14px;
-        }
-        
-        .auth-link {
-            color: #667eea;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        .auth-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Main App Styles */
         .app-container {
             min-height: 100vh;
             background: #f7fafc;
@@ -172,64 +50,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            color: #2d3436;
-        }
-        
-        .user-email {
-            font-size: 12px;
-            color: #718096;
-        }
-        
-        .logout-btn {
-            padding: 8px 16px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            color: #4a5568;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .logout-btn:hover {
-            border-color: #cbd5e0;
-            background: #f7fafc;
-        }
-        
-        .import-info {
-            display: flex;
-            gap: 24px;
-            padding: 12px 32px;
-            background: #edf2f7;
-            border-bottom: 1px solid #cbd5e0;
-            font-size: 13px;
-            color: #4a5568;
-        }
-        
-        .import-info-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .import-info-label {
-            font-weight: 600;
         }
         
         .nav-tabs {
@@ -289,22 +109,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 16px;
-        }
-        
-        .stat-icon.purple { background: rgba(102, 126, 234, 0.1); color: #667eea; }
-        .stat-icon.green { background: rgba(72, 187, 120, 0.1); color: #48bb78; }
-        .stat-icon.blue { background: rgba(66, 153, 225, 0.1); color: #4299e1; }
-        .stat-icon.red { background: rgba(245, 101, 101, 0.1); color: #f56565; }
-        
         .stat-value {
             font-size: 32px;
             font-weight: 700;
@@ -363,21 +167,6 @@
             background: white;
             color: #4a5568;
             border: 1px solid #e2e8f0;
-        }
-        
-        .btn-warning {
-            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
-            color: white;
-        }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
-            color: white;
-        }
-        
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
         }
         
         .filter-bar {
@@ -461,9 +250,6 @@
             border-bottom: 2px solid #e2e8f0;
             cursor: pointer;
             user-select: none;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         
         .data-table th.sortable:hover {
@@ -526,41 +312,6 @@
             color: #4a5568;
         }
         
-        .calc-btn {
-            padding: 4px 8px;
-            background: #edf2f7;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-            color: #4a5568;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .calc-btn:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
-        .push-btn {
-            padding: 4px 8px;
-            background: #c6f6d5;
-            border: 1px solid #9ae6b4;
-            border-radius: 4px;
-            color: #276749;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 4px;
-        }
-        
-        .push-btn:hover {
-            background: #48bb78;
-            color: white;
-            border-color: #48bb78;
-        }
-        
         .form-section {
             background: white;
             border-radius: 12px;
@@ -580,96 +331,6 @@
             font-size: 14px;
             color: #718096;
             margin-bottom: 24px;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .form-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #4a5568;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            padding: 10px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: inherit;
-        }
-        
-        .field-mapping-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        .field-mapping-table th {
-            background: #f7fafc;
-            padding: 12px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            color: #4a5568;
-            text-transform: uppercase;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        .field-mapping-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .field-mapping-table input[type="checkbox"] {
-            cursor: pointer;
-        }
-        
-        .field-mapping-row {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            gap: 12px;
-        }
-        
-        .field-mapping-options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 8px;
-            padding: 12px;
-            background: #edf2f7;
-            border-radius: 6px;
-        }
-        
-        .value-mapping-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
         }
         
         .formula-box {
@@ -770,7 +431,7 @@
             background: white;
             border-radius: 16px;
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             max-height: 85vh;
             overflow: hidden;
             display: flex;
@@ -800,48 +461,6 @@
             gap: 12px;
         }
         
-        .tooltip {
-            position: absolute;
-            background: #2d3436;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            z-index: 1000;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            pointer-events: none;
-        }
-        
-        .column-manager {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .column-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f7fafc;
-            border-radius: 8px;
-            cursor: move;
-        }
-        
-        .column-item.dragging {
-            opacity: 0.5;
-        }
-        
-        .column-item input[type="checkbox"] {
-            cursor: pointer;
-        }
-        
-        .drag-handle {
-            cursor: move;
-            color: #cbd5e0;
-        }
-        
         .empty-state {
             text-align: center;
             padding: 60px;
@@ -853,239 +472,88 @@
             margin-bottom: 16px;
             opacity: 0.5;
         }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useEffect, useMemo, useCallback, useRef } = React;
+        const { useState, useEffect, useMemo } = React;
         
-        // Data Service with all functionality
+        // Simplified Data Service without authentication
         class DataService {
             constructor() {
-                this.storageAvailable = this.checkStorageAvailable();
-                this.currentUser = this.loadUser();
                 this.tickets = this.loadTickets();
                 this.config = this.loadConfig();
-                this.fieldMappings = this.loadFieldMappings();
-                this.columns = this.loadColumns();
-                this.importHistory = this.loadImportHistory();
-                this.jiraConfig = this.loadJiraConfig();
             }
             
-            checkStorageAvailable() {
-                try {
-                    const test = '__test__';
-                    window.localStorage.setItem(test, test);
-                    window.localStorage.removeItem(test);
-                    return true;
-                } catch(e) {
-                    return false;
-                }
-            }
-            
-            safeGet(key, defaultValue) {
-                if (!this.storageAvailable) return defaultValue;
-                try {
-                    const item = window.localStorage.getItem(key);
-                    return item ? JSON.parse(item) : defaultValue;
-                } catch (e) {
-                    return defaultValue;
-                }
-            }
-            
-            safeSet(key, value) {
-                if (!this.storageAvailable) return false;
-                try {
-                    window.localStorage.setItem(key, JSON.stringify(value));
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            }
-            
-            // User Management
-            loadUser() {
-                return this.safeGet('wsjf_current_user', null);
-            }
-            
-            saveUser(user) {
-                this.currentUser = user;
-                this.safeSet('wsjf_current_user', user);
-            }
-            
-            signUp(email, password, name) {
-                const users = this.safeGet('wsjf_users', []);
-                if (users.find(u => u.email === email)) {
-                    return { success: false, message: 'User already exists' };
-                }
-                const user = { 
-                    id: Date.now().toString(), 
-                    email, 
-                    password: btoa(password), // Simple encoding for demo
-                    name,
-                    createdAt: new Date().toISOString()
-                };
-                users.push(user);
-                this.safeSet('wsjf_users', users);
-                this.saveUser(user);
-                return { success: true, user };
-            }
-            
-            signIn(email, password) {
-                const users = this.safeGet('wsjf_users', []);
-                const user = users.find(u => u.email === email && u.password === btoa(password));
-                if (user) {
-                    this.saveUser(user);
-                    return { success: true, user };
-                }
-                return { success: false, message: 'Invalid credentials' };
-            }
-            
-            signOut() {
-                this.saveUser(null);
-            }
-            
-            // JIRA Configuration
-            loadJiraConfig() {
-                return this.safeGet('wsjf_jira_config', {
-                    baseUrl: '',
-                    email: '',
-                    apiToken: ''
-                });
-            }
-            
-            saveJiraConfig(config) {
-                this.jiraConfig = config;
-                this.safeSet('wsjf_jira_config', config);
-            }
-            
-            // Import History
-            loadImportHistory() {
-                return this.safeGet('wsjf_import_history', []);
-            }
-            
-            addImportHistory(entry) {
-                const history = this.loadImportHistory();
-                history.unshift({
-                    ...entry,
-                    id: Date.now().toString(),
-                    timestamp: new Date().toISOString(),
-                    user: this.currentUser?.name || 'Unknown'
-                });
-                // Keep only last 50 entries
-                if (history.length > 50) history.pop();
-                this.safeSet('wsjf_import_history', history);
-                this.importHistory = history;
-            }
-            
-            // Field Mappings
-            loadFieldMappings() {
-                return this.safeGet('wsjf_field_mappings', this.getDefaultFieldMappings());
-            }
-            
-            saveFieldMappings(mappings) {
-                this.fieldMappings = mappings;
-                this.safeSet('wsjf_field_mappings', mappings);
-            }
-            
-            getDefaultFieldMappings() {
-                return {
-                    calculation: [
-                        { 
-                            field: 'severity', 
-                            jiraField: 'priority', 
-                            displayName: 'Severity', 
-                            enabled: true, 
-                            type: 'dropdown',
-                            valueMapping: [
-                                { jiraValue: 'Highest', appValue: 'Level 5 - FIRE' },
-                                { jiraValue: 'High', appValue: 'Level 4 - Critical' },
-                                { jiraValue: 'Medium', appValue: 'Level 3 - High' },
-                                { jiraValue: 'Low', appValue: 'Level 2 - Medium' },
-                                { jiraValue: 'Lowest', appValue: 'Level 1 - Low' }
-                            ]
-                        },
-                        { field: 'issueValue', jiraField: 'customfield_10001', displayName: 'Issue Value ($)', enabled: true, type: 'number' },
-                        { field: 'enterpriseAccounts', jiraField: 'customfield_10002', displayName: 'Enterprise Accounts', enabled: true, type: 'number' },
-                        { field: 'flaggedAccounts', jiraField: 'customfield_10003', displayName: 'Flagged Accounts', enabled: true, type: 'number' },
-                        { field: 'dueDate', jiraField: 'duedate', displayName: 'Due Date', enabled: true, type: 'date' },
-                        { 
-                            field: 'marketTiming', 
-                            jiraField: 'customfield_10004', 
-                            displayName: 'Market Timing', 
-                            enabled: true, 
-                            type: 'dropdown',
-                            valueMapping: [
-                                { jiraValue: 'Pointless afterwards', appValue: 'Pointless afterwards' },
-                                { jiraValue: 'Drops steeply', appValue: 'Drops steeply' },
-                                { jiraValue: 'Slowly degrading', appValue: 'Slowly degrading' },
-                                { jiraValue: 'Nice to meet deadline', appValue: 'Nice to meet deadline' },
-                                { jiraValue: 'No timing impact', appValue: 'No timing impact' }
-                            ]
-                        },
-                        { field: 'rrOeValue', jiraField: 'customfield_10005', displayName: 'RR/OE Value', enabled: true, type: 'number' },
-                        { field: 'storyPoints', jiraField: 'customfield_10006', displayName: 'Story Points', enabled: true, type: 'number' }
-                    ],
-                    display: [
-                        { field: 'customer', jiraField: 'customfield_10007', displayName: 'Customer', enabled: true, showInTable: true, type: 'display' },
-                        { field: 'team', jiraField: 'customfield_10008', displayName: 'Team', enabled: true, showInTable: true, type: 'display' },
-                        { field: 'sprint', jiraField: 'customfield_10009', displayName: 'Sprint', enabled: false, showInTable: false, type: 'display' },
-                        { field: 'labels', jiraField: 'labels', displayName: 'Labels', enabled: true, showInTable: false, type: 'display' }
-                    ],
-                    export: [
-                        { field: 'wsjfScore', jiraField: 'customfield_10010', enabled: false },
-                        { field: 'costOfDelay', jiraField: 'customfield_10011', enabled: false },
-                        { field: 'rank', jiraField: 'customfield_10012', enabled: false }
-                    ]
-                };
-            }
-            
-            // Column Management
-            loadColumns() {
-                return this.safeGet('wsjf_columns', this.getDefaultColumns());
-            }
-            
-            saveColumns(columns) {
-                this.columns = columns;
-                this.safeSet('wsjf_columns', columns);
-            }
-            
-            getDefaultColumns() {
-                return [
-                    { id: 'rank', name: 'Rank', visible: true, order: 0, sortable: false },
-                    { id: 'key', name: 'Key', visible: true, order: 1, sortable: true },
-                    { id: 'summary', name: 'Summary', visible: true, order: 2, sortable: true },
-                    { id: 'wsjfScore', name: 'WSJF Score', visible: true, order: 3, sortable: true },
-                    { id: 'costOfDelay', name: 'Cost of Delay', visible: true, order: 4, sortable: true },
-                    { id: 'storyPoints', name: 'Story Points', visible: true, order: 5, sortable: true },
-                    { id: 'severity', name: 'Severity', visible: true, order: 6, sortable: true },
-                    { id: 'status', name: 'Status', visible: true, order: 7, sortable: true },
-                    { id: 'customer', name: 'Customer', visible: true, order: 8, sortable: true },
-                    { id: 'team', name: 'Team', visible: true, order: 9, sortable: true },
-                    { id: 'actions', name: 'Actions', visible: true, order: 10, sortable: false }
-                ];
-            }
-            
-            // Tickets
             loadTickets() {
-                return this.safeGet('wsjf_tickets', this.getSampleTickets());
+                try {
+                    const stored = localStorage.getItem('wsjf_tickets');
+                    return stored ? JSON.parse(stored) : this.getSampleTickets();
+                } catch (e) {
+                    return this.getSampleTickets();
+                }
             }
             
             saveTickets(tickets) {
+                try {
+                    localStorage.setItem('wsjf_tickets', JSON.stringify(tickets));
+                } catch (e) {
+                    console.warn('Could not save to localStorage');
+                }
                 this.tickets = tickets;
-                this.safeSet('wsjf_tickets', tickets);
             }
             
-            // Config
             loadConfig() {
-                return this.safeGet('wsjf_config', this.getDefaultConfig());
+                try {
+                    const stored = localStorage.getItem('wsjf_config');
+                    return stored ? JSON.parse(stored) : this.getDefaultConfig();
+                } catch (e) {
+                    return this.getDefaultConfig();
+                }
             }
             
             saveConfig(config) {
+                try {
+                    localStorage.setItem('wsjf_config', JSON.stringify(config));
+                } catch (e) {
+                    console.warn('Could not save to localStorage');
+                }
                 this.config = config;
-                this.safeSet('wsjf_config', config);
             }
             
             getDefaultConfig() {
@@ -1112,50 +580,6 @@
                         'Slowly degrading': 1.4,
                         'Nice to meet deadline': 1.2,
                         'No timing impact': 1.0
-                    },
-                    marketTimingDefaults: {
-                        'Level 5 - FIRE': 'Drops steeply',
-                        'Level 4 - Critical': 'Slowly degrading',
-                        'Level 3 - High': 'Slowly degrading',
-                        'Level 2 - Medium': 'No timing impact',
-                        'Level 1 - Low': 'No timing impact'
-                    },
-                    defaultDueDates: {
-                        'CleanUp': {
-                            'Level 2 - Medium': 'No deadline',
-                            'Level 1 - Low': 'No deadline',
-                            'Level 3 - High': 7,
-                            'Level 4 - Critical': 3,
-                            'Level 5 - FIRE': 1
-                        },
-                        'Bug': {
-                            'Level 2 - Medium': 14,
-                            'Level 1 - Low': 14,
-                            'Level 3 - High': 7,
-                            'Level 4 - Critical': 3,
-                            'Level 5 - FIRE': 1
-                        },
-                        'Improvement': {
-                            'Level 2 - Medium': 30,
-                            'Level 1 - Low': 30,
-                            'Level 3 - High': 30,
-                            'Level 4 - Critical': 3,
-                            'Level 5 - FIRE': 1
-                        },
-                        'New Feature': {
-                            'Level 2 - Medium': 60,
-                            'Level 1 - Low': 60,
-                            'Level 3 - High': 60,
-                            'Level 4 - Critical': 3,
-                            'Level 5 - FIRE': 1
-                        },
-                        'Variable': {
-                            'Level 2 - Medium': 30,
-                            'Level 1 - Low': 30,
-                            'Level 3 - High': 30,
-                            'Level 4 - Critical': 3,
-                            'Level 5 - FIRE': 1
-                        }
                     },
                     weights: {
                         businessValue: 0.4,
@@ -1188,9 +612,37 @@
                         storyPoints: 8,
                         createdDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
                         issueType: 'Bug',
-                        status: 'In Progress',
-                        customer: 'Enterprise Corp',
-                        team: 'Backend'
+                        status: 'In Progress'
+                    },
+                    {
+                        key: 'PROD-1002',
+                        summary: 'Dashboard performance optimization for large datasets',
+                        severity: 'Level 3 - High',
+                        issueValue: 25000,
+                        enterpriseAccounts: 3,
+                        flaggedAccounts: 1,
+                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Slowly degrading',
+                        rrOeValue: 5,
+                        storyPoints: 5,
+                        createdDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'Improvement',
+                        status: 'To Do'
+                    },
+                    {
+                        key: 'PROD-1003',
+                        summary: 'GDPR compliance module for EU market',
+                        severity: 'Level 4 - Critical',
+                        issueValue: 50000,
+                        enterpriseAccounts: 8,
+                        flaggedAccounts: 3,
+                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: 'Drops steeply',
+                        rrOeValue: 8,
+                        storyPoints: 13,
+                        createdDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        issueType: 'New Feature',
+                        status: 'In Review'
                     }
                 ];
             }
@@ -1234,40 +686,9 @@
                     } else if (daysUntilDue < 180) {
                         dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
                     }
-                } else {
-                    // Apply defaults based on issue type and severity
-                    const issueType = ticket.issueType || 'Task';
-                    const severity = ticket.severity || 'Level 2 - Medium';
-                    const defaultDays = config.defaultDueDates[issueType]?.[severity];
-                    
-                    if (defaultDays === 'No deadline') {
-                        dueDateUrgency = config.dueDateUrgency['No deadline'];
-                    } else if (defaultDays) {
-                        if (defaultDays <= 3) {
-                            dueDateUrgency = config.dueDateUrgency['< 1 week'];
-                        } else if (defaultDays <= 7) {
-                            dueDateUrgency = config.dueDateUrgency['< 1 week'];
-                        } else if (defaultDays <= 14) {
-                            dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
-                        } else if (defaultDays <= 30) {
-                            dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
-                        } else if (defaultDays <= 60) {
-                            dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
-                        } else {
-                            dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
-                        }
-                    }
                 }
                 
-                let marketTimingMultiplier = 1.0;
-                if (ticket.marketTiming) {
-                    marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
-                } else {
-                    // Apply default based on severity
-                    const defaultTiming = config.marketTimingDefaults[ticket.severity] || 'No timing impact';
-                    marketTimingMultiplier = config.marketTimingMultipliers[defaultTiming];
-                }
-                
+                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
                 const timeCriticality = dueDateUrgency * marketTimingMultiplier;
                 const weightedTimeCriticality = timeCriticality * config.weights.timeCriticality;
                 
@@ -1280,248 +701,51 @@
                 
                 return {
                     wsjfScore: wsjfScore.toFixed(2),
-                    costOfDelay,
-                    details: {
-                        severityScore,
-                        clientCountBonus: clientCountBonus.toFixed(2),
-                        strategicTierBonus,
-                        businessValue: businessValue.toFixed(2),
-                        weightedBusinessValue: weightedBusinessValue.toFixed(2),
-                        dueDateUrgency,
-                        marketTimingMultiplier,
-                        timeCriticality: timeCriticality.toFixed(2),
-                        weightedTimeCriticality: weightedTimeCriticality.toFixed(2),
-                        rrOeValue: ticket.rrOeValue,
-                        weightedRROE: weightedRROE.toFixed(2),
-                        storyPoints: ticket.storyPoints
-                    }
+                    costOfDelay
                 };
-            }
-            
-            async importFromJira(type, value, fieldMappings) {
-                // Mock implementation - would connect to real JIRA API
-                const mockTickets = [];
-                const count = Math.floor(Math.random() * 3) + 2;
-                
-                for (let i = 0; i < count; i++) {
-                    mockTickets.push({
-                        key: `DEMO-${Date.now() + i}`,
-                        fields: {
-                            summary: `Mock ticket from: ${String(value).substring(0, 30)}...`,
-                            priority: { name: ['Highest', 'High', 'Medium'][i % 3] },
-                            status: { name: ['To Do', 'In Progress', 'In Review'][i % 3] },
-                            issuetype: { name: ['Bug', 'Improvement', 'New Feature'][i % 3] },
-                            created: new Date().toISOString(),
-                            customfield_10001: Math.floor(Math.random() * 50000) + 10000,
-                            customfield_10002: Math.floor(Math.random() * 10),
-                            customfield_10003: Math.floor(Math.random() * 5),
-                            duedate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                            customfield_10004: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
-                            customfield_10005: Math.floor(Math.random() * 10) + 1,
-                            customfield_10006: Math.floor(Math.random() * 8) + 1,
-                            customfield_10007: ['Enterprise Corp', 'Small Business', 'Startup Inc'][i % 3],
-                            customfield_10008: ['Backend', 'Frontend', 'DevOps'][i % 3]
-                        }
-                    });
-                }
-                
-                return { issues: mockTickets };
             }
         }
         
         const dataService = new DataService();
         
-        // Authentication Components
-        function SignIn({ onSignIn, onSwitchToSignUp }) {
-            const [email, setEmail] = useState('demo@company.com');
-            const [password, setPassword] = useState('demo123');
-            const [error, setError] = useState('');
+        // Import Modal Component
+        function ImportModal({ onClose, onImport }) {
+            const [importType, setImportType] = useState('jql');
+            const [inputValue, setInputValue] = useState('');
+            const [loading, setLoading] = useState(false);
             
-            // Auto-create demo user if doesn't exist
-            useEffect(() => {
-                const users = dataService.safeGet('wsjf_users', []);
-                if (!users.find(u => u.email === 'demo@company.com')) {
-                    dataService.signUp('demo@company.com', 'demo123', 'Demo User');
-                }
-            }, []);
-            
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                const result = dataService.signIn(email, password);
-                if (result.success) {
-                    onSignIn(result.user);
-                } else {
-                    setError(result.message);
-                }
-            };
-            
-            return (
-                <div className="auth-container">
-                    <div className="auth-card">
-                        <div className="auth-header">
-                            <div className="auth-logo">📊</div>
-                            <h1 className="auth-title">WSJF Enterprise</h1>
-                            <p className="auth-subtitle">Sign in to your account</p>
-                        </div>
-                        <form className="auth-form" onSubmit={handleSubmit}>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Email</label>
-                                <input
-                                    type="email"
-                                    className="auth-input"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Enter your email"
-                                    required
-                                />
-                            </div>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Password</label>
-                                <input
-                                    type="password"
-                                    className="auth-input"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Enter your password"
-                                    required
-                                />
-                            </div>
-                            {error && <div style={{ color: '#e53e3e', fontSize: 14 }}>{error}</div>}
-                            <button type="submit" className="auth-button">Sign In</button>
-                        </form>
-                        <div className="auth-footer">
-                            Don't have an account? <span className="auth-link" onClick={onSwitchToSignUp}>Sign up</span>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function SignUp({ onSignUp, onSwitchToSignIn }) {
-            const [formData, setFormData] = useState({
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            });
-            const [error, setError] = useState('');
-            
-            const handleSubmit = (e) => {
-                e.preventDefault();
-                if (formData.password !== formData.confirmPassword) {
-                    setError('Passwords do not match');
-                    return;
-                }
-                const result = dataService.signUp(formData.email, formData.password, formData.name);
-                if (result.success) {
-                    onSignUp(result.user);
-                } else {
-                    setError(result.message);
-                }
-            };
-            
-            return (
-                <div className="auth-container">
-                    <div className="auth-card">
-                        <div className="auth-header">
-                            <div className="auth-logo">📊</div>
-                            <h1 className="auth-title">WSJF Enterprise</h1>
-                            <p className="auth-subtitle">Create your account</p>
-                        </div>
-                        <form className="auth-form" onSubmit={handleSubmit}>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Name</label>
-                                <input
-                                    type="text"
-                                    className="auth-input"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                    placeholder="Enter your name"
-                                    required
-                                />
-                            </div>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Email</label>
-                                <input
-                                    type="email"
-                                    className="auth-input"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                    placeholder="Enter your email"
-                                    required
-                                />
-                            </div>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Password</label>
-                                <input
-                                    type="password"
-                                    className="auth-input"
-                                    value={formData.password}
-                                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                                    placeholder="Create a password"
-                                    required
-                                />
-                            </div>
-                            <div className="auth-input-group">
-                                <label className="auth-label">Confirm Password</label>
-                                <input
-                                    type="password"
-                                    className="auth-input"
-                                    value={formData.confirmPassword}
-                                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                                    placeholder="Confirm your password"
-                                    required
-                                />
-                            </div>
-                            {error && <div style={{ color: '#e53e3e', fontSize: 14 }}>{error}</div>}
-                            <button type="submit" className="auth-button">Sign Up</button>
-                        </form>
-                        <div className="auth-footer">
-                            Already have an account? <span className="auth-link" onClick={onSwitchToSignIn}>Sign in</span>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        // Modal Components
-        function ColumnManagerModal({ columns, onSave, onClose }) {
-            const [cols, setCols] = useState([...columns].sort((a, b) => a.order - b.order));
-            const [draggedItem, setDraggedItem] = useState(null);
-            
-            const handleDragStart = (e, index) => {
-                setDraggedItem(index);
-            };
-            
-            const handleDragOver = (e) => {
-                e.preventDefault();
-            };
-            
-            const handleDrop = (e, dropIndex) => {
-                e.preventDefault();
-                if (draggedItem === null) return;
+            const handleImport = async () => {
+                if (!inputValue.trim()) return;
                 
-                const draggedCol = cols[draggedItem];
-                const newCols = [...cols];
-                newCols.splice(draggedItem, 1);
-                newCols.splice(dropIndex, 0, draggedCol);
-                
-                const reordered = newCols.map((col, idx) => ({ ...col, order: idx }));
-                setCols(reordered);
-                setDraggedItem(null);
-            };
-            
-            const toggleVisibility = (id) => {
-                setCols(cols.map(col => 
-                    col.id === id ? { ...col, visible: !col.visible } : col
-                ));
+                setLoading(true);
+                // Simulate import with mock data
+                setTimeout(() => {
+                    const mockTickets = Array(Math.floor(Math.random() * 3) + 1).fill(null).map((_, i) => ({
+                        key: `JIRA-${Date.now() + i}`,
+                        summary: `Imported ticket from: ${inputValue.substring(0, 30)}...`,
+                        severity: ['Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical'][i % 3],
+                        issueValue: Math.floor(Math.random() * 50000) + 10000,
+                        enterpriseAccounts: Math.floor(Math.random() * 10),
+                        flaggedAccounts: Math.floor(Math.random() * 5),
+                        dueDate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                        marketTiming: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                        rrOeValue: Math.floor(Math.random() * 10) + 1,
+                        storyPoints: Math.floor(Math.random() * 8) + 1,
+                        createdDate: new Date().toISOString().split('T')[0],
+                        issueType: ['Bug', 'Improvement', 'New Feature'][i % 3],
+                        status: ['To Do', 'In Progress', 'In Review'][i % 3]
+                    }));
+                    onImport(mockTickets);
+                    setLoading(false);
+                    onClose();
+                }, 1000);
             };
             
             return (
                 <div className="modal-overlay" onClick={onClose}>
                     <div className="modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>Manage Columns</h3>
+                            <h3>Import from JIRA</h3>
                             <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: 'pointer' }}>×</button>
                         </div>
                         <div className="modal-body">
@@ -1559,6 +783,12 @@
                                         value={inputValue}
                                         onChange={(e) => setInputValue(e.target.value)}
                                     />
+                                    <div style={{ marginTop: 10, fontSize: 12, color: '#718096' }}>
+                                        Examples:<br/>
+                                        • project = PROD AND status = "In Progress"<br/>
+                                        • assignee = currentUser() AND priority = High<br/>
+                                        • labels in (critical, customer-reported)
+                                    </div>
                                 </div>
                             ) : (
                                 <div>
@@ -1572,16 +802,6 @@
                                     />
                                 </div>
                             )}
-                            
-                            <div style={{ marginTop: 20, padding: 16, background: '#f7fafc', borderRadius: 8 }}>
-                                <strong>Recent Imports:</strong>
-                                {dataService.importHistory.slice(0, 3).map(h => (
-                                    <div key={h.id} style={{ marginTop: 8, fontSize: 12, color: '#718096' }}>
-                                        • {h.type === 'jql' ? 'JQL' : 'Keys'}: {h.query.substring(0, 50)}... 
-                                        ({h.count} tickets, {new Date(h.timestamp).toLocaleDateString()})
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                         <div className="modal-footer">
                             <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
@@ -1600,24 +820,16 @@
         
         // Main App Component
         function App() {
-            const [user, setUser] = useState(dataService.currentUser);
-            const [showSignUp, setShowSignUp] = useState(false);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [tickets, setTickets] = useState(dataService.tickets);
             const [config, setConfig] = useState(dataService.config);
-            const [fieldMappings, setFieldMappings] = useState(dataService.fieldMappings);
-            const [columns, setColumns] = useState(dataService.columns);
-            const [jiraConfig, setJiraConfig] = useState(dataService.jiraConfig);
             const [notification, setNotification] = useState(null);
             const [showImportModal, setShowImportModal] = useState(false);
-            const [showColumnManager, setShowColumnManager] = useState(false);
-            const [tooltipData, setTooltipData] = useState(null);
             const [filters, setFilters] = useState({
                 search: '',
                 severity: '',
                 status: '',
-                team: '',
-                customer: ''
+                issueType: ''
             });
             const [sortField, setSortField] = useState('wsjfScore');
             const [sortDirection, setSortDirection] = useState('desc');
@@ -1627,166 +839,20 @@
                 setTimeout(() => setNotification(null), 3000);
             };
             
-            const handleSignIn = (user) => {
-                setUser(user);
-                dataService.saveUser(user);
-            };
-            
-            const handleSignOut = () => {
-                dataService.signOut();
-                setUser(null);
-            };
-            
-            const handleImport = (issues) => {
-                const newTickets = issues.map(issue => {
-                    const ticket = {
-                        key: issue.key,
-                        summary: issue.fields?.summary || '',
-                        status: issue.fields?.status?.name || 'To Do',
-                        issueType: issue.fields?.issuetype?.name || 'Task',
-                        createdDate: issue.fields?.created || new Date().toISOString()
-                    };
-                    
-                    // Map calculation fields
-                    fieldMappings.calculation.forEach(mapping => {
-                        if (mapping.enabled) {
-                            const value = issue.fields?.[mapping.jiraField];
-                            
-                            if (mapping.type === 'dropdown' && mapping.valueMapping) {
-                                // Apply value mapping for dropdowns
-                                const mappedValue = mapping.valueMapping.find(vm => 
-                                    vm.jiraValue === value || vm.jiraValue === issue.fields?.priority?.name
-                                );
-                                ticket[mapping.field] = mappedValue ? mappedValue.appValue : getDefaultValue(mapping.field);
-                            } else {
-                                ticket[mapping.field] = value || getDefaultValue(mapping.field);
-                            }
-                        }
-                    });
-                    
-                    // Map display fields
-                    fieldMappings.display.forEach(mapping => {
-                        if (mapping.enabled) {
-                            ticket[mapping.field] = issue.fields?.[mapping.jiraField] || '';
-                        }
-                    });
-                    
-                    return ticket;
-                });
-                
+            const handleImport = (newTickets) => {
                 const updatedTickets = [...tickets, ...newTickets];
                 setTickets(updatedTickets);
                 dataService.saveTickets(updatedTickets);
-                showNotification(`Imported ${newTickets.length} tickets`);
-            };
-            
-            const getDefaultValue = (field) => {
-                const defaults = {
-                    severity: 'Level 2 - Medium',
-                    issueValue: 0,
-                    enterpriseAccounts: 0,
-                    flaggedAccounts: 0,
-                    dueDate: '',
-                    marketTiming: 'No timing impact',
-                    rrOeValue: 5,
-                    storyPoints: 3
-                };
-                return defaults[field] || '';
-            };
-            
-            const handlePushToJira = async (ticket, rank) => {
-                const calc = dataService.calculateWSJF(ticket, config);
-                const updates = {};
-                
-                fieldMappings.export.forEach(mapping => {
-                    if (mapping.enabled) {
-                        if (mapping.field === 'wsjfScore') updates[mapping.jiraField] = calc.wsjfScore;
-                        if (mapping.field === 'costOfDelay') updates[mapping.jiraField] = calc.costOfDelay;
-                        if (mapping.field === 'rank') updates[mapping.jiraField] = rank;
-                    }
-                });
-                
-                // Mock success for demo
-                showNotification(`Updated ${ticket.key} in JIRA`);
-            };
-            
-            const handleShowCalculation = (e, ticket) => {
-                const rect = e.target.getBoundingClientRect();
-                setTooltipData({
-                    ticket,
-                    position: { x: rect.left, y: rect.bottom }
-                });
+                showNotification(`Successfully imported ${newTickets.length} tickets`);
             };
             
             const handleSort = (field) => {
-                if (!columns.find(c => c.id === field)?.sortable) return;
-                
                 if (sortField === field) {
                     setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
                 } else {
                     setSortField(field);
                     setSortDirection('desc');
                 }
-            };
-            
-            const handleSaveColumns = (newColumns) => {
-                setColumns(newColumns);
-                dataService.saveColumns(newColumns);
-                setShowColumnManager(false);
-                showNotification('Column settings saved');
-            };
-            
-            const handleSaveJiraConfig = () => {
-                dataService.saveJiraConfig(jiraConfig);
-                showNotification('JIRA configuration saved');
-            };
-            
-            const handleFieldMappingUpdate = (type, index, field, value) => {
-                const newMappings = { ...fieldMappings };
-                newMappings[type][index][field] = value;
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-            };
-            
-            const handleAddValueMapping = (type, index) => {
-                const newMappings = { ...fieldMappings };
-                if (!newMappings[type][index].valueMapping) {
-                    newMappings[type][index].valueMapping = [];
-                }
-                newMappings[type][index].valueMapping.push({ jiraValue: '', appValue: '' });
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-            };
-            
-            const handleRemoveValueMapping = (type, fieldIndex, mappingIndex) => {
-                const newMappings = { ...fieldMappings };
-                newMappings[type][fieldIndex].valueMapping.splice(mappingIndex, 1);
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-            };
-            
-            const handleAddDisplayField = () => {
-                const newMappings = { ...fieldMappings };
-                const newFieldNumber = newMappings.display.length + 1;
-                newMappings.display.push({
-                    field: `custom_${Date.now()}`,
-                    jiraField: '',
-                    displayName: `Custom Field ${newFieldNumber}`,
-                    enabled: false,
-                    showInTable: false,
-                    type: 'display'
-                });
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-                showNotification('New display field added');
-            };
-            
-            const handleRemoveDisplayField = (index) => {
-                const newMappings = { ...fieldMappings };
-                newMappings.display.splice(index, 1);
-                setFieldMappings(newMappings);
-                dataService.saveFieldMappings(newMappings);
-                showNotification('Display field removed');
             };
             
             const handleConfigUpdate = (section, key, value) => {
@@ -1798,16 +864,7 @@
                 }
                 setConfig(newConfig);
                 dataService.saveConfig(newConfig);
-            };
-            
-            const handleDefaultDueDateUpdate = (issueType, severity, value) => {
-                const newConfig = { ...config };
-                if (!newConfig.defaultDueDates[issueType]) {
-                    newConfig.defaultDueDates[issueType] = {};
-                }
-                newConfig.defaultDueDates[issueType][severity] = value === 'No deadline' ? 'No deadline' : parseInt(value);
-                setConfig(newConfig);
-                dataService.saveConfig(newConfig);
+                showNotification('Configuration updated');
             };
             
             const processedTickets = useMemo(() => {
@@ -1824,13 +881,14 @@
                         t.summary.toLowerCase().includes(searchLower)
                     );
                 }
-                if (filters.severity) result = result.filter(t => t.severity === filters.severity);
-                if (filters.status) result = result.filter(t => t.status === filters.status);
-                if (filters.team) result = result.filter(t => t.team === filters.team);
-                if (filters.customer) {
-                    result = result.filter(t => 
-                        t.customer?.toLowerCase().includes(filters.customer.toLowerCase())
-                    );
+                if (filters.severity) {
+                    result = result.filter(t => t.severity === filters.severity);
+                }
+                if (filters.status) {
+                    result = result.filter(t => t.status === filters.status);
+                }
+                if (filters.issueType) {
+                    result = result.filter(t => t.issueType === filters.issueType);
                 }
                 
                 // Sort
@@ -1863,33 +921,10 @@
                 ).length
             };
             
-            const visibleColumns = columns
-                .filter(col => col.visible)
-                .sort((a, b) => a.order - b.order);
-            
-            const lastImport = dataService.importHistory[0];
-            
-            // If not logged in, show auth
-            if (!user) {
-                if (showSignUp) {
-                    return <SignUp onSignUp={handleSignIn} onSwitchToSignIn={() => setShowSignUp(false)} />;
-                }
-                return <SignIn onSignIn={handleSignIn} onSwitchToSignUp={() => setShowSignUp(true)} />;
-            }
-            
             return (
                 <div className="app-container">
                     {notification && (
                         <div className="notification">{notification}</div>
-                    )}
-                    
-                    {tooltipData && (
-                        <CalculationTooltip
-                            ticket={tooltipData.ticket}
-                            config={config}
-                            position={tooltipData.position}
-                            onClose={() => setTooltipData(null)}
-                        />
                     )}
                     
                     <div className="app-header">
@@ -1899,35 +934,7 @@
                                 <h1 className="app-title">WSJF Enterprise</h1>
                             </div>
                         </div>
-                        <div className="user-menu">
-                            <div className="user-info">
-                                <div className="user-name">{user.name}</div>
-                                <div className="user-email">{user.email}</div>
-                            </div>
-                            <button className="logout-btn" onClick={handleSignOut}>Sign Out</button>
-                        </div>
                     </div>
-                    
-                    {lastImport && (
-                        <div className="import-info">
-                            <div className="import-info-item">
-                                <span className="import-info-label">Last Import:</span>
-                                <span>{new Date(lastImport.timestamp).toLocaleString()}</span>
-                            </div>
-                            <div className="import-info-item">
-                                <span className="import-info-label">By:</span>
-                                <span>{lastImport.user}</span>
-                            </div>
-                            <div className="import-info-item">
-                                <span className="import-info-label">Query:</span>
-                                <span>{lastImport.query.substring(0, 50)}...</span>
-                            </div>
-                            <div className="import-info-item">
-                                <span className="import-info-label">Count:</span>
-                                <span>{lastImport.count} tickets</span>
-                            </div>
-                        </div>
-                    )}
                     
                     <div className="nav-tabs">
                         <button
@@ -1935,18 +942,6 @@
                             onClick={() => setActiveTab('dashboard')}
                         >
                             Dashboard
-                        </button>
-                        <button
-                            className={`nav-tab ${activeTab === 'jira-config' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('jira-config')}
-                        >
-                            JIRA Config
-                        </button>
-                        <button
-                            className={`nav-tab ${activeTab === 'field-mapper' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('field-mapper')}
-                        >
-                            Field Mapper
                         </button>
                         <button
                             className={`nav-tab ${activeTab === 'scoring' ? 'active' : ''}`}
@@ -1961,22 +956,18 @@
                             <>
                                 <div className="stats-grid">
                                     <div className="stat-card">
-                                        <div className="stat-icon purple">📋</div>
                                         <div className="stat-value">{stats.total}</div>
                                         <div className="stat-label">Total Tickets</div>
                                     </div>
                                     <div className="stat-card">
-                                        <div className="stat-icon green">📈</div>
                                         <div className="stat-value">{stats.avgWSJF.toFixed(1)}</div>
                                         <div className="stat-label">Average WSJF</div>
                                     </div>
                                     <div className="stat-card">
-                                        <div className="stat-icon blue">🎯</div>
                                         <div className="stat-value">{stats.totalPoints}</div>
                                         <div className="stat-label">Total Points</div>
                                     </div>
                                     <div className="stat-card">
-                                        <div className="stat-icon red">🔥</div>
                                         <div className="stat-value">{stats.critical}</div>
                                         <div className="stat-label">Critical/Fire</div>
                                     </div>
@@ -1986,18 +977,19 @@
                                     <button className="btn btn-primary" onClick={() => setShowImportModal(true)}>
                                         <span>📥</span> Import from JIRA
                                     </button>
-                                    <button className="btn btn-warning" onClick={() => setShowColumnManager(true)}>
-                                        <span>⚙️</span> Manage Columns
-                                    </button>
                                     <button className="btn btn-secondary" onClick={() => {
                                         const csv = [
-                                            visibleColumns.filter(c => c.id !== 'actions').map(c => c.name),
-                                            ...processedTickets.map((t, i) => 
-                                                visibleColumns.filter(c => c.id !== 'actions').map(c => {
-                                                    if (c.id === 'rank') return i + 1;
-                                                    return t[c.id] || '';
-                                                })
-                                            )
+                                            ['Rank', 'Key', 'Summary', 'WSJF Score', 'Cost of Delay', 'Story Points', 'Severity', 'Status'],
+                                            ...processedTickets.map((t, i) => [
+                                                i + 1,
+                                                t.key,
+                                                t.summary,
+                                                t.wsjfScore,
+                                                t.costOfDelay,
+                                                t.storyPoints,
+                                                t.severity,
+                                                t.status
+                                            ])
                                         ].map(row => row.join(',')).join('\n');
                                         
                                         const blob = new Blob([csv], { type: 'text/csv' });
@@ -2054,28 +1046,18 @@
                                             </select>
                                         </div>
                                         <div className="filter-group">
-                                            <label className="filter-label">Team</label>
+                                            <label className="filter-label">Issue Type</label>
                                             <select
                                                 className="filter-select"
-                                                value={filters.team}
-                                                onChange={(e) => setFilters({...filters, team: e.target.value})}
+                                                value={filters.issueType}
+                                                onChange={(e) => setFilters({...filters, issueType: e.target.value})}
                                             >
                                                 <option value="">All</option>
-                                                <option value="Backend">Backend</option>
-                                                <option value="Frontend">Frontend</option>
-                                                <option value="DevOps">DevOps</option>
-                                                <option value="QA">QA</option>
+                                                <option value="Bug">Bug</option>
+                                                <option value="Improvement">Improvement</option>
+                                                <option value="New Feature">New Feature</option>
+                                                <option value="Task">Task</option>
                                             </select>
-                                        </div>
-                                        <div className="filter-group">
-                                            <label className="filter-label">Customer</label>
-                                            <input
-                                                type="text"
-                                                className="filter-input"
-                                                placeholder="Filter by customer..."
-                                                value={filters.customer}
-                                                onChange={(e) => setFilters({...filters, customer: e.target.value})}
-                                            />
                                         </div>
                                         <div className="filter-group">
                                             <label className="filter-label">&nbsp;</label>
@@ -2085,8 +1067,7 @@
                                                     search: '',
                                                     severity: '',
                                                     status: '',
-                                                    team: '',
-                                                    customer: ''
+                                                    issueType: ''
                                                 })}
                                             >
                                                 Clear
@@ -2104,72 +1085,57 @@
                                         <div className="empty-state">
                                             <div className="empty-state-icon">📭</div>
                                             <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>No tickets found</div>
-                                            <div>Import tickets from JIRA to get started</div>
+                                            <div>Try adjusting your filters or import tickets from JIRA</div>
                                         </div>
                                     ) : (
                                         <table className="data-table">
                                             <thead>
-                                                <tr onClick={() => setTooltipData(null)}>
-                                                    {visibleColumns.map(col => (
-                                                        <th
-                                                            key={col.id}
-                                                            className={col.sortable ? `sortable ${sortField === col.id ? (sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc') : ''}` : ''}
-                                                            onClick={() => handleSort(col.id)}
-                                                        >
-                                                            {col.name}
-                                                        </th>
-                                                    ))}
+                                                <tr>
+                                                    <th>Rank</th>
+                                                    <th className="sortable" onClick={() => handleSort('key')}>
+                                                        Key {sortField === 'key' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('summary')}>
+                                                        Summary {sortField === 'summary' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className={`sortable ${sortField === 'wsjfScore' ? (sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc') : ''}`} 
+                                                        onClick={() => handleSort('wsjfScore')}>
+                                                        WSJF Score
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('costOfDelay')}>
+                                                        Cost of Delay {sortField === 'costOfDelay' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('storyPoints')}>
+                                                        Points {sortField === 'storyPoints' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('severity')}>
+                                                        Severity {sortField === 'severity' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
+                                                    <th className="sortable" onClick={() => handleSort('status')}>
+                                                        Status {sortField === 'status' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {processedTickets.map((ticket, index) => (
-                                                    <tr key={ticket.key}>
-                                                        {visibleColumns.map(col => {
-                                                            if (col.id === 'rank') {
-                                                                return <td key={col.id}><strong>#{index + 1}</strong></td>;
-                                                            }
-                                                            if (col.id === 'key') {
-                                                                return <td key={col.id}><strong>{ticket.key}</strong></td>;
-                                                            }
-                                                            if (col.id === 'wsjfScore') {
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <strong style={{ color: '#667eea' }}>{ticket.wsjfScore}</strong>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            if (col.id === 'severity') {
-                                                                const level = ticket.severity?.split(' - ')[1]?.toLowerCase() || 'medium';
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <span className={`badge badge-${level}`}>
-                                                                            {ticket.severity?.split(' - ')[1] || 'Unknown'}
-                                                                        </span>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            if (col.id === 'actions') {
-                                                                return (
-                                                                    <td key={col.id}>
-                                                                        <button
-                                                                            className="calc-btn"
-                                                                            onClick={(e) => handleShowCalculation(e, ticket)}
-                                                                        >
-                                                                            📊 Calc
-                                                                        </button>
-                                                                        <button
-                                                                            className="push-btn"
-                                                                            onClick={() => handlePushToJira(ticket, index + 1)}
-                                                                        >
-                                                                            ↗️ Push
-                                                                        </button>
-                                                                    </td>
-                                                                );
-                                                            }
-                                                            return <td key={col.id}>{ticket[col.id] || '-'}</td>;
-                                                        })}
-                                                    </tr>
-                                                ))}
+                                                {processedTickets.map((ticket, index) => {
+                                                    const level = ticket.severity?.split(' - ')[1]?.toLowerCase() || 'medium';
+                                                    return (
+                                                        <tr key={ticket.key}>
+                                                            <td><strong>#{index + 1}</strong></td>
+                                                            <td><strong>{ticket.key}</strong></td>
+                                                            <td>{ticket.summary}</td>
+                                                            <td><strong style={{ color: '#667eea' }}>{ticket.wsjfScore}</strong></td>
+                                                            <td>{ticket.costOfDelay}</td>
+                                                            <td>{ticket.storyPoints}</td>
+                                                            <td>
+                                                                <span className={`badge badge-${level}`}>
+                                                                    {ticket.severity?.split(' - ')[1] || 'Unknown'}
+                                                                </span>
+                                                            </td>
+                                                            <td>{ticket.status}</td>
+                                                        </tr>
+                                                    );
+                                                })}
                                             </tbody>
                                         </table>
                                     )}
@@ -2181,299 +1147,7 @@
                                         onImport={handleImport}
                                     />
                                 )}
-                                
-                                {showColumnManager && (
-                                    <ColumnManagerModal
-                                        columns={columns}
-                                        onSave={handleSaveColumns}
-                                        onClose={() => setShowColumnManager(false)}
-                                    />
-                                )}
                             </>
-                        )}
-                        
-                        {activeTab === 'jira-config' && (
-                            <div className="form-section">
-                                <h2 className="form-title">JIRA API Configuration</h2>
-                                <p className="form-subtitle">Configure your JIRA instance connection</p>
-                                
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label className="form-label">JIRA Base URL</label>
-                                        <input
-                                            type="text"
-                                            className="form-input"
-                                            placeholder="https://yourcompany.atlassian.net"
-                                            value={jiraConfig.baseUrl}
-                                            onChange={(e) => setJiraConfig({...jiraConfig, baseUrl: e.target.value})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Email</label>
-                                        <input
-                                            type="email"
-                                            className="form-input"
-                                            placeholder="your-email@company.com"
-                                            value={jiraConfig.email}
-                                            onChange={(e) => setJiraConfig({...jiraConfig, email: e.target.value})}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">API Token</label>
-                                        <input
-                                            type="password"
-                                            className="form-input"
-                                            placeholder="Your JIRA API token"
-                                            value={jiraConfig.apiToken}
-                                            onChange={(e) => setJiraConfig({...jiraConfig, apiToken: e.target.value})}
-                                        />
-                                    </div>
-                                </div>
-                                
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={handleSaveJiraConfig}
-                                    style={{ marginTop: 24 }}
-                                >
-                                    Save Configuration
-                                </button>
-                                
-                                <div style={{ marginTop: 32, padding: 20, background: '#f7fafc', borderRadius: 12 }}>
-                                    <h3 style={{ marginBottom: 16 }}>How to get your API Token:</h3>
-                                    <ol style={{ lineHeight: 2 }}>
-                                        <li>Go to <a href="https://id.atlassian.com/manage-profile/security/api-tokens" target="_blank" style={{ color: '#667eea' }}>Atlassian API Tokens</a></li>
-                                        <li>Click "Create API token"</li>
-                                        <li>Give it a label (e.g., "WSJF System")</li>
-                                        <li>Copy the token and paste it above</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        )}
-                        
-                        {activeTab === 'field-mapper' && (
-                            <div className="form-section">
-                                <h2 className="form-title">Field Mapping Configuration</h2>
-                                <p className="form-subtitle">Map JIRA fields to WSJF calculation and display fields</p>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Calculation Fields</div>
-                                    <table className="field-mapping-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Field</th>
-                                                <th>JIRA Field ID</th>
-                                                <th>Display Name</th>
-                                                <th>Type</th>
-                                                <th>Enabled</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {fieldMappings.calculation.map((mapping, index) => (
-                                                <React.Fragment key={mapping.field}>
-                                                    <tr>
-                                                        <td>{mapping.field}</td>
-                                                        <td>
-                                                            <input
-                                                                type="text"
-                                                                className="form-input"
-                                                                value={mapping.jiraField}
-                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'jiraField', e.target.value)}
-                                                            />
-                                                        </td>
-                                                        <td>
-                                                            <input
-                                                                type="text"
-                                                                className="form-input"
-                                                                value={mapping.displayName}
-                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'displayName', e.target.value)}
-                                                            />
-                                                        </td>
-                                                        <td>
-                                                            <select
-                                                                className="form-select"
-                                                                value={mapping.type}
-                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'type', e.target.value)}
-                                                            >
-                                                                <option value="text">Text</option>
-                                                                <option value="number">Number</option>
-                                                                <option value="date">Date</option>
-                                                                <option value="dropdown">Dropdown</option>
-                                                            </select>
-                                                        </td>
-                                                        <td style={{ textAlign: 'center' }}>
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={mapping.enabled}
-                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'enabled', e.target.checked)}
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                    {mapping.type === 'dropdown' && (
-                                                        <tr>
-                                                            <td colSpan="5">
-                                                                <div className="field-mapping-options">
-                                                                    <div style={{ marginBottom: 8 }}>
-                                                                        <strong>Value Mapping</strong>
-                                                                        <button 
-                                                                            className="btn btn-small btn-primary"
-                                                                            style={{ marginLeft: 12 }}
-                                                                            onClick={() => handleAddValueMapping('calculation', index)}
-                                                                        >
-                                                                            Add Mapping
-                                                                        </button>
-                                                                    </div>
-                                                                    {mapping.valueMapping?.map((vm, vmIndex) => (
-                                                                        <div key={vmIndex} className="value-mapping-row">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-input"
-                                                                                placeholder="JIRA Value"
-                                                                                value={vm.jiraValue}
-                                                                                onChange={(e) => {
-                                                                                    const newMappings = { ...fieldMappings };
-                                                                                    newMappings.calculation[index].valueMapping[vmIndex].jiraValue = e.target.value;
-                                                                                    setFieldMappings(newMappings);
-                                                                                    dataService.saveFieldMappings(newMappings);
-                                                                                }}
-                                                                                style={{ flex: 1 }}
-                                                                            />
-                                                                            <span>→</span>
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-input"
-                                                                                placeholder="App Value"
-                                                                                value={vm.appValue}
-                                                                                onChange={(e) => {
-                                                                                    const newMappings = { ...fieldMappings };
-                                                                                    newMappings.calculation[index].valueMapping[vmIndex].appValue = e.target.value;
-                                                                                    setFieldMappings(newMappings);
-                                                                                    dataService.saveFieldMappings(newMappings);
-                                                                                }}
-                                                                                style={{ flex: 1 }}
-                                                                            />
-                                                                            <button
-                                                                                className="btn btn-small btn-danger"
-                                                                                onClick={() => handleRemoveValueMapping('calculation', index, vmIndex)}
-                                                                            >
-                                                                                Remove
-                                                                            </button>
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )}
-                                                </React.Fragment>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">
-                                        Display Fields
-                                        <button 
-                                            className="btn btn-primary"
-                                            style={{ float: 'right' }}
-                                            onClick={handleAddDisplayField}
-                                        >
-                                            + Add Display Field
-                                        </button>
-                                    </div>
-                                    <table className="field-mapping-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Field</th>
-                                                <th>JIRA Field ID</th>
-                                                <th>Display Name</th>
-                                                <th>Import</th>
-                                                <th>Show in Table</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {fieldMappings.display.map((mapping, index) => (
-                                                <tr key={mapping.field}>
-                                                    <td>{mapping.field}</td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={mapping.jiraField}
-                                                            onChange={(e) => handleFieldMappingUpdate('display', index, 'jiraField', e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={mapping.displayName}
-                                                            onChange={(e) => handleFieldMappingUpdate('display', index, 'displayName', e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={mapping.enabled}
-                                                            onChange={(e) => handleFieldMappingUpdate('display', index, 'enabled', e.target.checked)}
-                                                        />
-                                                    </td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={mapping.showInTable}
-                                                            onChange={(e) => handleFieldMappingUpdate('display', index, 'showInTable', e.target.checked)}
-                                                        />
-                                                    </td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <button
-                                                            className="btn btn-small btn-danger"
-                                                            onClick={() => handleRemoveDisplayField(index)}
-                                                        >
-                                                            Remove
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Export Fields (Push to JIRA)</div>
-                                    <table className="field-mapping-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Field</th>
-                                                <th>JIRA Field ID</th>
-                                                <th>Enabled</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {fieldMappings.export.map((mapping, index) => (
-                                                <tr key={mapping.field}>
-                                                    <td>{mapping.field}</td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={mapping.jiraField}
-                                                            onChange={(e) => handleFieldMappingUpdate('export', index, 'jiraField', e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={mapping.enabled}
-                                                            onChange={(e) => handleFieldMappingUpdate('export', index, 'enabled', e.target.checked)}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         )}
                         
                         {activeTab === 'scoring' && (
@@ -2486,15 +1160,6 @@
                                     <div><strong>WSJF Score = (Cost of Delay ÷ Job Size) × {config.finalMultiplier}</strong></div>
                                     <div style={{ marginTop: 12 }}>
                                         Cost of Delay = ROUND(Weighted Business Value + Weighted Time Criticality + Weighted RR/OE)
-                                    </div>
-                                    <div style={{ marginTop: 8 }}>
-                                        Weighted Business Value = (Severity Score + Client Count Bonus + Strategic Tier Bonus) × {config.weights.businessValue}
-                                    </div>
-                                    <div style={{ marginTop: 8 }}>
-                                        Weighted Time Criticality = (Due Date Urgency × Market Timing Multiplier) × {config.weights.timeCriticality}
-                                    </div>
-                                    <div style={{ marginTop: 8 }}>
-                                        Weighted RR/OE = RR/OE Value × {config.weights.rrOe}
                                     </div>
                                 </div>
                                 
@@ -2566,118 +1231,11 @@
                                 </div>
                                 
                                 <div className="config-section">
-                                    <div className="config-title">Due Date Urgency Scores</div>
-                                    {Object.entries(config.dueDateUrgency).map(([period, score]) => (
-                                        <div key={period} className="config-row">
-                                            <div>
-                                                <div className="config-label">{period}</div>
-                                                <div className="config-description">Score for this time period</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={score}
-                                                onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Market Timing Multipliers</div>
-                                    {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
-                                        <div key={timing} className="config-row">
-                                            <div>
-                                                <div className="config-label">{timing}</div>
-                                                <div className="config-description">
-                                                    {timing === 'Pointless afterwards' && 'Tax season bugs, client would churn'}
-                                                    {timing === 'Drops steeply' && 'Monthly payment processing, statements'}
-                                                    {timing === 'Slowly degrading' && 'Clients looking for alternatives'}
-                                                    {timing === 'Nice to meet deadline' && 'Soft promises'}
-                                                    {timing === 'No timing impact' && 'No timing consideration'}
-                                                </div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                step="0.1"
-                                                value={multiplier}
-                                                onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Market Timing Defaults (by Severity)</div>
-                                    {Object.entries(config.marketTimingDefaults).map(([severity, defaultTiming]) => (
-                                        <div key={severity} className="config-row">
-                                            <div>
-                                                <div className="config-label">{severity}</div>
-                                                <div className="config-description">Default market timing when not specified</div>
-                                            </div>
-                                            <select
-                                                className="config-input"
-                                                style={{ width: 'auto', minWidth: 150 }}
-                                                value={defaultTiming}
-                                                onChange={(e) => handleConfigUpdate('marketTimingDefaults', severity, e.target.value)}
-                                            >
-                                                {Object.keys(config.marketTimingMultipliers).map(timing => (
-                                                    <option key={timing} value={timing}>{timing}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Strategic Tier Bonuses</div>
-                                    {Object.entries(config.strategicTierBonus).map(([tier, bonus]) => (
-                                        <div key={tier} className="config-row">
-                                            <div>
-                                                <div className="config-label">{tier}</div>
-                                                <div className="config-description">Bonus points for this client mix</div>
-                                            </div>
-                                            <input
-                                                type="number"
-                                                className="config-input"
-                                                value={bonus}
-                                                onChange={(e) => handleConfigUpdate('strategicTierBonus', tier, e.target.value)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="config-section">
-                                    <div className="config-title">Default Due Dates (Days from Creation)</div>
-                                    {['CleanUp', 'Bug', 'Improvement', 'New Feature', 'Variable'].map(issueType => (
-                                        <div key={issueType} style={{ marginBottom: 20 }}>
-                                            <h4 style={{ marginBottom: 12 }}>{issueType}</h4>
-                                            {['Level 1 - Low', 'Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical', 'Level 5 - FIRE'].map(severity => (
-                                                <div key={severity} className="config-row">
-                                                    <div>
-                                                        <div className="config-label">{severity}</div>
-                                                        <div className="config-description">Days from creation date (or "No deadline")</div>
-                                                    </div>
-                                                    <input
-                                                        type="text"
-                                                        className="config-input"
-                                                        value={config.defaultDueDates[issueType]?.[severity] || ''}
-                                                        onChange={(e) => handleDefaultDueDateUpdate(issueType, severity, e.target.value)}
-                                                        placeholder="Days or 'No deadline'"
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                
-                                <div className="config-section">
                                     <div className="config-title">Calculation Parameters</div>
                                     <div className="config-row">
                                         <div>
                                             <div className="config-label">Client Count Divisor</div>
-                                            <div className="config-description">Issue Value is divided by this number for Client Count Bonus</div>
+                                            <div className="config-description">Issue Value is divided by this number</div>
                                         </div>
                                         <input
                                             type="number"
@@ -2707,112 +1265,7 @@
         }
         
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);pointer' }}>×</button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="column-manager">
-                                {cols.map((col, index) => (
-                                    <div
-                                        key={col.id}
-                                        className={`column-item ${draggedItem === index ? 'dragging' : ''}`}
-                                        draggable={col.id !== 'actions'}
-                                        onDragStart={(e) => handleDragStart(e, index)}
-                                        onDragOver={handleDragOver}
-                                        onDrop={(e) => handleDrop(e, index)}
-                                    >
-                                        <span className="drag-handle">☰</span>
-                                        <input
-                                            type="checkbox"
-                                            checked={col.visible}
-                                            onChange={() => toggleVisibility(col.id)}
-                                        />
-                                        <span style={{ flex: 1 }}>{col.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                            <button className="btn btn-primary" onClick={() => onSave(cols)}>Save Changes</button>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function CalculationTooltip({ ticket, config, position, onClose }) {
-            const calc = dataService.calculateWSJF(ticket, config);
-            
-            return (
-                <div 
-                    className="tooltip" 
-                    style={{ 
-                        top: position.y + 10, 
-                        left: position.x,
-                        maxWidth: 450
-                    }}
-                >
-                    <div style={{ marginBottom: 12 }}>
-                        <strong>WSJF Calculation for {ticket.key}</strong>
-                    </div>
-                    <div style={{ fontSize: 12, lineHeight: 1.6 }}>
-                        <div><strong>Formula:</strong> (Cost of Delay ÷ Job Size) × 10</div>
-                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
-                        
-                        <div><strong>Business Value:</strong></div>
-                        <div>• Severity Score: {calc.details.severityScore}</div>
-                        <div>• Client Bonus: {calc.details.clientCountBonus}</div>
-                        <div>• Strategic Tier: {calc.details.strategicTierBonus}</div>
-                        <div>• Weighted: {calc.details.weightedBusinessValue}</div>
-                        
-                        <div style={{ marginTop: 8 }}><strong>Time Criticality:</strong></div>
-                        <div>• Due Date Urgency: {calc.details.dueDateUrgency}</div>
-                        <div>• Market Timing: ×{calc.details.marketTimingMultiplier}</div>
-                        <div>• Weighted: {calc.details.weightedTimeCriticality}</div>
-                        
-                        <div style={{ marginTop: 8 }}><strong>RR/OE:</strong></div>
-                        <div>• Value: {calc.details.rrOeValue}</div>
-                        <div>• Weighted: {calc.details.weightedRROE}</div>
-                        
-                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
-                        <div><strong>Cost of Delay:</strong> {calc.costOfDelay}</div>
-                        <div><strong>Story Points:</strong> {calc.details.storyPoints}</div>
-                        <div><strong>WSJF Score:</strong> {calc.wsjfScore}</div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function ImportModal({ onClose, onImport }) {
-            const [importType, setImportType] = useState('jql');
-            const [inputValue, setInputValue] = useState('');
-            const [loading, setLoading] = useState(false);
-            
-            const handleImport = async () => {
-                if (!inputValue.trim()) return;
-                
-                setLoading(true);
-                const result = await dataService.importFromJira(importType, inputValue, dataService.fieldMappings);
-                
-                if (result.issues && result.issues.length > 0) {
-                    // Add to import history
-                    dataService.addImportHistory({
-                        type: importType,
-                        query: inputValue,
-                        count: result.issues.length,
-                        success: true
-                    });
-                    
-                    onImport(result.issues);
-                }
-                
-                setLoading(false);
-                onClose();
-            };
-            
-            return (
-                <div className="modal-overlay" onClick={onClose}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>Import from JIRA</h3>
-                            <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: '
+        root.render(<App />);
+    </script>
+</body>
+</html>
