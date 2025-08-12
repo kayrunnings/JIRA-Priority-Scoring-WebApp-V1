@@ -370,6 +370,16 @@
             color: white;
         }
         
+        .btn-danger {
+            background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
         .filter-bar {
             background: white;
             border-radius: 12px;
@@ -634,6 +644,32 @@
         
         .field-mapping-table input[type="checkbox"] {
             cursor: pointer;
+        }
+        
+        .field-mapping-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        
+        .field-mapping-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 12px;
+            background: #edf2f7;
+            border-radius: 6px;
+        }
+        
+        .value-mapping-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
         
         .formula-box {
@@ -957,14 +993,40 @@
             getDefaultFieldMappings() {
                 return {
                     calculation: [
-                        { field: 'severity', jiraField: 'priority', displayName: 'Severity', enabled: true, type: 'calculation' },
-                        { field: 'issueValue', jiraField: 'customfield_10001', displayName: 'Issue Value ($)', enabled: true, type: 'calculation' },
-                        { field: 'enterpriseAccounts', jiraField: 'customfield_10002', displayName: 'Enterprise Accounts', enabled: true, type: 'calculation' },
-                        { field: 'flaggedAccounts', jiraField: 'customfield_10003', displayName: 'Flagged Accounts', enabled: true, type: 'calculation' },
-                        { field: 'dueDate', jiraField: 'duedate', displayName: 'Due Date', enabled: true, type: 'calculation' },
-                        { field: 'marketTiming', jiraField: 'customfield_10004', displayName: 'Market Timing', enabled: true, type: 'calculation' },
-                        { field: 'rrOeValue', jiraField: 'customfield_10005', displayName: 'RR/OE Value', enabled: true, type: 'calculation' },
-                        { field: 'storyPoints', jiraField: 'customfield_10006', displayName: 'Story Points', enabled: true, type: 'calculation' }
+                        { 
+                            field: 'severity', 
+                            jiraField: 'priority', 
+                            displayName: 'Severity', 
+                            enabled: true, 
+                            type: 'dropdown',
+                            valueMapping: [
+                                { jiraValue: 'Highest', appValue: 'Level 5 - FIRE' },
+                                { jiraValue: 'High', appValue: 'Level 4 - Critical' },
+                                { jiraValue: 'Medium', appValue: 'Level 3 - High' },
+                                { jiraValue: 'Low', appValue: 'Level 2 - Medium' },
+                                { jiraValue: 'Lowest', appValue: 'Level 1 - Low' }
+                            ]
+                        },
+                        { field: 'issueValue', jiraField: 'customfield_10001', displayName: 'Issue Value ($)', enabled: true, type: 'number' },
+                        { field: 'enterpriseAccounts', jiraField: 'customfield_10002', displayName: 'Enterprise Accounts', enabled: true, type: 'number' },
+                        { field: 'flaggedAccounts', jiraField: 'customfield_10003', displayName: 'Flagged Accounts', enabled: true, type: 'number' },
+                        { field: 'dueDate', jiraField: 'duedate', displayName: 'Due Date', enabled: true, type: 'date' },
+                        { 
+                            field: 'marketTiming', 
+                            jiraField: 'customfield_10004', 
+                            displayName: 'Market Timing', 
+                            enabled: true, 
+                            type: 'dropdown',
+                            valueMapping: [
+                                { jiraValue: 'Pointless afterwards', appValue: 'Pointless afterwards' },
+                                { jiraValue: 'Drops steeply', appValue: 'Drops steeply' },
+                                { jiraValue: 'Slowly degrading', appValue: 'Slowly degrading' },
+                                { jiraValue: 'Nice to meet deadline', appValue: 'Nice to meet deadline' },
+                                { jiraValue: 'No timing impact', appValue: 'No timing impact' }
+                            ]
+                        },
+                        { field: 'rrOeValue', jiraField: 'customfield_10005', displayName: 'RR/OE Value', enabled: true, type: 'number' },
+                        { field: 'storyPoints', jiraField: 'customfield_10006', displayName: 'Story Points', enabled: true, type: 'number' }
                     ],
                     display: [
                         { field: 'customer', jiraField: 'customfield_10007', displayName: 'Customer', enabled: true, showInTable: true, type: 'display' },
@@ -1051,6 +1113,50 @@
                         'Nice to meet deadline': 1.2,
                         'No timing impact': 1.0
                     },
+                    marketTimingDefaults: {
+                        'Level 5 - FIRE': 'Drops steeply',
+                        'Level 4 - Critical': 'Slowly degrading',
+                        'Level 3 - High': 'Slowly degrading',
+                        'Level 2 - Medium': 'No timing impact',
+                        'Level 1 - Low': 'No timing impact'
+                    },
+                    defaultDueDates: {
+                        'CleanUp': {
+                            'Level 2 - Medium': 'No deadline',
+                            'Level 1 - Low': 'No deadline',
+                            'Level 3 - High': 7,
+                            'Level 4 - Critical': 3,
+                            'Level 5 - FIRE': 1
+                        },
+                        'Bug': {
+                            'Level 2 - Medium': 14,
+                            'Level 1 - Low': 14,
+                            'Level 3 - High': 7,
+                            'Level 4 - Critical': 3,
+                            'Level 5 - FIRE': 1
+                        },
+                        'Improvement': {
+                            'Level 2 - Medium': 30,
+                            'Level 1 - Low': 30,
+                            'Level 3 - High': 30,
+                            'Level 4 - Critical': 3,
+                            'Level 5 - FIRE': 1
+                        },
+                        'New Feature': {
+                            'Level 2 - Medium': 60,
+                            'Level 1 - Low': 60,
+                            'Level 3 - High': 60,
+                            'Level 4 - Critical': 3,
+                            'Level 5 - FIRE': 1
+                        },
+                        'Variable': {
+                            'Level 2 - Medium': 30,
+                            'Level 1 - Low': 30,
+                            'Level 3 - High': 30,
+                            'Level 4 - Critical': 3,
+                            'Level 5 - FIRE': 1
+                        }
+                    },
                     weights: {
                         businessValue: 0.4,
                         timeCriticality: 0.3,
@@ -1128,9 +1234,40 @@
                     } else if (daysUntilDue < 180) {
                         dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
                     }
+                } else {
+                    // Apply defaults based on issue type and severity
+                    const issueType = ticket.issueType || 'Task';
+                    const severity = ticket.severity || 'Level 2 - Medium';
+                    const defaultDays = config.defaultDueDates[issueType]?.[severity];
+                    
+                    if (defaultDays === 'No deadline') {
+                        dueDateUrgency = config.dueDateUrgency['No deadline'];
+                    } else if (defaultDays) {
+                        if (defaultDays <= 3) {
+                            dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                        } else if (defaultDays <= 7) {
+                            dueDateUrgency = config.dueDateUrgency['< 1 week'];
+                        } else if (defaultDays <= 14) {
+                            dueDateUrgency = config.dueDateUrgency['1 to 2 weeks'];
+                        } else if (defaultDays <= 30) {
+                            dueDateUrgency = config.dueDateUrgency['2 to 4 weeks'];
+                        } else if (defaultDays <= 60) {
+                            dueDateUrgency = config.dueDateUrgency['1 to 2 months'];
+                        } else {
+                            dueDateUrgency = config.dueDateUrgency['2 to 6 months'];
+                        }
+                    }
                 }
                 
-                const marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
+                let marketTimingMultiplier = 1.0;
+                if (ticket.marketTiming) {
+                    marketTimingMultiplier = config.marketTimingMultipliers[ticket.marketTiming] || 1.0;
+                } else {
+                    // Apply default based on severity
+                    const defaultTiming = config.marketTimingDefaults[ticket.severity] || 'No timing impact';
+                    marketTimingMultiplier = config.marketTimingMultipliers[defaultTiming];
+                }
+                
                 const timeCriticality = dueDateUrgency * marketTimingMultiplier;
                 const weightedTimeCriticality = timeCriticality * config.weights.timeCriticality;
                 
@@ -1162,51 +1299,33 @@
             }
             
             async importFromJira(type, value, fieldMappings) {
-                try {
-                    const response = await fetch('/api/jira', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            action: type === 'keys' ? 'fetchByKeys' : 'fetchByJQL',
-                            keys: type === 'keys' ? value : undefined,
-                            jql: type === 'jql' ? value : undefined,
-                            jiraConfig: this.jiraConfig,
-                            fieldMappings
-                        })
+                // Mock implementation - would connect to real JIRA API
+                const mockTickets = [];
+                const count = Math.floor(Math.random() * 3) + 2;
+                
+                for (let i = 0; i < count; i++) {
+                    mockTickets.push({
+                        key: `DEMO-${Date.now() + i}`,
+                        fields: {
+                            summary: `Mock ticket from: ${String(value).substring(0, 30)}...`,
+                            priority: { name: ['Highest', 'High', 'Medium'][i % 3] },
+                            status: { name: ['To Do', 'In Progress', 'In Review'][i % 3] },
+                            issuetype: { name: ['Bug', 'Improvement', 'New Feature'][i % 3] },
+                            created: new Date().toISOString(),
+                            customfield_10001: Math.floor(Math.random() * 50000) + 10000,
+                            customfield_10002: Math.floor(Math.random() * 10),
+                            customfield_10003: Math.floor(Math.random() * 5),
+                            duedate: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                            customfield_10004: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
+                            customfield_10005: Math.floor(Math.random() * 10) + 1,
+                            customfield_10006: Math.floor(Math.random() * 8) + 1,
+                            customfield_10007: ['Enterprise Corp', 'Small Business', 'Startup Inc'][i % 3],
+                            customfield_10008: ['Backend', 'Frontend', 'DevOps'][i % 3]
+                        }
                     });
-                    
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Import error:', error);
-                    return { mock: true, issues: [] };
                 }
-            }
-            
-            async pushToJira(ticket, updates) {
-                try {
-                    const response = await fetch('/api/jira', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            action: 'updateFields',
-                            ticketKey: ticket.key,
-                            updates,
-                            jiraConfig: this.jiraConfig,
-                            fieldMappings: this.fieldMappings
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error('Push error:', error);
-                    return { success: false };
-                }
+                
+                return { issues: mockTickets };
             }
         }
         
@@ -1214,9 +1333,17 @@
         
         // Authentication Components
         function SignIn({ onSignIn, onSwitchToSignUp }) {
-            const [email, setEmail] = useState('');
-            const [password, setPassword] = useState('');
+            const [email, setEmail] = useState('demo@company.com');
+            const [password, setPassword] = useState('demo123');
             const [error, setError] = useState('');
+            
+            // Auto-create demo user if doesn't exist
+            useEffect(() => {
+                const users = dataService.safeGet('wsjf_users', []);
+                if (!users.find(u => u.email === 'demo@company.com')) {
+                    dataService.signUp('demo@company.com', 'demo123', 'Demo User');
+                }
+            }, []);
             
             const handleSubmit = (e) => {
                 e.preventDefault();
@@ -1398,114 +1525,6 @@
                             <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: 'pointer' }}>×</button>
                         </div>
                         <div className="modal-body">
-                            <div className="column-manager">
-                                {cols.map((col, index) => (
-                                    <div
-                                        key={col.id}
-                                        className={`column-item ${draggedItem === index ? 'dragging' : ''}`}
-                                        draggable={col.id !== 'actions'}
-                                        onDragStart={(e) => handleDragStart(e, index)}
-                                        onDragOver={handleDragOver}
-                                        onDrop={(e) => handleDrop(e, index)}
-                                    >
-                                        <span className="drag-handle">☰</span>
-                                        <input
-                                            type="checkbox"
-                                            checked={col.visible}
-                                            onChange={() => toggleVisibility(col.id)}
-                                        />
-                                        <span style={{ flex: 1 }}>{col.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-                            <button className="btn btn-primary" onClick={() => onSave(cols)}>Save Changes</button>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function CalculationTooltip({ ticket, config, position, onClose }) {
-            const calc = dataService.calculateWSJF(ticket, config);
-            
-            return (
-                <div 
-                    className="tooltip" 
-                    style={{ 
-                        top: position.y + 10, 
-                        left: position.x,
-                        maxWidth: 450
-                    }}
-                >
-                    <div style={{ marginBottom: 12 }}>
-                        <strong>WSJF Calculation for {ticket.key}</strong>
-                    </div>
-                    <div style={{ fontSize: 12, lineHeight: 1.6 }}>
-                        <div><strong>Formula:</strong> (Cost of Delay ÷ Job Size) × 10</div>
-                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
-                        
-                        <div><strong>Business Value:</strong></div>
-                        <div>• Severity Score: {calc.details.severityScore}</div>
-                        <div>• Client Bonus: {calc.details.clientCountBonus}</div>
-                        <div>• Strategic Tier: {calc.details.strategicTierBonus}</div>
-                        <div>• Weighted: {calc.details.weightedBusinessValue}</div>
-                        
-                        <div style={{ marginTop: 8 }}><strong>Time Criticality:</strong></div>
-                        <div>• Due Date Urgency: {calc.details.dueDateUrgency}</div>
-                        <div>• Market Timing: ×{calc.details.marketTimingMultiplier}</div>
-                        <div>• Weighted: {calc.details.weightedTimeCriticality}</div>
-                        
-                        <div style={{ marginTop: 8 }}><strong>RR/OE:</strong></div>
-                        <div>• Value: {calc.details.rrOeValue}</div>
-                        <div>• Weighted: {calc.details.weightedRROE}</div>
-                        
-                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
-                        <div><strong>Cost of Delay:</strong> {calc.costOfDelay}</div>
-                        <div><strong>Story Points:</strong> {calc.details.storyPoints}</div>
-                        <div><strong>WSJF Score:</strong> {calc.wsjfScore}</div>
-                    </div>
-                </div>
-            );
-        }
-        
-        function ImportModal({ onClose, onImport }) {
-            const [importType, setImportType] = useState('jql');
-            const [inputValue, setInputValue] = useState('');
-            const [loading, setLoading] = useState(false);
-            
-            const handleImport = async () => {
-                if (!inputValue.trim()) return;
-                
-                setLoading(true);
-                const result = await dataService.importFromJira(importType, inputValue, dataService.fieldMappings);
-                
-                if (result.issues && result.issues.length > 0) {
-                    // Add to import history
-                    dataService.addImportHistory({
-                        type: importType,
-                        query: inputValue,
-                        count: result.issues.length,
-                        success: true
-                    });
-                    
-                    onImport(result.issues);
-                }
-                
-                setLoading(false);
-                onClose();
-            };
-            
-            return (
-                <div className="modal-overlay" onClick={onClose}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>Import from JIRA</h3>
-                            <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: 'pointer' }}>×</button>
-                        </div>
-                        <div className="modal-body">
                             <div style={{ marginBottom: 20 }}>
                                 <label style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
                                     <input
@@ -1632,8 +1651,13 @@
                     fieldMappings.calculation.forEach(mapping => {
                         if (mapping.enabled) {
                             const value = issue.fields?.[mapping.jiraField];
-                            if (mapping.field === 'severity' && issue.fields?.priority) {
-                                ticket.severity = mapPriorityToSeverity(issue.fields.priority.name);
+                            
+                            if (mapping.type === 'dropdown' && mapping.valueMapping) {
+                                // Apply value mapping for dropdowns
+                                const mappedValue = mapping.valueMapping.find(vm => 
+                                    vm.jiraValue === value || vm.jiraValue === issue.fields?.priority?.name
+                                );
+                                ticket[mapping.field] = mappedValue ? mappedValue.appValue : getDefaultValue(mapping.field);
                             } else {
                                 ticket[mapping.field] = value || getDefaultValue(mapping.field);
                             }
@@ -1656,19 +1680,9 @@
                 showNotification(`Imported ${newTickets.length} tickets`);
             };
             
-            const mapPriorityToSeverity = (priority) => {
-                const mapping = {
-                    'Highest': 'Level 5 - FIRE',
-                    'High': 'Level 4 - Critical',
-                    'Medium': 'Level 3 - High',
-                    'Low': 'Level 2 - Medium',
-                    'Lowest': 'Level 1 - Low'
-                };
-                return mapping[priority] || 'Level 2 - Medium';
-            };
-            
             const getDefaultValue = (field) => {
                 const defaults = {
+                    severity: 'Level 2 - Medium',
                     issueValue: 0,
                     enterpriseAccounts: 0,
                     flaggedAccounts: 0,
@@ -1692,12 +1706,8 @@
                     }
                 });
                 
-                const result = await dataService.pushToJira(ticket, updates);
-                if (result.success) {
-                    showNotification(`Updated ${ticket.key} in JIRA`);
-                } else {
-                    showNotification(`Failed to update ${ticket.key}`);
-                }
+                // Mock success for demo
+                showNotification(`Updated ${ticket.key} in JIRA`);
             };
             
             const handleShowCalculation = (e, ticket) => {
@@ -1738,6 +1748,47 @@
                 dataService.saveFieldMappings(newMappings);
             };
             
+            const handleAddValueMapping = (type, index) => {
+                const newMappings = { ...fieldMappings };
+                if (!newMappings[type][index].valueMapping) {
+                    newMappings[type][index].valueMapping = [];
+                }
+                newMappings[type][index].valueMapping.push({ jiraValue: '', appValue: '' });
+                setFieldMappings(newMappings);
+                dataService.saveFieldMappings(newMappings);
+            };
+            
+            const handleRemoveValueMapping = (type, fieldIndex, mappingIndex) => {
+                const newMappings = { ...fieldMappings };
+                newMappings[type][fieldIndex].valueMapping.splice(mappingIndex, 1);
+                setFieldMappings(newMappings);
+                dataService.saveFieldMappings(newMappings);
+            };
+            
+            const handleAddDisplayField = () => {
+                const newMappings = { ...fieldMappings };
+                const newFieldNumber = newMappings.display.length + 1;
+                newMappings.display.push({
+                    field: `custom_${Date.now()}`,
+                    jiraField: '',
+                    displayName: `Custom Field ${newFieldNumber}`,
+                    enabled: false,
+                    showInTable: false,
+                    type: 'display'
+                });
+                setFieldMappings(newMappings);
+                dataService.saveFieldMappings(newMappings);
+                showNotification('New display field added');
+            };
+            
+            const handleRemoveDisplayField = (index) => {
+                const newMappings = { ...fieldMappings };
+                newMappings.display.splice(index, 1);
+                setFieldMappings(newMappings);
+                dataService.saveFieldMappings(newMappings);
+                showNotification('Display field removed');
+            };
+            
             const handleConfigUpdate = (section, key, value) => {
                 const newConfig = { ...config };
                 if (section) {
@@ -1745,6 +1796,16 @@
                 } else {
                     newConfig[key] = isNaN(value) ? value : parseFloat(value);
                 }
+                setConfig(newConfig);
+                dataService.saveConfig(newConfig);
+            };
+            
+            const handleDefaultDueDateUpdate = (issueType, severity, value) => {
+                const newConfig = { ...config };
+                if (!newConfig.defaultDueDates[issueType]) {
+                    newConfig.defaultDueDates[issueType] = {};
+                }
+                newConfig.defaultDueDates[issueType][severity] = value === 'No deadline' ? 'No deadline' : parseInt(value);
                 setConfig(newConfig);
                 dataService.saveConfig(newConfig);
             };
@@ -2202,44 +2263,123 @@
                                                 <th>Field</th>
                                                 <th>JIRA Field ID</th>
                                                 <th>Display Name</th>
+                                                <th>Type</th>
                                                 <th>Enabled</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {fieldMappings.calculation.map((mapping, index) => (
-                                                <tr key={mapping.field}>
-                                                    <td>{mapping.field}</td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={mapping.jiraField}
-                                                            onChange={(e) => handleFieldMappingUpdate('calculation', index, 'jiraField', e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <input
-                                                            type="text"
-                                                            className="form-input"
-                                                            value={mapping.displayName}
-                                                            onChange={(e) => handleFieldMappingUpdate('calculation', index, 'displayName', e.target.value)}
-                                                        />
-                                                    </td>
-                                                    <td style={{ textAlign: 'center' }}>
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={mapping.enabled}
-                                                            onChange={(e) => handleFieldMappingUpdate('calculation', index, 'enabled', e.target.checked)}
-                                                        />
-                                                    </td>
-                                                </tr>
+                                                <React.Fragment key={mapping.field}>
+                                                    <tr>
+                                                        <td>{mapping.field}</td>
+                                                        <td>
+                                                            <input
+                                                                type="text"
+                                                                className="form-input"
+                                                                value={mapping.jiraField}
+                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'jiraField', e.target.value)}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                type="text"
+                                                                className="form-input"
+                                                                value={mapping.displayName}
+                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'displayName', e.target.value)}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <select
+                                                                className="form-select"
+                                                                value={mapping.type}
+                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'type', e.target.value)}
+                                                            >
+                                                                <option value="text">Text</option>
+                                                                <option value="number">Number</option>
+                                                                <option value="date">Date</option>
+                                                                <option value="dropdown">Dropdown</option>
+                                                            </select>
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={mapping.enabled}
+                                                                onChange={(e) => handleFieldMappingUpdate('calculation', index, 'enabled', e.target.checked)}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                    {mapping.type === 'dropdown' && (
+                                                        <tr>
+                                                            <td colSpan="5">
+                                                                <div className="field-mapping-options">
+                                                                    <div style={{ marginBottom: 8 }}>
+                                                                        <strong>Value Mapping</strong>
+                                                                        <button 
+                                                                            className="btn btn-small btn-primary"
+                                                                            style={{ marginLeft: 12 }}
+                                                                            onClick={() => handleAddValueMapping('calculation', index)}
+                                                                        >
+                                                                            Add Mapping
+                                                                        </button>
+                                                                    </div>
+                                                                    {mapping.valueMapping?.map((vm, vmIndex) => (
+                                                                        <div key={vmIndex} className="value-mapping-row">
+                                                                            <input
+                                                                                type="text"
+                                                                                className="form-input"
+                                                                                placeholder="JIRA Value"
+                                                                                value={vm.jiraValue}
+                                                                                onChange={(e) => {
+                                                                                    const newMappings = { ...fieldMappings };
+                                                                                    newMappings.calculation[index].valueMapping[vmIndex].jiraValue = e.target.value;
+                                                                                    setFieldMappings(newMappings);
+                                                                                    dataService.saveFieldMappings(newMappings);
+                                                                                }}
+                                                                                style={{ flex: 1 }}
+                                                                            />
+                                                                            <span>→</span>
+                                                                            <input
+                                                                                type="text"
+                                                                                className="form-input"
+                                                                                placeholder="App Value"
+                                                                                value={vm.appValue}
+                                                                                onChange={(e) => {
+                                                                                    const newMappings = { ...fieldMappings };
+                                                                                    newMappings.calculation[index].valueMapping[vmIndex].appValue = e.target.value;
+                                                                                    setFieldMappings(newMappings);
+                                                                                    dataService.saveFieldMappings(newMappings);
+                                                                                }}
+                                                                                style={{ flex: 1 }}
+                                                                            />
+                                                                            <button
+                                                                                className="btn btn-small btn-danger"
+                                                                                onClick={() => handleRemoveValueMapping('calculation', index, vmIndex)}
+                                                                            >
+                                                                                Remove
+                                                                            </button>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </React.Fragment>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
                                 
                                 <div className="config-section">
-                                    <div className="config-title">Display Fields</div>
+                                    <div className="config-title">
+                                        Display Fields
+                                        <button 
+                                            className="btn btn-primary"
+                                            style={{ float: 'right' }}
+                                            onClick={handleAddDisplayField}
+                                        >
+                                            + Add Display Field
+                                        </button>
+                                    </div>
                                     <table className="field-mapping-table">
                                         <thead>
                                             <tr>
@@ -2248,6 +2388,7 @@
                                                 <th>Display Name</th>
                                                 <th>Import</th>
                                                 <th>Show in Table</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -2283,6 +2424,14 @@
                                                             checked={mapping.showInTable}
                                                             onChange={(e) => handleFieldMappingUpdate('display', index, 'showInTable', e.target.checked)}
                                                         />
+                                                    </td>
+                                                    <td style={{ textAlign: 'center' }}>
+                                                        <button
+                                                            className="btn btn-small btn-danger"
+                                                            onClick={() => handleRemoveDisplayField(index)}
+                                                        >
+                                                            Remove
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -2337,6 +2486,15 @@
                                     <div><strong>WSJF Score = (Cost of Delay ÷ Job Size) × {config.finalMultiplier}</strong></div>
                                     <div style={{ marginTop: 12 }}>
                                         Cost of Delay = ROUND(Weighted Business Value + Weighted Time Criticality + Weighted RR/OE)
+                                    </div>
+                                    <div style={{ marginTop: 8 }}>
+                                        Weighted Business Value = (Severity Score + Client Count Bonus + Strategic Tier Bonus) × {config.weights.businessValue}
+                                    </div>
+                                    <div style={{ marginTop: 8 }}>
+                                        Weighted Time Criticality = (Due Date Urgency × Market Timing Multiplier) × {config.weights.timeCriticality}
+                                    </div>
+                                    <div style={{ marginTop: 8 }}>
+                                        Weighted RR/OE = RR/OE Value × {config.weights.rrOe}
                                     </div>
                                 </div>
                                 
@@ -2408,11 +2566,118 @@
                                 </div>
                                 
                                 <div className="config-section">
+                                    <div className="config-title">Due Date Urgency Scores</div>
+                                    {Object.entries(config.dueDateUrgency).map(([period, score]) => (
+                                        <div key={period} className="config-row">
+                                            <div>
+                                                <div className="config-label">{period}</div>
+                                                <div className="config-description">Score for this time period</div>
+                                            </div>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={score}
+                                                onChange={(e) => handleConfigUpdate('dueDateUrgency', period, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="config-section">
+                                    <div className="config-title">Market Timing Multipliers</div>
+                                    {Object.entries(config.marketTimingMultipliers).map(([timing, multiplier]) => (
+                                        <div key={timing} className="config-row">
+                                            <div>
+                                                <div className="config-label">{timing}</div>
+                                                <div className="config-description">
+                                                    {timing === 'Pointless afterwards' && 'Tax season bugs, client would churn'}
+                                                    {timing === 'Drops steeply' && 'Monthly payment processing, statements'}
+                                                    {timing === 'Slowly degrading' && 'Clients looking for alternatives'}
+                                                    {timing === 'Nice to meet deadline' && 'Soft promises'}
+                                                    {timing === 'No timing impact' && 'No timing consideration'}
+                                                </div>
+                                            </div>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                step="0.1"
+                                                value={multiplier}
+                                                onChange={(e) => handleConfigUpdate('marketTimingMultipliers', timing, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="config-section">
+                                    <div className="config-title">Market Timing Defaults (by Severity)</div>
+                                    {Object.entries(config.marketTimingDefaults).map(([severity, defaultTiming]) => (
+                                        <div key={severity} className="config-row">
+                                            <div>
+                                                <div className="config-label">{severity}</div>
+                                                <div className="config-description">Default market timing when not specified</div>
+                                            </div>
+                                            <select
+                                                className="config-input"
+                                                style={{ width: 'auto', minWidth: 150 }}
+                                                value={defaultTiming}
+                                                onChange={(e) => handleConfigUpdate('marketTimingDefaults', severity, e.target.value)}
+                                            >
+                                                {Object.keys(config.marketTimingMultipliers).map(timing => (
+                                                    <option key={timing} value={timing}>{timing}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="config-section">
+                                    <div className="config-title">Strategic Tier Bonuses</div>
+                                    {Object.entries(config.strategicTierBonus).map(([tier, bonus]) => (
+                                        <div key={tier} className="config-row">
+                                            <div>
+                                                <div className="config-label">{tier}</div>
+                                                <div className="config-description">Bonus points for this client mix</div>
+                                            </div>
+                                            <input
+                                                type="number"
+                                                className="config-input"
+                                                value={bonus}
+                                                onChange={(e) => handleConfigUpdate('strategicTierBonus', tier, e.target.value)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="config-section">
+                                    <div className="config-title">Default Due Dates (Days from Creation)</div>
+                                    {['CleanUp', 'Bug', 'Improvement', 'New Feature', 'Variable'].map(issueType => (
+                                        <div key={issueType} style={{ marginBottom: 20 }}>
+                                            <h4 style={{ marginBottom: 12 }}>{issueType}</h4>
+                                            {['Level 1 - Low', 'Level 2 - Medium', 'Level 3 - High', 'Level 4 - Critical', 'Level 5 - FIRE'].map(severity => (
+                                                <div key={severity} className="config-row">
+                                                    <div>
+                                                        <div className="config-label">{severity}</div>
+                                                        <div className="config-description">Days from creation date (or "No deadline")</div>
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        className="config-input"
+                                                        value={config.defaultDueDates[issueType]?.[severity] || ''}
+                                                        onChange={(e) => handleDefaultDueDateUpdate(issueType, severity, e.target.value)}
+                                                        placeholder="Days or 'No deadline'"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="config-section">
                                     <div className="config-title">Calculation Parameters</div>
                                     <div className="config-row">
                                         <div>
                                             <div className="config-label">Client Count Divisor</div>
-                                            <div className="config-description">Issue Value is divided by this number</div>
+                                            <div className="config-description">Issue Value is divided by this number for Client Count Bonus</div>
                                         </div>
                                         <input
                                             type="number"
@@ -2442,4 +2707,112 @@
         }
         
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        root.render(<App />);pointer' }}>×</button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="column-manager">
+                                {cols.map((col, index) => (
+                                    <div
+                                        key={col.id}
+                                        className={`column-item ${draggedItem === index ? 'dragging' : ''}`}
+                                        draggable={col.id !== 'actions'}
+                                        onDragStart={(e) => handleDragStart(e, index)}
+                                        onDragOver={handleDragOver}
+                                        onDrop={(e) => handleDrop(e, index)}
+                                    >
+                                        <span className="drag-handle">☰</span>
+                                        <input
+                                            type="checkbox"
+                                            checked={col.visible}
+                                            onChange={() => toggleVisibility(col.id)}
+                                        />
+                                        <span style={{ flex: 1 }}>{col.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+                            <button className="btn btn-primary" onClick={() => onSave(cols)}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        function CalculationTooltip({ ticket, config, position, onClose }) {
+            const calc = dataService.calculateWSJF(ticket, config);
+            
+            return (
+                <div 
+                    className="tooltip" 
+                    style={{ 
+                        top: position.y + 10, 
+                        left: position.x,
+                        maxWidth: 450
+                    }}
+                >
+                    <div style={{ marginBottom: 12 }}>
+                        <strong>WSJF Calculation for {ticket.key}</strong>
+                    </div>
+                    <div style={{ fontSize: 12, lineHeight: 1.6 }}>
+                        <div><strong>Formula:</strong> (Cost of Delay ÷ Job Size) × 10</div>
+                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
+                        
+                        <div><strong>Business Value:</strong></div>
+                        <div>• Severity Score: {calc.details.severityScore}</div>
+                        <div>• Client Bonus: {calc.details.clientCountBonus}</div>
+                        <div>• Strategic Tier: {calc.details.strategicTierBonus}</div>
+                        <div>• Weighted: {calc.details.weightedBusinessValue}</div>
+                        
+                        <div style={{ marginTop: 8 }}><strong>Time Criticality:</strong></div>
+                        <div>• Due Date Urgency: {calc.details.dueDateUrgency}</div>
+                        <div>• Market Timing: ×{calc.details.marketTimingMultiplier}</div>
+                        <div>• Weighted: {calc.details.weightedTimeCriticality}</div>
+                        
+                        <div style={{ marginTop: 8 }}><strong>RR/OE:</strong></div>
+                        <div>• Value: {calc.details.rrOeValue}</div>
+                        <div>• Weighted: {calc.details.weightedRROE}</div>
+                        
+                        <hr style={{ margin: '8px 0', borderColor: '#ffffff30' }} />
+                        <div><strong>Cost of Delay:</strong> {calc.costOfDelay}</div>
+                        <div><strong>Story Points:</strong> {calc.details.storyPoints}</div>
+                        <div><strong>WSJF Score:</strong> {calc.wsjfScore}</div>
+                    </div>
+                </div>
+            );
+        }
+        
+        function ImportModal({ onClose, onImport }) {
+            const [importType, setImportType] = useState('jql');
+            const [inputValue, setInputValue] = useState('');
+            const [loading, setLoading] = useState(false);
+            
+            const handleImport = async () => {
+                if (!inputValue.trim()) return;
+                
+                setLoading(true);
+                const result = await dataService.importFromJira(importType, inputValue, dataService.fieldMappings);
+                
+                if (result.issues && result.issues.length > 0) {
+                    // Add to import history
+                    dataService.addImportHistory({
+                        type: importType,
+                        query: inputValue,
+                        count: result.issues.length,
+                        success: true
+                    });
+                    
+                    onImport(result.issues);
+                }
+                
+                setLoading(false);
+                onClose();
+            };
+            
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Import from JIRA</h3>
+                            <button onClick={onClose} style={{ fontSize: 24, background: 'none', border: 'none', cursor: '
