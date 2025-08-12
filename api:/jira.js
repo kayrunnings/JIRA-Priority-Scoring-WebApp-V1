@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 // Enable CORS
 const allowCors = fn => async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -36,10 +34,7 @@ function generateMockTickets(params) {
         customfield_10003: Math.floor(Math.random() * 5),
         customfield_10004: ['No timing impact', 'Slowly degrading', 'Drops steeply'][i % 3],
         customfield_10005: Math.floor(Math.random() * 10) + 1,
-        customfield_10006: Math.floor(Math.random() * 8) + 1,
-        customfield_10007: ['Enterprise Corp', 'Small Business', 'Startup Inc'][i % 3],
-        customfield_10008: ['Backend', 'Frontend', 'DevOps'][i % 3],
-        labels: ['urgent', 'customer-reported', 'enhancement'][i % 3]
+        customfield_10006: Math.floor(Math.random() * 8) + 1
       }
     });
   }
@@ -47,129 +42,37 @@ function generateMockTickets(params) {
   return tickets;
 }
 
-// Fetch tickets from JIRA
-async function fetchFromJira(baseUrl, authHeader, jql, fieldMappings) {
-  try {
-    // Build fields list from mappings
-    const fields = [
-      'key', 'summary', 'issuetype', 'status', 'created', 'priority', 'duedate'
-    ];
-    
-    if (fieldMappings) {
-      if (fieldMappings.calculation) {
-        fieldMappings.calculation.forEach(m => {
-          if (m.enabled && m.jiraField) fields.push(m.jiraField);
-        });
-      }
-      if (fieldMappings.display) {
-        fieldMappings.display.forEach(m => {
-          if (m.enabled && m.jiraField) fields.push(m.jiraField);
-        });
-      }
-    }
-    
-    const response = await axios.post(
-      `${baseUrl}/rest/api/3/search`,
-      {
-        jql: jql,
-        fields: [...new Set(fields)], // Remove duplicates
-        maxResults: 100
-      },
-      {
-        headers: {
-          'Authorization': `Basic ${authHeader}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    
-    return {
-      success: true,
-      issues: response.data.issues || []
-    };
-  } catch (error) {
-    console.error('JIRA Fetch Error:', error.response?.data || error.message);
-    throw error;
-  }
-}
-
-// Update JIRA ticket
-async function updateJiraTicket(baseUrl, authHeader, ticketKey, updates) {
-  try {
-    const response = await axios.put(
-      `${baseUrl}/rest/api/3/issue/${ticketKey}`,
-      {
-        fields: updates
-      },
-      {
-        headers: {
-          'Authorization': `Basic ${authHeader}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    
-    return {
-      success: true,
-      message: `Ticket ${ticketKey} updated successfully`
-    };
-  } catch (error) {
-    console.error('JIRA Update Error:', error.response?.data || error.message);
-    throw error;
-  }
-}
-
 // Main handler function
 const handler = async (req, res) => {
+  // Health check
+  if (req.method === 'GET') {
+    return res.status(200).json({ 
+      status: 'healthy', 
+      version: '2.0.0',
+      message: 'WSJF JIRA API is running'
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { action, jiraConfig, fieldMappings, ...params } = req.body;
+    const { action, jiraConfig, ...params } = req.body;
     
-    // Validate JIRA configuration
-    if (!jiraConfig || !jiraConfig.baseUrl || !jiraConfig.email || !jiraConfig.apiToken) {
-      // Return mock data if JIRA not configured
-      return res.status(200).json({
-        mock: true,
-        issues: generateMockTickets(params)
-      });
-    }
-
-    const authHeader = Buffer.from(`${jiraConfig.email}:${jiraConfig.apiToken}`).toString('base64');
+    // For now, always return mock data
+    // In production, you would integrate with real JIRA API here
+    return res.status(200).json({
+      mock: true,
+      issues: generateMockTickets(params)
+    });
     
-    switch (action) {
-      case 'fetchByKeys':
-        const keys = params.keys.split(',').map(k => k.trim());
-        const jqlKeys = `key in (${keys.join(',')})`;
-        const keysResult = await fetchFromJira(jiraConfig.baseUrl, authHeader, jqlKeys, fieldMappings);
-        return res.status(200).json(keysResult);
-        
-      case 'fetchByJQL':
-        const jqlResult = await fetchFromJira(jiraConfig.baseUrl, authHeader, params.jql, fieldMappings);
-        return res.status(200).json(jqlResult);
-        
-      case 'updateFields':
-        const updateResult = await updateJiraTicket(
-          jiraConfig.baseUrl, 
-          authHeader, 
-          params.ticketKey, 
-          params.updates
-        );
-        return res.status(200).json(updateResult);
-        
-      default:
-        return res.status(400).json({ error: 'Invalid action' });
-    }
   } catch (error) {
     console.error('JIRA API Error:', error);
     return res.status(200).json({ 
       error: error.message,
       mock: true,
-      issues: generateMockTickets(req.body)
+      issues: generateMockTickets(req.body || {})
     });
   }
 };
