@@ -1,13 +1,14 @@
 {
   "version": 2,
+  "name": "wsjf-enterprise",
   "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
     {
       "src": "api/*.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -21,58 +22,11 @@
     }
   ],
   "env": {
-    "JIRA_BASE_URL": "@jira_base_url",
-    "JIRA_EMAIL": "@jira_email",
-    "JIRA_API_TOKEN": "@jira_api_token"
+    "NODE_ENV": "production"
   },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, no-store, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    }
-  ],
   "functions": {
-    "api/jira.js": {
-      "maxDuration": 10,
-      "memory": 1024
+    "api/*.js": {
+      "maxDuration": 10
     }
   }
 }
